@@ -5,7 +5,7 @@
     ViewData["Title"] = "Attendance";
     Layout = "_Authenticated";
     DateTime DateNow = DateTime.Now;
-  
+
 }
 
 <div>
@@ -117,36 +117,51 @@
                                             <th>Status</th>
                                             <th></th>
                                         </tr>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>All</th>
+                                            <th style="width:100px">---</th>
+                                            <th>---</th>
+                                            <th>
+                                                <select asp-items="ViewBag.Shifts" onchange="changeAllValues(this.value,'attendance-shift-class')" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
+                                            </th>
+                                            <th>
+                                                <select asp-items="ViewBag.Status" onchange="changeAllValues(this.value,'attendance-status-class')" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
+                                            </th>
+                                            <th>
+                                                <button onclick="saveAllAttendance(this, 'button-Attendance-save')" class="btn btn-success">Save</button>
+                                            </th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var item in Model.items)
                                         {
 
-                                        <tr>
-                                            <td>
-                                                @DateNow.ToShortDateString()
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Name)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.TechnicianPosition.Name)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.TechnicianCompany.Name)
-                                            </td>
-                                            <td>
-                                                <select asp-items="ViewBag.Shifts" id="shift @item.TechnicianId" asp-for="@item.TechnicianAttendances.FirstOrDefault().ShiftId" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
-                                            </td>
-                                            <td>
-                                                <select asp-items="ViewBag.Status" id="status @item.TechnicianId" asp-for="@item.TechnicianAttendances.FirstOrDefault().AttendanceStatusId" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
-                                            </td>
-                                            <td>
-                                                <button onclick="saveAttendance('@item.TechnicianId')" class="btn btn-success">Save</button>
-                                                <button onclick="deleteAttendance('@item.TechnicianId')" class="btn btn-danger">Delete</button>
-                                                <i id="fa-check-@item.TechnicianId" style="display:none" class="fas fa-check"></i>
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <td>
+                                                    @DateNow.ToShortDateString()
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Name)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TechnicianPosition.Name)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TechnicianCompany.Name)
+                                                </td>
+                                                <td>
+                                                    <select asp-items="ViewBag.Shifts" id="shift @item.TechnicianId" asp-for="@item.TechnicianAttendances.FirstOrDefault().ShiftId" style="display: inline;width:100%" class="form-control form-control-sm attendance-shift-class"><option value="-1">Please select</option></select>
+                                                </td>
+                                                <td>
+                                                    <select asp-items="ViewBag.Status" id="status @item.TechnicianId" asp-for="@item.TechnicianAttendances.FirstOrDefault().AttendanceStatusId" style="display: inline;width:100%" class="form-control form-control-sm attendance-status-class"><option value="-1">Please select</option></select>
+                                                </td>
+                                                <td>
+                                                    <button onclick="saveAttendance('@item.TechnicianId')" id="btnSave @item.TechnicianId" class="btn btn-success button-Attendance-save">Save</button>
+                                                    <button onclick="deleteAttendance('@item.TechnicianId')" class="btn btn-danger">Delete</button>
+                                                    <i id="fa-check-@item.TechnicianId" style="display:none" class="fas fa-check"></i>
+                                                </td>
+                                            </tr>
                                         }
 
                                     </tbody>
@@ -203,6 +218,7 @@
 
         function saveAttendance(technicianId) {
             document.getElementById("fa-check-" + technicianId).style.display = "none";
+            document.getElementById("btnSave " + technicianId).disabled = true;
             var dateEvent = "@DateNow";
             var shiftId = document.getElementById("shift " + technicianId).value;
             var statusId = document.getElementById("status " + technicianId).value;
@@ -218,12 +234,15 @@
                     } else {
                         swal("Error", "Something went wrong, please try again", "error");
                     }
+                    document.getElementById("btnSave " + technicianId).disabled = false;
                 },
                 error: function (response) {
                     swal("Error", "Something went wrong, please try again", "error");
+                    document.getElementById("btnSave " + technicianId).disabled = false;
                 },
                 failure: function (response) {
                     swal("Error", "Something went wrong, please try again", "error");
+                    document.getElementById("btnSave " + technicianId).disabled = false;
                 }
             });
         }
@@ -338,6 +357,21 @@
             searchTechnicians();
 
         });
+
+        function changeAllValues(val, className) {
+            var els = document.getElementsByClassName(className);
+            Array.prototype.forEach.call(els, function (el) {
+                el.value = val;
+            });
+        }
+        function saveAllAttendance(element, className) {
+            element.disabled = true;
+            var els = document.getElementsByClassName(className);
+            Array.prototype.forEach.call(els, function (el) {
+                el.click();
+            });
+            element.disabled = false;
+        }
         document.getElementById("btnGoToTopPage").click();
 
     </script>

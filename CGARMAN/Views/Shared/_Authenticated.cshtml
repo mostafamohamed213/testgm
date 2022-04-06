@@ -118,7 +118,7 @@
                 <div id="collapsePages1" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         @*<h6 class="collapse-header">Quantities </h6>
-                            <a class="collapse-item" style="cursor: pointer" id="ItemsScreen">All Quantities</a>*@
+                    <a class="collapse-item" style="cursor: pointer" id="ItemsScreen">All Quantities</a>*@
                         <h6 class="collapse-header">Items :</h6>
                         <a class="collapse-item" style="cursor: pointer" id="ItemNameScreen" onclick="invItemNamess()">Items  </a>
                         <a class="collapse-item" style="cursor: pointer" id="CreateItemNameScreen" onclick="createInvItemName()">Add Item</a>
@@ -163,13 +163,30 @@
                         <a class="collapse-item" style="cursor: pointer" id="linkTechniciansDays" asp-action="Days" asp-controller="TechnicianAttendances">Days</a>
 
                         @* <a class="collapse-item" style="cursor: pointer" id="UnitManagement" onclick="getUnitsManagementPage()">Units</a>
-                            <a class="collapse-item" style="cursor: pointer" id="VendorManagement" onclick="getVendorManagementPage()">Suppliers</a>
-                            <a class="collapse-item" style="cursor: pointer" id="ClassificationsManagement" onclick="getClassificationsManagementPage()">Classifications</a>
-                            <a class="collapse-item" style="cursor: pointer" id="BrandManagement" onclick="getBrandManagementPage()">Brands</a>
-                            <a class="collapse-item" style="cursor: pointer" id="ModelManagement" onclick="getModelManagementPage()">Models</a>*@
+                    <a class="collapse-item" style="cursor: pointer" id="VendorManagement" onclick="getVendorManagementPage()">Suppliers</a>
+                    <a class="collapse-item" style="cursor: pointer" id="ClassificationsManagement" onclick="getClassificationsManagementPage()">Classifications</a>
+                    <a class="collapse-item" style="cursor: pointer" id="BrandManagement" onclick="getBrandManagementPage()">Brands</a>
+                    <a class="collapse-item" style="cursor: pointer" id="ModelManagement" onclick="getModelManagementPage()">Models</a>*@
                     </div>
                 </div>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed " id="btncontainerShared" href="#" data-toggle="collapse" data-target="#collapsePagesShared"
+                   aria-expanded="true" aria-controls="collapsePagesShared">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Vehicles</span>
+                </a>
+                <div id="collapsePagesShared" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <div class="collapse-divider"></div>
+                        <h6 class="collapse-header">Tire Sizes</h6>
+                        <a class="collapse-item" style="cursor: pointer" id="linkAllTireSizes" asp-action="Index" asp-controller="CostCenter" asp-route-CurrentPageIndex="1">Tire Sizes</a>
+                        <a class="collapse-item" style="cursor: pointer" id="linkCreateTireSize" asp-action="Create" asp-controller="CostCenter">Ceate Tire Size</a>
+                    </div>
+                </div>
+            </li>
+
 
             <li class="nav-item">
                 <a class="nav-link collapsed " id="btncontainerShared" href="#" data-toggle="collapse" data-target="#collapsePagesShared"
@@ -685,7 +702,7 @@
 
 
         function ToggleColorInDashboard(id) {
-            let IdsItems = ['linkIndexTechniciansDailyAttendance', 'linkTechniciansDays', 'linkAllCostCenters', 'linkCreateCostCenter', 'linkCreatePosition', 'linkIndexTechniciansPosition', 'linkIndexTechniciansShift', 'linkCreateShift', 'linkIndexTechniciansCompanies', 'linkCreateCompany', 'linkAllTechnicians', 'ItemsScreen', 'linkCreateTechnicians', 'CreateItemScreen', 'CreateItemNameScreen', 'ItemNameScreen', 'StatusManagement', 'UnitManagement', 'VendorManagement', 'ClassificationsManagement', 'BrandManagement', 'ModelManagement'];
+            let IdsItems = ['linkAllTireSizes', 'linkCreateTireSize','linkIndexTechniciansDailyAttendance', 'linkTechniciansDays', 'linkAllCostCenters', 'linkCreateCostCenter', 'linkCreatePosition', 'linkIndexTechniciansPosition', 'linkIndexTechniciansShift', 'linkCreateShift', 'linkIndexTechniciansCompanies', 'linkCreateCompany', 'linkAllTechnicians', 'ItemsScreen', 'linkCreateTechnicians', 'CreateItemScreen', 'CreateItemNameScreen', 'ItemNameScreen', 'StatusManagement', 'UnitManagement', 'VendorManagement', 'ClassificationsManagement', 'BrandManagement', 'ModelManagement'];
             IdsItems.forEach(function (i) {
                 if (i == id) {
                     document.getElementById(i).classList.add('active');

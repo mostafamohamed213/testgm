@@ -20,21 +20,21 @@ namespace CGARMAN.Services
         }
 
         internal PagingViewModel<Technician> GetTechnicians(int currentPage)
-        {            
+        {
             PagingViewModel<Technician> model = new PagingViewModel<Technician>();
-        
-          List<Technician> Technicians = unitOfWork.Technician.
-                                FindAll(c => c.Enable, (currentPage - 1) * TablesMaxRows.AttendanceIndex, TablesMaxRows.AttendanceIndex, d => d.TechnicianId, OrderBy.Ascending, includes: new[] { "TechnicianCompany", "TechnicianPosition" }).ToList();
-                int itemsCount = unitOfWork.Technician.Count(c => c.Enable);
+
+            List<Technician> Technicians = unitOfWork.Technician.
+                                  FindAll(c => c.Enable, (currentPage - 1) * TablesMaxRows.AttendanceIndex, TablesMaxRows.AttendanceIndex, d => d.TechnicianId, OrderBy.Ascending, includes: new[] { "TechnicianCompany", "TechnicianPosition" }).ToList();
+            int itemsCount = unitOfWork.Technician.Count(c => c.Enable);
             foreach (var item in Technicians)
             {
-                TechnicianAttendance attendance = unitOfWork.TechnicianAttendance.GetAllWithCriteria(c => c.EventDate.Date == DateTime.Now.Date && c.TechnicianId==item.TechnicianId).FirstOrDefault();
+                TechnicianAttendance attendance = unitOfWork.TechnicianAttendance.GetAllWithCriteria(c => c.EventDate.Date == DateTime.Now.Date && c.TechnicianId == item.TechnicianId).FirstOrDefault();
                 if (attendance is not null)
                 {
                     item.TechnicianAttendances.Add(attendance);
                 }
             }
-            model.items = Technicians;         
+            model.items = Technicians;
             double pageCount = (double)(itemsCount / Convert.ToDecimal(TablesMaxRows.AttendanceIndex));
             model.PageCount = (int)Math.Ceiling(pageCount);
             model.CurrentPageIndex = currentPage;
@@ -43,7 +43,7 @@ namespace CGARMAN.Services
             return model;
         }
 
-        
+
         internal SelectList GetAllStatus(int StatusId = 0)
         {
             var Status = unitOfWork.AttendanceStatus.GetAll();
@@ -59,7 +59,7 @@ namespace CGARMAN.Services
         }
         internal SelectList GetAllShifts(int ShiftId = 0)
         {
-            var Shifts = unitOfWork.Shift.GetAllWithCriteria(c=>c.Enable);
+            var Shifts = unitOfWork.Shift.GetAllWithCriteria(c => c.Enable);
             if (Shifts.Count() > 0)
             {
                 if (ShiftId > 0)
@@ -73,7 +73,7 @@ namespace CGARMAN.Services
 
         internal void Save(int technicianId, DateTime dateEvent, int shiftId, int statusId)
         {
-           var exist = unitOfWork.TechnicianAttendance.GetOne(c => c.EventDate.Date == dateEvent.Date && c.TechnicianId == technicianId);
+            var exist = unitOfWork.TechnicianAttendance.GetOne(c => c.EventDate.Date == dateEvent.Date && c.TechnicianId == technicianId);
             if (exist is not null)
             {
                 TechnicianAttendanceLog log = new TechnicianAttendanceLog()
@@ -109,14 +109,14 @@ namespace CGARMAN.Services
                     CreateDts = dateTimenow,
                     AttendanceStatusId = statusId,
                     ShiftId = shiftId,
-                    EventDate= dateEvent,
+                    EventDate = dateEvent,
                     TechnicianAttendanceStatusLogId = 1,
                     TechnicianId = technicianId,
                     Systemusercrate = "1",
                 };
                 unitOfWork.TechnicianAttendanceLog.Add(log);
             }
-         
+
             unitOfWork.Complete();
         }
         internal void Delete(int technicianId, DateTime dateEvent)
@@ -141,10 +141,10 @@ namespace CGARMAN.Services
         }
         internal PagingViewModel<Technician> Search(int CurrentPageIndex, string Name = null, int PositionsId = -1, int CompanyId = -1)
         {
-           var Technicians = unitOfWork.Technician.
-               FindAll(c => c.Enable && (!string.IsNullOrWhiteSpace(Name) ? c.Name.Trim().ToLower().Contains(Name.Trim().ToLower()) : false || c.TechnicianPositionId == PositionsId || c.TechnicianCompanyId == CompanyId)
-               , (CurrentPageIndex - 1) * TablesMaxRows.AttendanceIndex, TablesMaxRows.AttendanceIndex, d => d.TechnicianId, OrderBy.Ascending, includes: new[] { "TechnicianCompany", "TechnicianPosition" }).ToList();
-           var  itemsCount = unitOfWork.Technician.Count(c => c.Enable && (!string.IsNullOrWhiteSpace(Name) ? c.Name.Trim().ToLower().Contains(Name.Trim().ToLower()) : false || c.TechnicianPositionId == PositionsId || c.TechnicianCompanyId == CompanyId));
+            var Technicians = unitOfWork.Technician.
+                FindAll(c => c.Enable && (!string.IsNullOrWhiteSpace(Name) ? c.Name.Trim().ToLower().Contains(Name.Trim().ToLower()) : false || c.TechnicianPositionId == PositionsId || c.TechnicianCompanyId == CompanyId)
+                , (CurrentPageIndex - 1) * 1000, 1000, d => d.TechnicianId, OrderBy.Ascending, includes: new[] { "TechnicianCompany", "TechnicianPosition" }).ToList();
+            var itemsCount = unitOfWork.Technician.Count(c => c.Enable && (!string.IsNullOrWhiteSpace(Name) ? c.Name.Trim().ToLower().Contains(Name.Trim().ToLower()) : false || c.TechnicianPositionId == PositionsId || c.TechnicianCompanyId == CompanyId));
 
             var Companies = unitOfWork.TechnicianCompany.GetAllWithCriteria(c => c.Enable && !string.IsNullOrEmpty(Name) ? c.Name.ToLower().Contains(Name.ToLower()) : false, null);
             PagingViewModel<Technician> model = new PagingViewModel<Technician>();
@@ -192,7 +192,7 @@ namespace CGARMAN.Services
             model.PageCount = (int)Math.Ceiling(pageCount);
             model.CurrentPageIndex = currentPage;
             model.itemsCount = itemsCount;
-            model.Tablelength = TablesMaxRows.AttendanceDaysIndex;          
+            model.Tablelength = TablesMaxRows.AttendanceDaysIndex;
             return model;
         }
         public DaysAttendancePagingViewModel getAllTechniciansPagingWithChangelengthDays(int currentPageIndex, int length)
@@ -204,10 +204,10 @@ namespace CGARMAN.Services
         {
             var Technicians = unitOfWork.Technician.
                 FindAll(c => c.Enable && (!string.IsNullOrWhiteSpace(Name) ? c.Name.Trim().ToLower().Contains(Name.Trim().ToLower()) : false || c.TechnicianPositionId == PositionsId || c.TechnicianCompanyId == CompanyId)
-                , (CurrentPageIndex - 1) * TablesMaxRows.AttendanceIndex, TablesMaxRows.AttendanceIndex, d => d.TechnicianId, OrderBy.Ascending, includes: new[] { "TechnicianCompany", "TechnicianPosition" }).ToList();
+                , (CurrentPageIndex - 1) * 1000, 1000, d => d.TechnicianId, OrderBy.Ascending, includes: new[] { "TechnicianCompany", "TechnicianPosition" }).ToList();
             var itemsCount = unitOfWork.Technician.Count(c => c.Enable && (!string.IsNullOrWhiteSpace(Name) ? c.Name.Trim().ToLower().Contains(Name.Trim().ToLower()) : false || c.TechnicianPositionId == PositionsId || c.TechnicianCompanyId == CompanyId));
 
-            var Companies = unitOfWork.TechnicianCompany.GetAllWithCriteria(c => c.Enable && !string.IsNullOrEmpty(Name) ? c.Name.ToLower().Contains(Name.ToLower()) : false, null);
+            //var Companies = unitOfWork.TechnicianCompany.GetAllWithCriteria(c => c.Enable && !string.IsNullOrEmpty(Name) ? c.Name.ToLower().Contains(Name.ToLower()) : false, null);
             DaysAttendancePagingViewModel model = new DaysAttendancePagingViewModel();
             model.items = Technicians.ToList();
             //foreach (var item in Technicians)
@@ -238,7 +238,7 @@ namespace CGARMAN.Services
             else
             {
                 Save(technicianId, from, shiftId, statusId);
-            }          
+            }
         }
         internal void DeleteDays(int technicianId, DateTime from, DateTime? to)
         {

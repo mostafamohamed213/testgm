@@ -109,6 +109,7 @@
 
                                 <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                     <thead>
+
                                         <tr>
 
                                             <th>Name</th>
@@ -119,6 +120,27 @@
                                             <th>Shift</th>
                                             <th>Status</th>
                                             <th></th>
+                                        </tr>
+                                        <tr>
+
+                                            <th>All</th>
+                                            <th style="width:100px">---</th>
+                                            <th>---</th>
+                                            <th>
+                                                <input type="date" onchange="changeAllValues(this.value,'dateFrom-class')" class="form-control form-control-user" />
+                                            </th>
+                                            <th>
+                                                <input type="date" onchange="changeAllValues(this.value,'dateTo-class')" class="form-control form-control-user" />
+                                            </th>
+                                            <th>
+                                                <select asp-items="@Model.Shifts" onchange="changeAllValues(this.value,'attendance-shift-class')" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
+                                            </th>
+                                            <th>
+                                                <select asp-items="@Model.Status" onchange="changeAllValues(this.value,'attendance-status-class')" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
+                                            </th>
+                                            <th>
+                                                <button onclick="saveAllAttendance(this, 'button-Attendance-save')" class="btn btn-success">Save</button>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -137,20 +159,20 @@
                                                     @Html.DisplayFor(modelItem => item.TechnicianCompany.Name)
                                                 </td>
                                                 <td>
-                                                    <input type="date" id="dateFrom @item.TechnicianId" class="form-control form-control-user" />
+                                                    <input type="date" id="dateFrom @item.TechnicianId" class="form-control form-control-user dateFrom-class" />
                                                 </td>
                                                 <td>
-                                                    <input type="date" id="dateTo @item.TechnicianId" class="form-control form-control-user" />
+                                                    <input type="date" id="dateTo @item.TechnicianId" class="form-control form-control-user dateTo-class" />
                                                 </td>
                                                 <td>
-                                                    <select asp-items="@Model.Shifts" id="shift @item.TechnicianId" asp-for="@item.TechnicianAttendances.FirstOrDefault().ShiftId" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
+                                                    <select asp-items="@Model.Shifts" id="shift @item.TechnicianId" asp-for="@item.TechnicianAttendances.FirstOrDefault().ShiftId" style="display: inline;width:100%" class="form-control form-control-sm attendance-shift-class"><option value="-1">Please select</option></select>
                                                 </td>
                                                 <td>
-                                                    <select asp-items="@Model.Status" id="status @item.TechnicianId" asp-for="@item.TechnicianAttendances.FirstOrDefault().AttendanceStatusId" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
+                                                    <select asp-items="@Model.Status" id="status @item.TechnicianId" asp-for="@item.TechnicianAttendances.FirstOrDefault().AttendanceStatusId" style="display: inline;width:100%" class="form-control form-control-sm attendance-status-class"><option value="-1">Please select</option></select>
                                                 </td>
                                                 <td>
-                                                    <button onclick="saveAttendance('@item.TechnicianId')" class="btn btn-success">Save</button>
-                                                    <button onclick="deleteAttendance('@item.TechnicianId')" class="btn btn-danger">Delete</button>
+                                                    <button onclick="saveAttendance('@item.TechnicianId')" id="btnSave @item.TechnicianId" class="btn btn-success button-Attendance-save">Save</button>
+                                                    <button onclick="deleteAttendance('@item.TechnicianId')" id="btnDelete @item.TechnicianId" class="btn btn-danger">Delete</button>
                                                     <i id="fa-check-@item.TechnicianId" style="display:none" class="fas fa-check"></i>
                                                 </td>
                                             </tr>
@@ -213,9 +235,10 @@
 
         function saveAttendance(technicianId) {
             document.getElementById("fa-check-" + technicianId).style.display = "none";
+            document.getElementById("btnSave " + technicianId).disabled = true;
             var dateFrom = document.getElementById("dateFrom " + technicianId).value;
             var dateTo = document.getElementById("dateTo " + technicianId).value;
-           
+
             if (dateFrom == "" ) {
                 swal("Error", "Please enter date (from)", "error");
             }
@@ -237,12 +260,15 @@
                     } else {
                         swal("Error", "Something went wrong, please try again", "error");
                     }
+                    document.getElementById("btnSave " + technicianId).disabled = false;
                 },
                 error: function (response) {
                     swal("Error", "Something went wrong, please try again", "error");
+                    document.getElementById("btnSave " + technicianId).disabled = false;
                 },
                 failure: function (response) {
                     swal("Error", "Something went wrong, please try again", "error");
+                    document.getElementById("btnSave " + technicianId).disabled = false;
                 }
             });
         }
@@ -257,7 +283,7 @@
                 confirmButtonText: "Yes, delete it!",
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
-            }, function () {             
+            }, function () {
                 setTimeout(function () {
                     document.getElementById("fa-check-" + technicianId).style.display = "none";
                     var dateFrom = document.getElementById("dateFrom " + technicianId).value;
@@ -291,9 +317,9 @@
                             swal("Error", "Something went wrong, please try again", "error");
                         }
                     });
-                }, 2000);                
+                }, 2000);
             });
-           
+
         }
         $(function () {
             $("#txtNameTechnician").autocomplete({
@@ -354,6 +380,21 @@
             searchTechnicians();
 
         });
+
+        function changeAllValues(val,className) {
+            var els = document.getElementsByClassName(className);
+            Array.prototype.forEach.call(els, function (el) {
+                el.value = val;
+            });
+        }
+        function saveAllAttendance(element, className) {
+            element.disabled = true;
+            var els = document.getElementsByClassName(className);
+            Array.prototype.forEach.call(els, function (el) {
+                el.click();
+            });
+            element.disabled = false;
+        }
         document.getElementById("btnGoToTopPage").click();
 
     </script>
