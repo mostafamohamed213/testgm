@@ -1,0 +1,126 @@
+﻿@using RepositoryPatternWithUOW.Core.Models;
+@model RepositoryPatternWithUOW.Core.Models.Model
+
+<div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+        <h1 class="h3 mb-0 text-gray-800">
+            @if (ViewBag.fromEdit is not null)
+            {
+                @if (ViewBag.fromEdit is true)
+                {
+                    <span>Eidt</span> <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> @Model.Name
+
+                }
+                else
+                {
+                    <span>Create</span>
+                }
+            }
+        </h1>
+        <button style="margin-right:10px" onclick="getModelManagementPage()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Back to Model</button>
+    </div>
+    <hr />
+    <div class="row" style="margin:0px 15px">
+        @if (ViewBag.ValMassage != null)
+        {
+            <p style="color:red">@ViewBag.ValMassage</p>
+        }
+        <form asp-action="Create" asp-controller="InventoryModel" method="post" id="frmSubmitInvModel" class="col-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ModelId" value="@Model.ModelId" />
+            <div class="form-group row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-md-2" style=" margin-bottom: 15px; ">
+                            <label>Name</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" asp-for="Name" class="form-control form-control-user" value="@Model.Name" required />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-md-2" style=" padding-top: 5px;">
+                            <label>Brand</label>
+                        </div>
+                        <div class="col-md-6">
+                            @if (ViewBag.fromEdit is true)
+                            {
+                                <select @*asp-items="@ViewBag.Brands"*@ name="BrandId" id="BrandId" class="form-control form-control-user" required>
+                                    @foreach (Brand item in ViewBag.Brands)
+                                    {
+                                        if (item.BrandId == Model.BrandId)
+                                        {
+                                            <option value="@item.BrandId" selected> @item.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.BrandId"> @item.Name</option>
+                                        }
+                                    }
+                                </select>
+                            }
+                            else
+                            {
+                                <select asp-items="@ViewBag.Brands" name="BrandId" id="BrandId" class="form-control form-control-user" required>                                         
+                                </select>
+                            }
+ 
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group">
+
+                <input type="button" onclick="submitInvmodel()" value="Save" id="btnsubmitInvmodel" class="btn btn-primary" />
+
+            </div>
+        </form>
+
+    </div>
+</div>
+<script>
+    function submitInvmodel() {
+
+        var form = document.getElementById('frmSubmitInvModel');
+        var formData = new FormData(form);
+        getspinner();
+        $.ajax({
+            type: "Post",
+            url: "/InventoryModel/Create",
+            data: formData,
+            processData: false,
+            ///* processData: false,*/
+            contentType: false,
+            success: function (response) {
+                if (response == 1) {
+                    swal("Don!", "success!", "success")
+
+                } else if (response == -1) {
+                    swal("Cancelled", "This name already exists!", "error");
+                } else if (response == 0) {
+                    swal("Cancelled", "Oops Something went wrong!", "error");
+
+                } else {
+                    swal("Cancelled", "Oops Something went wrong!", "error");
+                }
+
+                getModelManagementPage();
+            },
+            failure: function (response) {
+                throwException(response)
+            },
+            error: function (response) {
+                throwException(response)
+            }
+        });
+    }
+    document.getElementById("btnGoToTopPage").click();
+
+</script>
+
+

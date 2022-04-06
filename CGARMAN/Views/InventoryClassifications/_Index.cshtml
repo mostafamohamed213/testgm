@@ -1,0 +1,357 @@
+﻿
+@using RepositoryPatternWithUOW.Core.Models;
+@model CGARMAN.ViewModel.InventoryViewModels.InventoryTablelPagingViewModel<InventoryItemTypeClassification>
+@{ int counter = 0;}
+
+<div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+        <h1 class="h3 mb-0 text-gray-800">
+            Inventory <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> Classifications
+        </h1>
+        <a style="margin-right:10px" href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="createInvClassifications()">Create New Classification</a>
+    </div>
+
+    <div class="card shadow mb-4" style="margin:0px 15px">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Classifications</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="dataTables_length" id="dataTable_length">
+                                <label>
+                                    Show
+                                    <select name="dataTable_length" id="dataTablelengthInventoryClassificationIndex" onchange="changeTablelengthforInventoryClassifications(this)" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
+                                        @if (Model.Tablelength == 10)
+                                        {
+                                            <option value="10" selected>10</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="10">10</option>
+                                        }
+                                        @if (Model.Tablelength == 25)
+                                        {
+                                            <option value="25" selected>25</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="25">25</option>
+                                        }
+                                        @if (Model.Tablelength == 50)
+                                        {
+                                            <option value="50" selected>50</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="50">50</option>
+                                        }
+                                        @if (Model.Tablelength == 100)
+                                        {
+                                            <option value="100" selected>100</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="100">100</option>
+                                        }
+
+
+
+
+                                    </select>
+                                    entries
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div id="dataTable_filter" class="dataTables_filter">
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-4">
+                                    </div>
+                                    <div class="col-md-12 col-lg-4">
+                                        <label>
+                                            Name <input type="text" class="form-control form-control-sm" id="txtNameInvClassifications" aria-controls="dataTable">
+
+                                            <input type="hidden" id="hfClassifications" @*name="hfVendor"*@ />
+                                        </label>
+                                    </div>
+                                    <div class="col-md-12 col-lg-3">
+                                        <label>
+                                            <input type="button" value="Refresh" onclick="getClassificationsManagementPage()" class="btn btn-primary btn-sm">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="containerTabelinvClassifications">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form asp-action="Index" asp-controller="InventoryClassifications" method="post" id="frminvClassifications">
+                                    <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Name</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        @*<tfoot>
+                            <tr>
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Supplier</th>
+                                <th>Status</th>
+                                <th>Start date</th>
+                                <th>Brand</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>*@
+                                        <tbody>
+                                            @foreach (var item in Model.items)
+                                            {
+                                                counter++;
+                                                <tr>
+                                                    <td>
+                                                        @counter
+                                                    </td>
+
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Name)
+                                                    </td>
+
+                                                    <td>
+                                                        <input type="button" class="btn btn-primary" value="Edit" onclick="getspinner(); getEditClassification(@item.InventoryItemTypeClassificationId)" />
+                                                        <input type="button" class="btn btn-danger" value="Delete" onclick="deleteinvClassification(@item.InventoryItemTypeClassificationId)" />
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                            @{counter = 0;}
+                                        </tbody>
+                                    </table>
+                                    <input type="hidden" id="hfCurrentPageIndex" name="CurrentPageIndex" value="@Model.CurrentPageIndex" />
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-5">
+
+                                @*@if (Model.CurrentPageIndex == 1)
+                {
+                    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to @(Model.itemsCount >= Model.Tablelength ? Model.Tablelength.ToString():Model.itemsCount) of @Model.itemsCount items</div>
+                }
+                else
+                {
+                    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing @(((Model.PageCount-1)*Model.CurrentPageIndex)+1)  to @(@Model.itemsCount >= (((Model.PageCount - 1) * Model.CurrentPageIndex) + Model.Tablelength) ? (((Model.PageCount - 1) * Model.CurrentPageIndex) + Model.Tablelength) : @Model.itemsCount ) of @Model.itemsCount items</div>
+                }*@
+                                <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite"> Total @Model.itemsCount items</div>
+
+                            </div>
+                            <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                                    <ul class="pagination">
+                                        <li class='paginate_button page-item previous @(Model.CurrentPageIndex == 1 ? "disabled":"")' id="dataTable_previous">
+                                            <a href="javascript:PagerClickforClassification('@(Model.CurrentPageIndex-1)');" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                        @for (int i = 1; i <= Model.PageCount; i++)
+                                        {
+                                            @if (i != Model.CurrentPageIndex)
+                                            {
+                                                <li class="paginate_button page-item">
+                                                    <a href="javascript:PagerClickforClassification('@i');" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">@i</a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="paginate_button page-item active">
+                                                    <span aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">@i</span>
+                                                </li>
+                                            }
+
+
+                                        }
+                                        <li class='paginate_button page-item next @(Model.PageCount == Model.CurrentPageIndex ? "disabled":"")' id="dataTable_next">
+                                            <a href="javascript:PagerClickforClassification('@(Model.CurrentPageIndex+1)');" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                      
+                    </div>
+                </div>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    $(function () {
+        $("#txtNameInvClassifications").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/InventoryClassifications/AutoComplete',
+                    data: { "prefix": request.term },
+                    type: "POST",
+                    success: function (data) {
+                        if (data == 0) {
+                            /* swal("Cancelled", "Oops Something went wrong!", "error");*/
+                        } else {
+                            response($.map(data, function (item) {
+                                return item;
+                            }));
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (e, i) {
+                $("#hfClassifications").val(i.item.val);
+                $("#hfClassifications").click(searchInventoryClassifications(i.item.val, i.item.label));
+            },
+            minLength: 1
+        });
+    });
+
+    function searchInventoryClassifications(val, label) {
+        $("#containerTabelinvClassifications").empty();
+        $('#containerTabelinvClassifications').append('<div style=" margin: 20% 50%;" class="spinner-grow text-primary"></div>');
+        $.ajax({
+            type: "Post",
+            url: "/InventoryClassifications/Search",
+            data: { "elementID": val, "label": label },
+            success: function (response) {
+                $("#containerTabelinvClassifications").empty();
+                $("#containerTabelinvClassifications").append(response);
+            },
+            failure: function (response) {
+                throwException(response)
+            },
+            error: function (response) {
+                throwException(response)
+            }
+        })
+    }
+    $("#txtNameInvClassifications").keyup(function (event) {
+        if (event.keyCode === 13) {
+            searchInventoryClassifications(0, $("#txtNameInvClassifications").val());
+        }
+    });
+    function PagerClickforClassification(index) {
+
+        document.getElementById("hfCurrentPageIndex").value = index;
+        getspinner();
+        $.ajax({
+            type: "Post",
+            url: "/InventoryClassifications/Index",
+            data: { "CurrentPageIndex": index },
+            success: function (response) {
+                $("#ChangingBody").empty();
+                $('#ChangingBody').append(response);
+            },
+            failure: function (response) {
+                throwException(response)
+            },
+            error: function (response) {
+                throwException(response)
+            }
+        });
+
+    }
+    function getEditClassification(id) {
+
+        $.ajax({
+            type: "Get",
+            url: "/InventoryClassifications/Create",
+            data: { "id": id },
+            success: function (response) {
+                if (response != 'null') {
+
+                    $("#ChangingBody").empty();
+                    $('#ChangingBody').append(response);
+
+                } else {
+                    swal("Cancelled", "Oops Something went wrong!", "error");
+                }
+            },
+            failure: function (response) {
+                throwException(response)
+            },
+            error: function (response) {
+                throwException(response)
+            }
+        });
+    }
+    function createInvClassifications() {
+
+        $.ajax({
+            type: "Get",
+            url: "/InventoryClassifications/Create",
+            /*data: { "id": id },*/
+            success: function (response) {
+
+
+                    $("#ChangingBody").empty();
+                    $('#ChangingBody').append(response);
+
+
+            },
+            failure: function (response) {
+                throwException(response)
+            },
+            error: function (response) {
+                throwException(response)
+            }
+        });
+    }
+    function deleteinvClassification(id)
+    {
+        swal({
+            title: "Are you sure?",
+            text: "Are you sure to delete this Classification!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true
+        }, function () {
+            setTimeout(function () {
+                $.ajax({
+                    type: "Post",
+                    url: "/InventoryClassifications/Delete",
+                    data: { "id": id },
+                    success: function (response) {
+                        if (response == 1) {
+                            swal("Deleted!", "Your Classification has been deleted.", "success");                           
+                            getClassificationsManagementPage();
+                        } else if (response == 0) {
+                            swal("Cancelled", "One or more using this Classification!", "error");
+                        }
+                        else if (response == -1) {
+                            swal("Cancelled", "Oops Something went wrong!", "error");
+                        }
+                    },
+                    failure: function (response) {
+                        throwException(response)
+                    },
+                    error: function (response) {
+                        throwException(response)
+                    }
+                })
+            }, 2000);
+        });
+    }
+
+    document.getElementById("btnGoToTopPage").click();
+
+</script>

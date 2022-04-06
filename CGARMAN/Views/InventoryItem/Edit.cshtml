@@ -1,0 +1,111 @@
+﻿@model RepositoryPatternWithUOW.Core.Models.InventoryItem
+<div style="margin: 0px 15px">
+    @*<h4>Item : @Model.InventoryItemType.Name</h4>*@
+    @*<div>
+            <button class="btn btn-sm btn-primary" onclick="getspinner(); getViewItemType('@Model.InventoryItemTypeId')">Back to Item</button>
+        </div>*@
+    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+        <h1 class="h3 mb-0 text-gray-800">
+            Item : @Model.InventoryItemType.Name
+        </h1>
+        <button style="margin-right:10px" onclick="getspinner(); gotoItemType(@Model.InventoryItemTypeId)" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Back to Item</button>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit" id="frmEditInvItem">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="InventoryItemId" class="form-control" />
+                <div class="form-group">
+                    <label asp-for="SerialNumber" class="control-label"></label>
+                    <input asp-for="SerialNumber" class="form-control" />
+                    <span asp-validation-for="SerialNumber" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+                        <label asp-for="VendorId" class="control-label"></label>
+                        <input asp-for="VendorId" class="form-control" />
+                        <span asp-validation-for="VendorId" class="text-danger"></span>
+                    </div>*@
+                @*<div class="form-group">
+                        <label asp-for="LocationId" class="control-label"></label>
+                        <input asp-for="LocationId" class="form-control" />
+                        <span asp-validation-for="LocationId" class="text-danger"></span>
+                    </div>*@
+                @*<div class="form-group">
+                        <label asp-for="SystemUserId" class="control-label"></label>
+                        <input asp-for="SystemUserId" class="form-control" />
+                        <span asp-validation-for="SystemUserId" class="text-danger"></span>
+                    </div>*@
+                @*<div class="form-group">
+                        <label asp-for="CreateDts" class="control-label"></label>
+                        <input asp-for="CreateDts" class="form-control" disabled />
+                        <span asp-validation-for="CreateDts" class="text-danger"></span>
+                    </div>*@
+                <!--<div class="form-group">
+                    <label class="control-label">Item : </label>-->
+                @*<input asp-for="InventoryItemTypeId" class="form-control" />*@
+                <!--<label class="control-label">@Model.InventoryItemType.Name</label>-->
+                @*<span asp-validation-for="InventoryItemTypeId" class="text-danger"></span>*@
+                <!--</div>-->
+                <div class="form-group">
+                    <label class="control-label">Status : </label>
+                    @*<input asp-for="InventoryItemStatusId" class="form-control" disabled />*@
+                    <label class="control-label">@Model.InventoryItemStatus.Name</label>
+                    @*<span asp-validation-for="InventoryItemStatusId" class="text-danger"></span>*@
+                </div>
+                @*<div class="form-group">
+                        <label asp-for="InventoryLocationId" class="control-label"></label>
+                        <input asp-for="InventoryLocationId" class="form-control" />
+                        <span asp-validation-for="InventoryLocationId" class="text-danger"></span>
+                    </div>*@
+                @*<div class="form-group">
+                        <label asp-for="BrandId" class="control-label"></label>
+                        <input asp-for="BrandId" class="form-control" />
+                        <span asp-validation-for="BrandId" class="text-danger"></span>
+                    </div>*@
+                @*<div class="form-group">
+                        <label asp-for="Quantity" class="control-label"></label>
+                        <input asp-for="Quantity" class="form-control" />
+                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                    </div>*@
+                @*<div class="form-group">
+                        <label asp-for="UnitCost" class="control-label"></label>
+                        <input asp-for="UnitCost" class="form-control" />
+                        <span asp-validation-for="UnitCost" class="text-danger"></span>
+                    </div>*@
+                @*<div class="form-group">
+                        <label asp-for="CodeTypeId" class="control-label"></label>
+                        <input asp-for="CodeTypeId" class="form-control" />
+                        <span asp-validation-for="CodeTypeId" class="text-danger"></span>
+                    </div>*@
+                @*<div class="form-group">
+                        <label asp-for="Code" class="control-label"></label>
+                        <input asp-for="Code" class="form-control" />
+                        <span asp-validation-for="Code" class="text-danger"></span>
+                    </div>*@
+                @*<div class="form-group">
+                        <label asp-for="IssueNumber" class="control-label"></label>
+                        <input asp-for="IssueNumber" class="form-control" />
+                        <span asp-validation-for="IssueNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Notes" class="control-label"></label>
+                        <input asp-for="Notes" class="form-control" />
+                        <span asp-validation-for="Notes" class="text-danger"></span>
+                    </div>*@
+                @*<div class="form-group">
+                        <label asp-for="CurrentQuantity" class="control-label"></label>
+                        <input asp-for="CurrentQuantity" class="form-control" />
+                        <span asp-validation-for="CurrentQuantity" class="text-danger"></span>
+                    </div>*@
+                <div class="form-group">
+                    <input type="button" value="Save" class="btn btn-primary" onclick="editInventoryItem()" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+</div>
+

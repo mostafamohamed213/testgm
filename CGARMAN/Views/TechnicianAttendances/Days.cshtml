@@ -1,0 +1,364 @@
+﻿@using RepositoryPatternWithUOW.Core.Models;
+@model CGARMAN.ViewModel.TechnicianViewModels.DaysAttendancePagingViewModel
+@{
+    ViewData["Title"] = "Attendance";
+    Layout = "_Authenticated";
+}
+
+
+<div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+        <h1 class="h3 mb-0 text-gray-800">
+            Technicians <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> Attendance <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> Days
+        </h1>
+    </div>
+    <div class="text text-warning" style="margin:10px 10px">
+        <span class="font-weight-bold">Warning :</span> If there is an attendance previously entered, it will be changed
+    </div>
+
+    <div class="card shadow mb-4" style="margin:0px 15px">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Attendances
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-2">
+                            <div class="dataTables_length" id="dataTable_length">
+                                <form asp-action="ChangelengthDays" asp-controller="TechnicianAttendances" id="formTechniciansAttendanceChangelength">
+                                    <label>
+                                        Show
+                                        <select name="length" onchange="document.getElementById('formTechniciansAttendanceChangelength').submit()" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
+                                            @if (Model.Tablelength == 10)
+                                            {
+                                                <option value="10" selected>10</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="10">10</option>
+                                            }
+                                            @if (Model.Tablelength == 25)
+                                            {
+                                                <option value="25" selected>25</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="25">25</option>
+                                            }
+                                            @if (Model.Tablelength == 50)
+                                            {
+                                                <option value="50" selected>50</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="50">50</option>
+                                            }
+                                            @if (Model.Tablelength == 100)
+                                            {
+                                                <option value="100" selected>100</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="100">100</option>
+                                            }
+
+
+
+
+                                        </select>
+                                        entries
+                                    </label>
+                                </form>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-9">
+                            <div id="dataTable_filter" class="dataTables_filter">
+
+                                <div class="row">
+                                    <div class="col-lg-12 col-xl-4">
+                                        <label>
+                                            Name <input type="text" class="form-control form-control-sm" id="txtNameTechnician" value="@Model.Name" aria-controls="dataTable">
+                                            <input type="hidden" id="hfNameTechnicians" @*name="hfItemType"*@ />
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12 col-xl-4">
+                                        <label>
+                                            Position
+                                            <select asp-items="Model.Positions" id="selSearchPositionsId" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12 col-xl-4">
+                                        <label>
+                                            Company
+                                            <select asp-items="Model.Companies" id="selSearchCompanyId" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
+                                        </label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="containerTabeTechnicians">
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+
+                                            <th>Name</th>
+                                            <th style="width:100px">Position</th>
+                                            <th>Company</th>
+                                            <th>From</th>
+                                            <th>To</th>
+                                            <th>Shift</th>
+                                            <th>Status</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.items)
+                                        {
+
+                                            <tr>
+
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Name)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TechnicianPosition.Name)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TechnicianCompany.Name)
+                                                </td>
+                                                <td>
+                                                    <input type="date" id="dateFrom @item.TechnicianId" class="form-control form-control-user" />
+                                                </td>
+                                                <td>
+                                                    <input type="date" id="dateTo @item.TechnicianId" class="form-control form-control-user" />
+                                                </td>
+                                                <td>
+                                                    <select asp-items="@Model.Shifts" id="shift @item.TechnicianId" asp-for="@item.TechnicianAttendances.FirstOrDefault().ShiftId" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
+                                                </td>
+                                                <td>
+                                                    <select asp-items="@Model.Status" id="status @item.TechnicianId" asp-for="@item.TechnicianAttendances.FirstOrDefault().AttendanceStatusId" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
+                                                </td>
+                                                <td>
+                                                    <button onclick="saveAttendance('@item.TechnicianId')" class="btn btn-success">Save</button>
+                                                    <button onclick="deleteAttendance('@item.TechnicianId')" class="btn btn-danger">Delete</button>
+                                                    <i id="fa-check-@item.TechnicianId" style="display:none" class="fas fa-check"></i>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                                <input type="hidden" id="hfCurrentPageIndex" name="CurrentPageIndex" value="@Model.CurrentPageIndex" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite"> Total @Model.itemsCount items</div>
+
+                            </div>
+                            <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                                    <ul class="pagination">
+                                        <li class='paginate_button page-item previous @(Model.CurrentPageIndex == 1 ? "disabled":"")' id="dataTable_previous">
+                                            <a asp-action="Days" asp-controller="TechnicianAttendances" asp-route-CurrentPageIndex="@(Model.CurrentPageIndex-1)" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                        @for (int i = 1; i <= Model.PageCount; i++)
+                                        {
+                                            @if (i != Model.CurrentPageIndex)
+                                            {
+                                                <li class="paginate_button page-item">
+                                                    <a asp-action="Days" asp-controller="TechnicianAttendances" asp-route-CurrentPageIndex="@i" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">@i</a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="paginate_button page-item active">
+                                                    <span aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">@i</span>
+                                                </li>
+                                            }
+
+
+                                        }
+                                        <li class='paginate_button page-item next @(Model.PageCount == Model.CurrentPageIndex ? "disabled":"")' id="dataTable_next">
+                                            <a asp-action="Days" asp-controller="TechnicianAttendances" asp-route-CurrentPageIndex="@(Model.CurrentPageIndex+1)" asp-="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+
+    <script>
+        document.getElementById("btncontainerTechnicians").click();
+        ToggleColorInDashboard("linkTechniciansDays");
+        document.getElementById("btnGoToTopPage").click();
+
+        function saveAttendance(technicianId) {
+            document.getElementById("fa-check-" + technicianId).style.display = "none";
+            var dateFrom = document.getElementById("dateFrom " + technicianId).value;
+            var dateTo = document.getElementById("dateTo " + technicianId).value;
+           
+            if (dateFrom == "" ) {
+                swal("Error", "Please enter date (from)", "error");
+            }
+            if (dateTo != "" && dateFrom > dateTo) {
+                swal("Error", "Please check your inputs, (From) date is greater than (To)", "error");
+            }
+
+            var shiftId = document.getElementById("shift " + technicianId).value;
+            var statusId = document.getElementById("status " + technicianId).value;
+            $.ajax({
+                url: '/TechnicianAttendances/SaveDays',
+                data: { "technicianId": technicianId, "from": dateFrom, "to": dateTo, "shiftId": shiftId, "statusId": statusId},
+                type: "POST",
+                success: function (response) {
+                    if (response == 1) {
+                        document.getElementById("fa-check-" + technicianId).style.display = "inline-block";
+                    } else if (response == 0) {
+                        swal("Error", "Please check your inputs", "error");
+                    } else {
+                        swal("Error", "Something went wrong, please try again", "error");
+                    }
+                },
+                error: function (response) {
+                    swal("Error", "Something went wrong, please try again", "error");
+                },
+                failure: function (response) {
+                    swal("Error", "Something went wrong, please try again", "error");
+                }
+            });
+        }
+
+        function deleteAttendance(technicianId) {
+            swal({
+                title: "Are you sure?",
+                text: "Are you sure to delete this Attendances!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function () {             
+                setTimeout(function () {
+                    document.getElementById("fa-check-" + technicianId).style.display = "none";
+                    var dateFrom = document.getElementById("dateFrom " + technicianId).value;
+                    var dateTo = document.getElementById("dateTo " + technicianId).value;
+
+                    if (dateFrom == "") {
+                        swal("Error", "Please enter date (from)", "error");
+                    }
+                    if (dateTo != "" && dateFrom > dateTo) {
+                        swal("Error", "Please check your inputs, (From) date is greater than (To)", "error");
+                    }
+
+                    $.ajax({
+                        url: '/TechnicianAttendances/DeleteDays',
+                        data: { "technicianId": technicianId, "from": dateFrom, "to": dateTo },
+                        type: "POST",
+                        success: function (response) {
+                            if (response == 1) {
+                                document.getElementById("fa-check-" + technicianId).style.display = "inline-block";
+                                swal("Deleted!", "Your Attendances has been deleted.", "success");
+                            } else if (response == 0) {
+                                swal("Error", "Please check your inputs", "error");
+                            } else {
+                                swal("Error", "Something went wrong, please try again", "error");
+                            }
+                        },
+                        error: function (response) {
+                            swal("Error", "Something went wrong, please try again", "error");
+                        },
+                        failure: function (response) {
+                            swal("Error", "Something went wrong, please try again", "error");
+                        }
+                    });
+                }, 2000);                
+            });
+           
+        }
+        $(function () {
+            $("#txtNameTechnician").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/TechnicianAttendances/AutoComplete',
+                        data: { "prefix": request.term },
+                        type: "POST",
+                        success: function (data) {
+                            if (data == 0) {
+                                /* swal("Cancelled", "Oops Something went wrong!", "error");*/
+                            } else {
+                                response($.map(data, function (item) {
+                                    return item;
+                                }));
+                            }
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (e, i) {
+                    $("#hfNameTechnicians").val(i.item.val);
+                    $("#hfNameTechnicians").click(searchTechnicians());
+                },
+                minLength: 1
+            });
+        });
+
+
+
+        function searchTechnicians() {
+            $("#containerTabeTechnicians").empty();
+            $('#containerTabeTechnicians').append('<div style=" margin: 20% 50%;" class="spinner-grow text-primary"></div>');
+
+            var nametech = document.getElementById("txtNameTechnician").value;
+            var currentPageIndex = "@Model.CurrentPageIndex";
+            var positionsId = document.getElementById("selSearchPositionsId").value;
+            var companyId = document.getElementById("selSearchCompanyId").value;
+            window.location.href = "/TechnicianAttendances/Days?CurrentPageIndex=" + currentPageIndex + "&&Name=" + nametech + "&&PositionsId=" + positionsId + "&&CompanyId=" + companyId;
+        }
+        $("#txtNameTechnician").keyup(function (event) {
+            if (event.keyCode === 13) {
+                searchTechnicians();
+            }
+        });
+        $("#selSearchPositionsId").change(function () {
+
+            searchTechnicians();
+
+        });
+        $("#selSearchCompanyId").change(function () {
+
+            searchTechnicians();
+
+        });
+        document.getElementById("btnGoToTopPage").click();
+
+    </script>
+
+
+}
+
+

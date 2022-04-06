@@ -1,0 +1,23 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "bootstrap-sweetalert@1.0.1",
+      "destination": "wwwroot/bootstrap-sweetalert/"
+    },
+    {
+      "library": "jquery@3.6.0",
+      "destination": "wwwroot/jquery/"
+    },
+    {
+      "library": "jqueryui@1.12.1",
+      "destination": "wwwroot/jqueryui/",
+      "files": [
+        "jquery-ui.min.js",
+        "themes/base/jquery-ui.css",
+        "jquery-ui.js"
+      ]
+    }
+  ]
+}

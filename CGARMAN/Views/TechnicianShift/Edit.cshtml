@@ -1,0 +1,53 @@
+﻿
+@model CGARMAN.ViewModel.TechnicianViewModels.EditShiftViewModel
+@{
+    ViewData["Title"] = "Edit Shift";
+    Layout = "_Authenticated";
+}
+<div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+    <h1 class="h3 mb-0 text-gray-800">
+        Technician <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> Edit Shift <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> @Model.Name
+    </h1>
+    <a style="margin-right:10px" asp-action="Index" asp-controller="Home" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Back to Home</a>
+</div>
+<hr />
+<div class="row" style="margin:1%">
+    <div class="col-lg-12">
+        <form asp-action="Edit" asp-controller="TechnicianShift" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TechnicianShiftId" />
+            <div class="form-group row">
+                <div class="col-xl-12">
+                    <div class="row">
+                        <div class="col-xl-1" style=" padding-top: 5px;">
+                            <label>Name</label>
+                        </div>
+                        <div class="col-xl-3">
+                            <input type="text" asp-for="Name" class="form-control form-control-user" />
+                            <span asp-validation-for="Name" style="margin:auto" class="text-danger"></span>
+
+                        </div>
+                        @*<div class="col-xl-6">
+                                <input in asp-for="Enable" class="form-control form-control-user" />
+                                <span asp-validation-for="Enable" style="margin:auto" class="text-danger"></span>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" style=" width: 150px; margin: 30px 40px;" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        document.getElementById("btncontainerTechnicians").click();
+        ToggleColorInDashboard("linkIndexTechniciansShift");
+        document.getElementById("btnGoToTopPage").click();
+
+    </script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

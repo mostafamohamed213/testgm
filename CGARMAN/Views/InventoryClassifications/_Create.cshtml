@@ -1,0 +1,115 @@
+﻿
+@model RepositoryPatternWithUOW.Core.Models.InventoryItemTypeClassification
+
+<div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+        <h1 class="h3 mb-0 text-gray-800">
+            @if (ViewBag.fromEdit is not null)
+            {
+                @if (ViewBag.fromEdit is true)
+                {
+                    <span>Eidt</span> <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> @Model.Name
+
+                }
+                else
+                {
+                    <span>Create</span>
+                }
+            }
+        </h1>
+        <button style="margin-right:10px" onclick="getClassificationsManagementPage()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Back to classifications</button>
+    </div>
+    <hr />
+    <div class="row" style="margin:0px 15px">
+        @if (ViewBag.ValMassage != null)
+        {
+            <p style="color:red">@ViewBag.ValMassage</p>
+        }
+        <form asp-action="Create" asp-controller="InventoryClassifications" method="post" id="frmSubmitInvClassification" class="col-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="InventoryItemTypeClassificationId" value="@Model.InventoryItemTypeClassificationId" />
+            <div class="form-group row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-md-2" style=" margin-bottom: 15px; ">
+                            <label>Name</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" asp-for="Name" class="form-control form-control-user" value="@Model.Name" required />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-md-2" style=" padding-top: 5px;">
+                            <label>Warehouse</label>
+                        </div>
+                        <div class="col-md-6">
+                            @if (ViewBag.fromEdit is true)
+                            {
+                                <select asp-items="@ViewBag.warehouses" name="warehouseId" id="WarehouseIdityp22" class="form-control form-control-user" disabled required>
+                                </select>
+                                <input type="hidden" Name="warehouseId" value="@ViewBag.warehouseId222" />
+                            }
+                            else
+                            {
+                                <select asp-items="@ViewBag.warehouses" name="warehouseId" id="WarehouseIdityp22" class="form-control form-control-user" required>
+                                </select>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+
+                <input type="button" onclick="submitInvClassification()" value="Save" id="btnsubmitInvClassification" class="btn btn-primary" />
+
+            </div>
+        </form>
+
+    </div>
+</div>
+<script>
+    function submitInvClassification() {
+
+        var form = document.getElementById('frmSubmitInvClassification');
+         var formData = new FormData(form);
+         getspinner();
+         $.ajax({
+             type: "Post",
+             url: "/InventoryClassifications/Create",
+             data: formData,
+             processData: false,
+             ///* processData: false,*/
+             contentType: false,
+             success: function (response) {
+                 if (response == 1) {
+                     swal("Don!", "success!", "success")
+
+                 } else if (response == -1) {
+                     swal("Cancelled", "This name already exists!", "error");
+                    
+                 } else if (response == 0) {
+                     swal("Cancelled", "Oops Something went wrong!", "error");
+                    
+                 } else {
+                     swal("Cancelled", "Oops Something went wrong!", "error");
+                 }
+                 getClassificationsManagementPage();
+                
+             },
+             failure: function (response) {
+                 throwException(response)
+             },
+             error: function (response) {
+                 throwException(response)
+             }
+         });
+    }
+    document.getElementById("btnGoToTopPage").click();
+
+</script>
+

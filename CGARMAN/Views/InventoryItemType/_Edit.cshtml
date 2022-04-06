@@ -1,0 +1,452 @@
+﻿@model CGARMAN.ViewModel.InventoryViewModels.CreateInventoryItemTypeViewModel
+
+<script src='~/make-dropdown-with-search-box/select2/dist/js/select2.min.js' type='text/javascript'></script>
+
+<link href='~/make-dropdown-with-search-box/select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'>
+
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+    <h1 class="h3 mb-0 text-gray-800">
+        Inventory <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> Create Item
+    </h1>
+    <a style="margin-right:10px" asp-action="Index" asp-controller="Home" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Back to Home</a>
+</div>
+<hr />
+<div class="row" style="margin:1%">
+    <div class="col-lg-12">
+        <form asp-action="Create" id="frmEditInvItemType" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="InventoryItemTypeId" />
+            <div class="form-group row">
+                <div class="col-xl-12">
+                    <div class="row">
+                        <div class="col-xl-1" style=" padding-top: 5px;">
+                            <label>Warehouse</label>
+                        </div>
+                        <div class="col-xl-3">
+
+                            @if (ViewBag.hasItems)
+                            {
+                                <select asp-items="@ViewBag.warehouses" asp-for="WarehouseId" onchange="GetClassificationsCostCenterAndUnitsss(this.value)" disabled id="WarehouseIdityp" class="form-control form-control-user">
+                                    <option>Please select one</option>
+                                </select>
+                            }
+                            else
+                            {
+                                <select asp-items="@ViewBag.warehouses" asp-for="WarehouseId" onchange="GetClassificationsCostCenterAndUnitsss(this.value)" id="WarehouseIdityp" class="form-control form-control-user">
+                                    <option>Please select one</option>
+                                </select>
+                            }
+                            <span asp-validation-for="WarehouseId" style="margin:auto" class="text-danger"></span>
+                        </div>
+                        <div class="col-xl-6">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="sidebar-divider bg-gradient-primary">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+
+                    <div class="row" style="margin: 1%;">
+                        <div class="col-xl-2">  <label>Name</label></div>
+                        <div class="col-xl-10 row">
+                            <div class="col-xl-11 col-sm-11 col-md-11 col-lg-11">
+                                <input name="Name" asp-for="Name" class="form-control form-control-user" />
+                            </div>
+                            <div class="col-xl-1 col-sm-1 col-md-1 col-lg-1">
+                                @*<span id="popupInvItemTypeClassification"></span>*@
+                            </div>
+                            <span asp-validation-for="Name" style="margin:auto" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin: 1%;">
+                        <div class="col-xl-2">  <label>Type</label></div>
+                        <div class="col-xl-10 row">
+                            <div class="col-xl-11 col-sm-11 col-md-11 col-lg-11">
+                                <select asp-for="InventoryItemTypeClassificationId" asp-items="@ViewBag.classifications" id="InventoryItemTypeClassificationIdss" style="width :100%" class="form-control">
+                                    <option>Please select one</option>
+                                </select>
+                            </div>
+                            <div class="col-xl-1 col-sm-1 col-md-1 col-lg-1" style=" direction: rtl; ">
+                                <span id="popupInvItemTypeClassification"></span>
+                            </div>
+                            <span asp-validation-for="InventoryItemTypeClassificationId" style="margin:auto" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row" style=" margin: 1%;">
+                        <div class="col-xl-2">  <label>Brand</label></div>
+                        <div class="col-xl-10 row">
+                            <div class="col-xl-11 col-sm-11 col-md-11 col-lg-11">
+                                <select asp-for="BrandId" id="selBrandinvItemtype" onchange="getModelsBybrandid(this.value)" asp-items="@ViewBag.brands" style="width :100%" class="form-control form-control-user">
+                                    <option>Please select one</option>
+                                </select>
+                            </div>
+                            <div class="col-xl-1 col-sm-1 col-md-1 col-lg-1" style=" direction: rtl; ">
+                                <span id="popupInvItemTypeBrand"></span>
+                            </div>
+                            <span asp-validation-for="BrandId" style="margin:auto" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row" style=" margin: 1%;">
+                        <div class="col-xl-2">  <label>Model</label></div>
+                        <div class="col-xl-10 row">
+                            <div class="col-xl-11 col-sm-11 col-md-11 col-lg-11">
+                                <select asp-for="ModelId" id="invITypeModel" asp-items="@ViewBag.models" style="width :100%" class="form-control form-control-user">
+                                    @*<option>Please select one</option>*@
+                                </select>
+                            </div>
+                            <div class="col-xl-1 col-sm-1 col-md-1 col-lg-1" style=" direction: rtl; ">
+                                <span id="popupInvItemTypeBrandModel"></span>
+                            </div>
+                            <span asp-validation-for="ModelId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="row" style=" margin: 1%;">
+                        <div class="col-xl-4">  <label>Auto Generate Serial</label></div>
+                        <div class="col-xl-8 row">
+                            <div class="col-xl-11 col-sm-11 col-md-11 col-lg-11">
+                                @if (ViewBag.hasItems)
+                                {
+                                    <input type="checkbox" asp-for="AutoGenerateSerial" name="AutoGenerateSerial" disabled />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" asp-for="AutoGenerateSerial" name="AutoGenerateSerial" />
+
+                                }
+                                @if (ViewBag.valAutoGenerateSerialAndUnit is not null)
+                                {
+                                    <span class="text-danger"> @ViewBag.valAutoGenerateSerialAndUnit</span>
+                                }
+                            </div>
+                            <div class="col-xl-1 col-sm-1 col-md-1 col-lg-1" style=" direction: rtl; ">
+
+                            </div>
+                            <span asp-validation-for="AutoGenerateSerial" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row" style=" margin: 1%;">
+                        <div class="col-xl-4">  <label>Cost Center</label></div>
+                        <div class="col-xl-8 row">
+                            <div class="col-xl-11 col-sm-11 col-md-11 col-lg-11">
+                                <select class="form-control form-control-user" style="width :100%" asp-items="@ViewBag.costCenters" asp-for="CostCenterId" id="CostCenterIdss">
+                                    <option>Please select one</option>
+                                </select>
+                            </div>
+                            <div class="col-xl-1 col-sm-1 col-md-1 col-lg-1" style=" direction: rtl; ">
+                                <span id="popupInvItemTypeCostCenter"></span>
+                            </div>
+                            <span asp-validation-for="CostCenterId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row" style=" margin: 1%;">
+                        <div class="col-xl-4">  <label>Units</label></div>
+                        <div class="col-xl-8 row">
+                            <div class="col-xl-11 col-sm-11 col-md-11 col-lg-11">
+                                <select asp-for="InventoryItemTypeUnitId" style="width :100%" asp-items="@ViewBag.units" id="InventoryItemTypeUnitIdss" class="form-control form-control-user">
+                                    <option>Please select one</option>
+                                </select>
+                            </div>
+                            <div class="col-xl-1 col-sm-1 col-md-1 col-lg-1" style=" direction: rtl; ">
+                                <span id="popupInvItemTypeUnit"></span>
+                            </div>
+                            <span asp-validation-for="InventoryItemTypeUnitId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="row" style=" margin: 1%;">
+                        <div class="col-xl-4">  <label>Image</label></div>
+                        <div class="col-xl-8 row">
+                            <div class="col-xl-4 col-sm-4 col-md-4 col-lg-4">
+                              
+                                 <input type='file' name="ItemImage" asp-for="ItemImage"  accept="image/*" style="padding: 10px;" id="inputImage" onchange="readURL(this);" />
+
+                                <div style="max-height: 70px; min-height: 70px; height:70px">
+
+                                    @if (!string.IsNullOrEmpty(Model.UrlImage))
+                                    {
+
+                                        <img id="blah" src="~/Images/Inventory/ItemType/@Model.UrlImage" style="max-width: 180px; max-height: 69px; min-height: 69px; height: 69px " alt="Item image" />
+                                    }
+                                    else
+                                    {
+                                        <img id="blah" style="max-width: 180px;  display: none; max-height: 69px; min-height: 69px; height: 69px " alt="Item image" />
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-xl-8 col-sm-8 col-md-8 col-lg-8">
+                                @*<img id="blah" style="max-width: 180px;  display: none" alt="Item image" />*@
+                                <input type="hidden" asp-for="UrlImage" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xl-7 row" @*style=" margin: 1%;"*@>
+
+                <div class="col-xl-2">
+                    <label>Description</label>
+                </div>
+                <div class="col-xl-10">
+                    <textarea rows="3" cols="40" asp-for="Description" name="Description" class="form-control form-control-user">
+                                 </textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+
+            </div>
+
+
+            <div class="form-group">
+                <input type="button" onclick="submitEditInvItemType()" value="Save" style=" width: 150px; margin: 30px 40px;" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+        document.getElementById("blah").style.display = "block";
+    }
+    function getPopupAddModelByBrandId() {
+        var brand = $("#selBrandinvItemtype").val();
+
+        if (brand !== undefined && brand != 'null' && brand > 0) {
+
+            $.ajax({
+                type: "Get",
+                url: "/InventoryItemType/GetPopupAddModelByBrandId",
+                data: { "warehouseId": $("#WarehouseIdityp").val(), "brandId": $("#selBrandinvItemtype").val(), "brandName": $("#selBrandinvItemtype option:selected").text() },
+                success: function (response) {
+
+                    $("#popupInvItemTypeBrandModel").empty();
+                    $('#popupInvItemTypeBrandModel').append(response);
+                },
+                failure: function (response) {
+                    throwException(response)
+                },
+                error: function (response) {
+                    throwException(response)
+                }
+            });
+        } else {
+
+        }
+
+    }
+
+    function getModelsBybrandid(id) {
+
+            $.ajax({
+                type: "Get",
+                url: "/InventoryItemType/getModelsBybrandid",
+                data: { "id": id },
+                success: function (response) {
+
+                    if (response != 0 && response != 'null') {
+
+                        $("#invITypeModel").empty();
+                        //var option = document.createElement("option");
+                        //option.text = "-Select-";
+                        //$('#invITypeModel').append(option);
+                        response.forEach(function (i) {
+                            var option = document.createElement("option");
+                            option.text = i.text;
+                            option.value = i.value;
+                            $('#invITypeModel').append(option);
+                        });
+
+
+                    } else {
+                        $("#invITypeModel").empty();
+                        //$('#invITypeModel').append('<option> Please select one</option>');
+                    }
+                },
+                failure: function (response) {
+                    throwException(response)
+                },
+                error: function (response) {
+                    throwException(response)
+                }
+            });
+        getPopupAddModelByBrandId();
+      }
+    function GetClassificationsCostCenterAndUnitsss(v) {
+
+        if (v != null && v != "" && v > 0) {
+
+            //$("#addInventoryItemTypeClassificationId").empty();
+            //$("#addInventoryItemTypeClassificationId").append('<partial name="~/Views/Shared/_PopupAddClassification.cshtml" model = "' + v + '" />');
+            @*$("#addInventoryItemTypeClassificationId").append('@Html.PartialAsync("_PopupAddClassification")' + v + "");*@
+
+            $.ajax({
+                type: "Get",
+                url: "/InventoryItemType/GetClassifications",
+                data: { "warehouseId": $("#WarehouseIdityp").val() },
+                success: function (response) {
+                    if (response.classifications != 'null') {
+                        $("#InventoryItemTypeClassificationIdss").empty();
+                        
+                        var option = document.createElement("option");
+                        option.text = "Please select one";                        
+                        $('#InventoryItemTypeClassificationIdss').append(option);
+                        response.classifications.forEach(function (i) {
+                            var option = document.createElement("option");
+                            option.text = i.text;
+                            option.value = i.value;
+                            $('#InventoryItemTypeClassificationIdss').append(option);
+                        });
+
+
+                    } else {
+
+                        $("#InventoryItemTypeClassificationIdss").empty();
+                        $('#InventoryItemTypeClassificationIdss').append('<select asp-for="InventoryItemTypeClassificationId" id="InventoryItemTypeClassificationIdss"  class="form-control form-control-user"><option> Please select one</option></select>');
+                    }
+                },
+                failure: function (response) {
+                    throwException(response)
+                },
+                error: function (response) {
+                    throwException(response)
+                }
+            });
+            GetPopupAddclassification();
+            //GetPopupAddBrand();
+            //GetPopupAddUnits();
+            //GetPopupAddCostCenter();
+            //togglePopups("block");
+            document.getElementById("popupInvItemTypeClassification").style.display = "block";
+        } else {
+           /* togglePopups("none");*/
+            document.getElementById("popupInvItemTypeClassification").style.display = "none";
+            $("#InventoryItemTypeClassificationIdss").empty();
+            var option = document.createElement("option");
+            option.text = "Please select one";
+            $('#InventoryItemTypeClassificationIdss').append(option);
+        }
+
+    }
+    function GetPopupAddclassification () {
+          $.ajax({
+            type: "Get",
+              url: "/InventoryItemType/GetPopupClassificationNotContainWarehouseId",
+            data: { "warehouseId": $("#WarehouseIdityp").val() },
+            success: function (response) {
+
+                $("#popupInvItemTypeClassification").empty();
+                $('#popupInvItemTypeClassification').append(response);
+            },
+            failure: function (response) {
+                throwException(response)
+            },
+            error: function (response) {
+                throwException(response)
+            }
+        });
+         }
+
+    function GetPopupAddBrand() {
+            $.ajax({
+                type: "Get",
+                url: "/InventoryItemType/GetPopupAddBrand",
+                data: { "warehouseId": $("#WarehouseIdityp").val() },
+                success: function (response) {
+
+                    $("#popupInvItemTypeBrand").empty();
+                    $('#popupInvItemTypeBrand').append(response);
+                },
+                failure: function (response) {
+                    throwException(response)
+                },
+                error: function (response) {
+                    throwException(response)
+                }
+            });
+        }
+
+    function GetPopupAddUnits() {
+        $.ajax({
+            type: "Get",
+            url: "/InventoryItemType/GetPopupAddUnits",
+            data: { "warehouseId": $("#WarehouseIdityp").val() },
+            success: function (response) {
+
+                $("#popupInvItemTypeUnit").empty();
+                $('#popupInvItemTypeUnit').append(response);
+            },
+            failure: function (response) {
+                throwException(response)
+            },
+            error: function (response) {
+                throwException(response)
+            }
+        });
+    }
+    function GetPopupAddCostCenter() {
+        $.ajax({
+            type: "Get",
+            url: "/InventoryItemType/GetPopupAddCostCenter",
+            data: { "warehouseId": $("#WarehouseIdityp").val() },
+            success: function (response) {
+
+                $("#popupInvItemTypeCostCenter").empty();
+                $('#popupInvItemTypeCostCenter').append(response);
+            },
+            failure: function (response) {
+                throwException(response)
+            },
+            error: function (response) {
+                throwException(response)
+            }
+        });
+    }
+    function togglePopups(v) {
+       
+        document.getElementById("popupInvItemTypeBrand").style.display = v;
+        document.getElementById("popupInvItemTypeBrandModel").style.display = v;
+        document.getElementById("popupInvItemTypeUnit").style.display = v;
+        document.getElementById("popupInvItemTypeCostCenter").style.display = v;
+    }
+        @*var wId =  $("#WarehouseIdityp").val();
+        $('#InventoryItemTypeClassificationIdss').load('@Html.Partial("",new { id = 1 })');*@
+        $("#InventoryItemTypeClassificationIdss").select2();
+        $("#selBrandinvItemtype").select2();
+        $("#invITypeModel").select2();
+    $("#CostCenterIdss").select2();
+
+
+    GetPopupAddclassification();
+    GetPopupAddBrand();
+    GetPopupAddUnits();
+    GetPopupAddCostCenter();
+    togglePopups("block");
+    getModelsBybrandid("@Model.BrandId");
+    document.getElementById("btnGoToTopPage").click();
+
+</script>

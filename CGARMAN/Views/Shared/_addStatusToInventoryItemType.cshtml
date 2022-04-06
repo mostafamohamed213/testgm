@@ -1,0 +1,553 @@
+﻿@model List<RepositoryPatternWithUOW.Core.Models.InventoryItemStatus>
+
+<style>
+    .alert {
+        border-radius: 0;
+        border: 0;
+    }
+
+    body {
+        background-color: #e6e6e6;
+        width: 100%;
+        height: 100%;
+    }
+
+    #success_tic .page-body {
+        max-width: 300px;
+        background-color: #FFFFFF;
+        margin: 10% auto;
+    }
+
+        #success_tic .page-body .head {
+            text-align: center;
+        }
+    /* #success_tic .tic{
+      font-size:186px;
+    } */
+    #success_tic .close {
+        opacity: 1;
+        position: absolute;
+        right: 0px;
+        font-size: 30px;
+        padding: 3px 15px;
+        margin-bottom: 10px;
+    }
+
+    #success_tic .checkmark-circle {
+        width: 150px;
+        height: 150px;
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .checkmark-circle .background {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: #1ab394;
+        position: absolute;
+    }
+
+    #success_tic .checkmark-circle .checkmark {
+        border-radius: 5px;
+    }
+
+        #success_tic .checkmark-circle .checkmark.draw:after {
+            -webkit-animation-delay: 300ms;
+            -moz-animation-delay: 300ms;
+            animation-delay: 300ms;
+            -webkit-animation-duration: 1s;
+            -moz-animation-duration: 1s;
+            animation-duration: 1s;
+            -webkit-animation-timing-function: ease;
+            -moz-animation-timing-function: ease;
+            animation-timing-function: ease;
+            -webkit-animation-name: checkmark;
+            -moz-animation-name: checkmark;
+            animation-name: checkmark;
+            -webkit-transform: scaleX(-1) rotate(135deg);
+            -moz-transform: scaleX(-1) rotate(135deg);
+            -ms-transform: scaleX(-1) rotate(135deg);
+            -o-transform: scaleX(-1) rotate(135deg);
+            transform: scaleX(-1) rotate(135deg);
+            -webkit-animation-fill-mode: forwards;
+            -moz-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+        }
+
+        #success_tic .checkmark-circle .checkmark:after {
+            opacity: 1;
+            height: 75px;
+            width: 37.5px;
+            -webkit-transform-origin: left top;
+            -moz-transform-origin: left top;
+            -ms-transform-origin: left top;
+            -o-transform-origin: left top;
+            transform-origin: left top;
+            border-right: 15px solid #fff;
+            border-top: 15px solid #fff;
+            border-radius: 2.5px !important;
+            content: '';
+            left: 35px;
+            top: 80px;
+            position: absolute;
+        }
+
+    @@-webkit-keyframes checkmark {
+        0% {
+            height: 0;
+            width: 0;
+            opacity: 1;
+        }
+
+        20% {
+            height: 0;
+            width: 37.5px;
+            opacity: 1;
+        }
+
+        40% {
+            height: 75px;
+            width: 37.5px;
+            opacity: 1;
+        }
+
+        100% {
+            height: 75px;
+            width: 37.5px;
+            opacity: 1;
+        }
+    }
+
+    @@-moz-keyframes checkmark {
+        0% {
+            height: 0;
+            width: 0;
+            opacity: 1;
+        }
+
+        20% {
+            height: 0;
+            width: 37.5px;
+            opacity: 1;
+        }
+
+        40% {
+            height: 75px;
+            width: 37.5px;
+            opacity: 1;
+        }
+
+        100% {
+            height: 75px;
+            width: 37.5px;
+            opacity: 1;
+        }
+    }
+
+    @@keyframes checkmark {
+        0% {
+            height: 0;
+            width: 0;
+            opacity: 1;
+        }
+
+        20% {
+            height: 0;
+            width: 37.5px;
+            opacity: 1;
+        }
+
+        40% {
+            height: 75px;
+            width: 37.5px;
+            opacity: 1;
+        }
+
+        100% {
+            height: 75px;
+            width: 37.5px;
+            opacity: 1;
+        }
+    }
+</style>
+<div id="popupaddstatus2345ty">
+
+    <div class="col-lg-1" style="padding:1px">
+
+  
+        <a style="margin-right: 10px; width: 115px; " id="btnlinkAddStausToItemType" href="#" class="btn  btn-primary " data-toggle="modal" data-target="#ModalAddStausToItemType">Assign Staus</a>
+
+        <!-- The Modal -->
+        <div class="modal animated--grow-in " id="ModalAddStausToItemType">
+            <div class="modal-dialog">
+                <div class="modal-content col-12" id="divbgchangeModalAddStausToItemType">
+                    <div class="alert alert-error" id="alertErrorModalAddStausToItemType" style=" background-color: indianred; display:none">
+                        <strong>Error!</strong> <span id="spnErrorModalAddStausToItemType">  Please check your input.</span>
+                    </div>
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            Assign Staus
+                        </h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <div class="col-lg-1" style="padding:1px">
+
+
+                            <a style="margin-right: 10px; margin-left: 10px; width: 115px; " id="btnlinkAddStatus" href="#" class="btn  btn-primary " data-toggle="modal" data-target="#ModalAddStatus">Add Staus</a>
+
+                            <!-- The Modal -->
+                            <div class="modal animated--grow-in " id="ModalAddStatus">
+                                <div class="modal-dialog">
+                                    <div class="modal-content col-12" id="divbgchangeAddStatus">
+                                        <div class="alert alert-error" id="alertErrorAddStatus" style=" background-color: indianred; display:none">
+                                            <strong>Error!</strong> <span id="spnErrorAddStatus">  Please check your input.</span>
+                                        </div>
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">
+                                                Add Staus
+                                            </h4>
+                                            <button type="button" id="btnCloseformAddStatus" class="close" data-dismiss="modal">&times;</button>
+
+
+                                        </div>
+                                        <form id="frmAddStatus" method="post">
+                                            <input type="hidden" id="ItemTypeid5654" name="ItemTypeid" value="@ViewBag.ItemTypeid2" />
+                                            <!-- Modal body -->
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="form-group row">
+                                                            <div class="col-lg-12">
+
+
+                                                                <div class="row">
+                                                                    <div class="col-lg-4">
+                                                                        <label style="font-weight: 400; width: max-content;">Status Name</label>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <input type="text" name="StatusName" style="direction:ltr" class="form-control form-control-user" />
+                                                                    </div>
+
+                                                                </div>
+                                                                <br />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer" style="direction:ltr">
+                                                <input type="button" onclick="addStaus()" value="Save" id="btnCteInventoryAddStatus" class="btn btn-success" />
+                                                <button type="button" class="btn btn-danger"  data-dismiss="modal">Close</button>
+
+                                            </div>
+
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <button type="button" id="btnCloseformCteInventoryModalAddStausToItemType" class="close" data-dismiss="modal">&times;</button>
+                        
+                    </div>
+                    <form id="frmAddStausToItemType" method="post">
+                        <input type="hidden" id="ItemTypeid5654" name="ItemTypeid" value="@ViewBag.ItemTypeid2" />
+                        <input type="hidden" name="statusValues" id="statusValues" />
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <div class="col-lg-12" id="divSetValue">
+
+                                            @foreach (var item in Model)
+                                            {
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <label style="font-weight: 400;">@item.Name</label>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <input type="checkbox" id="@item.InventoryItemStatusId" style="direction:ltr;width:auto" class="form-control form-control-user" />
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                    </div>
+                                                </div>
+                                                <br />                                                  
+                                             }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer" style="direction:ltr">
+                            <input type="button" onclick="addStausToItemType()" value="Save" id="btnCteInventoryModalAddStausToItemType" class="btn btn-success" />
+                            <button type="button" class="btn btn-danger" id="btnCloseformCteInventoryItemType" data-dismiss="modal">Close</button>
+
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" id="successModalAddStausToItemType" style="display:none" data-target="#success_tic">Open Modal</button>
+
+    <!-- Modal -->
+    <div id="success_tic" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <a class="close" href="#" id="acloseitemtypestatus" data-dismiss="modal">&times;</a>
+                <div class="page-body">
+                    <div class="head">
+                        <h3 style="margin-top:5px;">Successfully</h3>
+                        <h4>Successfully added</h4>
+                    </div>
+
+                    <h1 style="text-align:center;">
+                        <div class="checkmark-circle">
+                            <div class="background"></div>
+                            <div class="checkmark draw"></div>
+                        </div>
+                    </h1>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    function addStausToItemType() {
+        document.getElementById("divbgchangeModalAddStausToItemType").style.backgroundColor = "#e6e6e6";
+        document.getElementById("btnCteInventoryModalAddStausToItemType").disabled = true;
+        document.getElementById("alertErrorModalAddStausToItemType").style.display = "none";
+
+        var form = document.getElementById('frmAddStausToItemType');
+        var STRMS = [];
+        $('input:checked').each(function () {
+            STRMS.push($(this).attr("id"));
+
+        });
+        $("#statusValues").val(STRMS);
+        var formData = new FormData(form);
+        $.ajax({
+            type: "Post",
+            url: "/InventoryItemType/AssignStatus",
+            data: formData,
+            processData: false,
+            ///* processData: false,*/
+            contentType: false,
+            success: function (response) {
+               
+                if (response.status > 0) {
+                    document.getElementById("divbgchangeModalAddStausToItemType").style.backgroundColor = "#fff";
+                    document.getElementById("alertErrorModalAddStausToItemType").style.display = "none";
+                    document.getElementById("btnCteInventoryModalAddStausToItemType").disabled = true;
+                    $("#btnCloseformCteInventoryModalAddStausToItemType").click();
+                    $("#successModalAddStausToItemType").click();
+
+                    $("#tbodyItemTypeStatus").empty();
+
+                    var counter = 1;
+                    response.currentStatus.forEach(function (i) {
+                        var tr = document.createElement('tr');
+                        var td = document.createElement('td');
+                        td.appendChild(document.createTextNode(i.text));
+                        var td2 = document.createElement('td');
+                        td2.appendChild(document.createTextNode(counter));
+                        var td3 = document.createElement('td');
+                        var input = document.createElement("input");
+                        input.type = "button";
+                        input.className = "btn btn-danger";
+                        input.value = 'Delete';                  
+                        input.addEventListener('click', (e) => {                       
+                            deleteRelationInventoryItemTypeAndStatus(i.value, response.status);
+                        });
+                        td3.appendChild(input);
+                        tr.appendChild(td2);
+                        tr.appendChild(td);
+                        tr.appendChild(td3);
+                        $('#tbodyItemTypeStatus').append(tr);
+                        counter++;
+                    });
+                    $("#divSetValue").empty();
+              
+                    response.statusNotContain.forEach(function (ss) {
+
+                        var div = document.createElement('div');
+                        div.setAttribute('class', 'row');
+
+
+                        var div1 = document.createElement('div');
+                        div1.setAttribute('class', 'col-lg-4');
+                        var label = document.createElement('label');
+                        label.append(document.createTextNode(ss.text));
+                        div1.append(label);
+                        div.append(div1);
+
+                        var div2 = document.createElement('div');
+                        div2.setAttribute('class', 'col-lg-2');
+                        var input = document.createElement('input');
+                        input.setAttribute('type', 'checkbox');
+                        input.setAttribute('style', 'direction:ltr');
+                        input.setAttribute('class', 'form-control form-control-user');
+                        input.setAttribute('id', ss.value);
+                        div2.append(input);
+                        div.append(div2);
+
+                        var div3 = document.createElement('div');
+                        div3.setAttribute('class', 'col-lg-6');
+                        div.append(div3);
+
+                        var br = document.createElement('br');
+                      
+                        $("#divSetValue").append(div);
+                        $("#divSetValue").append(br);
+                    });
+                  
+                   
+
+                    document.getElementById("btnCteInventoryModalAddStausToItemType").disabled = false;
+
+                } else if (response.status == 0) {
+
+
+                    document.getElementById("alertErrorModalAddStausToItemType").style.display = "block";
+                    document.getElementById("divbgchangeModalAddStausToItemType").style.backgroundColor = "#fff";
+                    document.getElementById("btnCteInventoryModalAddStausToItemType").disabled = false;
+                }
+
+            },
+            failure: function (response) {
+                throwException(response)
+            },
+            error: function (response) {
+                throwException(response)
+            }
+        });
+
+
+    }
+
+    function addStaus() {
+        document.getElementById("divbgchangeAddStatus").style.backgroundColor = "#e6e6e6";
+        document.getElementById("btnCteInventoryAddStatus").disabled = true;
+        document.getElementById("alertErrorAddStatus").style.display = "none";
+
+        var form = document.getElementById('frmAddStatus');
+      
+        var formData = new FormData(form);
+        $.ajax({
+            type: "Post",
+            url: "/InventoryItemType/AddStatus",
+            data: formData,
+            processData: false,
+            ///* processData: false,*/
+            contentType: false,
+            success: function (response) {
+                if (response.status > 0) {
+                    document.getElementById("divbgchangeAddStatus").style.backgroundColor = "#fff";
+                    document.getElementById("alertErrorAddStatus").style.display = "none";
+                    document.getElementById("btnCteInventoryAddStatus").disabled = true;
+                    $("#btnCloseformAddStatus").click();
+                    $("#btnCloseformCteInventoryModalAddStausToItemType").click();
+                    
+                   
+                    $("#successModalAddStausToItemType").click();
+
+                    $("#tbodyItemTypeStatus").empty();
+
+                    var counter = 1;
+                    response.object.forEach(function (i) {
+                        var tr = document.createElement('tr');
+                        var td = document.createElement('td');
+                        td.appendChild(document.createTextNode(i.text));
+                        var td2 = document.createElement('td');
+                        td2.appendChild(document.createTextNode(counter));
+                        var td3 = document.createElement('td');
+                        var input = document.createElement("input");
+                        input.type = "button";
+                        input.className = "btn btn-danger";
+                        input.value = 'Delete';
+                        input.addEventListener('click', (e) => {
+                            deleteRelationInventoryItemTypeAndStatus(i.value, response.status);
+                        });
+                        td3.appendChild(input);
+                        tr.appendChild(td2);
+                        tr.appendChild(td);
+                        tr.appendChild(td3);
+                        $('#tbodyItemTypeStatus').append(tr);
+                        counter++;
+                    });
+                    document.getElementById("btnCteInventoryAddStatus").disabled = false;
+
+                } else if (response.status == 0) {
+
+
+                    document.getElementById("alertErrorAddStatus").style.display = "block";
+                    document.getElementById("divbgchangeAddStatus").style.backgroundColor = "#fff";
+                    document.getElementById("btnCteInventoryAddStatus").disabled = false;
+                } else if (response.status < 0) {
+
+
+                    document.getElementById("alertErrorAddStatus").style.display = "block";
+                    document.getElementById("divbgchangeAddStatus").style.backgroundColor = "#fff";
+                    document.getElementById("btnCteInventoryAddStatus").disabled = false;
+
+                    $("#spnErrorAddStatus").empty();
+                    $("#spnErrorAddStatus").append("Brand Name is already exists");
+                }
+
+            },
+            failure: function (response) {
+                throwException(response)
+            },
+            error: function (response) {
+                throwException(response)
+            }
+        });
+
+
+    }
+</script>

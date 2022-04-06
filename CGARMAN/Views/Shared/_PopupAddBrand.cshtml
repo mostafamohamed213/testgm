@@ -1,0 +1,322 @@
+﻿<style>
+    .alert {
+        border-radius: 0;
+        border: 0;
+    }
+
+    body {
+        background-color: #e6e6e6;
+        width: 100%;
+        height: 100%;
+    }
+
+    #success_tic .page-body {
+        max-width: 300px;
+        background-color: #FFFFFF;
+        margin: 10% auto;
+    }
+
+        #success_tic .page-body .head {
+            text-align: center;
+        }
+    /* #success_tic .tic{
+      font-size:186px;
+    } */
+    #success_tic .close {
+        opacity: 1;
+        position: absolute;
+        right: 0px;
+        font-size: 30px;
+        padding: 3px 15px;
+        margin-bottom: 10px;
+    }
+
+    #success_tic .checkmark-circle {
+        width: 150px;
+        height: 150px;
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .checkmark-circle .background {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: #1ab394;
+        position: absolute;
+    }
+
+    #success_tic .checkmark-circle .checkmark {
+        border-radius: 5px;
+    }
+
+        #success_tic .checkmark-circle .checkmark.draw:after {
+            -webkit-animation-delay: 300ms;
+            -moz-animation-delay: 300ms;
+            animation-delay: 300ms;
+            -webkit-animation-duration: 1s;
+            -moz-animation-duration: 1s;
+            animation-duration: 1s;
+            -webkit-animation-timing-function: ease;
+            -moz-animation-timing-function: ease;
+            animation-timing-function: ease;
+            -webkit-animation-name: checkmark;
+            -moz-animation-name: checkmark;
+            animation-name: checkmark;
+            -webkit-transform: scaleX(-1) rotate(135deg);
+            -moz-transform: scaleX(-1) rotate(135deg);
+            -ms-transform: scaleX(-1) rotate(135deg);
+            -o-transform: scaleX(-1) rotate(135deg);
+            transform: scaleX(-1) rotate(135deg);
+            -webkit-animation-fill-mode: forwards;
+            -moz-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+        }
+
+        #success_tic .checkmark-circle .checkmark:after {
+            opacity: 1;
+            height: 75px;
+            width: 37.5px;
+            -webkit-transform-origin: left top;
+            -moz-transform-origin: left top;
+            -ms-transform-origin: left top;
+            -o-transform-origin: left top;
+            transform-origin: left top;
+            border-right: 15px solid #fff;
+            border-top: 15px solid #fff;
+            border-radius: 2.5px !important;
+            content: '';
+            left: 35px;
+            top: 80px;
+            position: absolute;
+        }
+
+    @@-webkit-keyframes checkmark {
+        0% {
+            height: 0;
+            width: 0;
+            opacity: 1;
+        }
+
+        20% {
+            height: 0;
+            width: 37.5px;
+            opacity: 1;
+        }
+
+        40% {
+            height: 75px;
+            width: 37.5px;
+            opacity: 1;
+        }
+
+        100% {
+            height: 75px;
+            width: 37.5px;
+            opacity: 1;
+        }
+    }
+
+    @@-moz-keyframes checkmark {
+        0% {
+            height: 0;
+            width: 0;
+            opacity: 1;
+        }
+
+        20% {
+            height: 0;
+            width: 37.5px;
+            opacity: 1;
+        }
+
+        40% {
+            height: 75px;
+            width: 37.5px;
+            opacity: 1;
+        }
+
+        100% {
+            height: 75px;
+            width: 37.5px;
+            opacity: 1;
+        }
+    }
+
+    @@keyframes checkmark {
+        0% {
+            height: 0;
+            width: 0;
+            opacity: 1;
+        }
+
+        20% {
+            height: 0;
+            width: 37.5px;
+            opacity: 1;
+        }
+
+        40% {
+            height: 75px;
+            width: 37.5px;
+            opacity: 1;
+        }
+
+        100% {
+            height: 75px;
+            width: 37.5px;
+            opacity: 1;
+        }
+    }
+</style>
+
+
+<div class="col-lg-1" style="padding:1px">
+
+    <a class="nav-link" style="padding: 3px;" onclick="" data-toggle="modal" data-target="#ModalWarehouseAddBrand">
+        <i style="cursor: pointer; color: #4e73df " class="fas fa-plus-circle"></i>
+    </a>
+    <!-- The Modal -->
+    <div class="modal animated--grow-in " id="ModalWarehouseAddBrand">
+        <div class="modal-dialog">
+            <div class="modal-content col-12" id="divbgchangeBrand">
+                <div class="alert alert-error" id="alertErrorBrand" style=" background-color: indianred; display:none">
+                    <strong>Error!</strong> <span id="spnErrorBrand">  Please check your input.</span>
+                </div>
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" id="btnCloseformCteInventoryBrand" class="close" data-dismiss="modal">&times;</button>
+
+                    <h4 class="modal-title">
+                        Add Brand
+                    </h4>
+                </div>
+                <form id="frmAddBrand" method="post">
+                    <input type="hidden" name="WarehouseId" value="@ViewBag.warehouseId" />
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <div class="col-lg-12">
+                                        <div class="row">
+
+                                            <div class="col-lg-8">
+
+                                                <input type="text" style="direction:ltr" class="form-control form-control-user" id="brandName123" name="brandName" />
+                                            </div>
+                                            <div class="col-lg-4" style=" padding-top: 5px;">
+                                                <label>Brand Name</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer" style="direction:ltr">
+                        <input type="button" onclick="saveBrandWarehouse()" value="Save" id="btnCteInventoryBrand" class="btn btn-success" />
+                        <button type="button" class="btn btn-danger" id="btnCloseformCteInventoryItemType" data-dismiss="modal">Close</button>
+
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" id="successModal" style="display:none" data-target="#success_tic">Open Modal</button>
+
+<!-- Modal -->
+<div id="success_tic" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <a class="close" href="#" data-dismiss="modal">&times;</a>
+            <div class="page-body">
+                <div class="head">
+                    <h3 style="margin-top:5px;">Successfully</h3>
+                    <h4>Successfully added</h4>
+                </div>
+
+                <h1 style="text-align:center;">
+                    <div class="checkmark-circle">
+                        <div class="background"></div>
+                        <div class="checkmark draw"></div>
+                    </div>
+                </h1>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    function saveBrandWarehouse() {
+        document.getElementById("divbgchangeBrand").style.backgroundColor = "#e6e6e6";
+        document.getElementById("btnCteInventoryBrand").disabled = true;
+        document.getElementById("alertErrorBrand").style.display = "none";
+
+        var form = document.getElementById('frmAddBrand');
+        var formData = new FormData(form);
+        $.ajax({
+            type: "Post",
+            url: "/InventoryItemType/SaveBrand",
+            data: formData,
+            processData: false,
+            ///* processData: false,*/
+            contentType: false,
+            success: function (response) {
+
+                if (response.status > 0) {
+                    document.getElementById("divbgchangeBrand").style.backgroundColor = "#fff";
+                    document.getElementById("alertErrorBrand").style.display = "none";
+                    document.getElementById("btnCteInventoryBrand").disabled = true;
+                    $("#btnCloseformCteInventoryBrand").click();
+                    $("#successModal").click();
+                    $("#selBrandinvItemtype").empty();
+                    var option = document.createElement("option");
+                    option.text = "-Select-";
+                    $('#selBrandinvItemtype').append(option);
+                    response.object.forEach(function (i) {
+                        var option = document.createElement("option");
+                        option.text = i.text;
+                        option.value = i.value;
+                        $('#selBrandinvItemtype').append(option);
+                    });
+                    document.getElementById("btnCteInventoryBrand").disabled = false;
+
+                } else if (response.status == 0) {
+
+
+                    document.getElementById("alertErrorBrand").style.display = "block";
+                    document.getElementById("divbgchangeBrand").style.backgroundColor = "#fff";
+                    document.getElementById("btnCteInventoryBrand").disabled = false;
+                } else if (response.status < 0) {
+
+
+                    document.getElementById("alertErrorBrand").style.display = "block";
+                    document.getElementById("divbgchangeBrand").style.backgroundColor = "#fff";
+                    document.getElementById("btnCteInventoryBrand").disabled = false;
+
+                    $("#spnErrorBrand").empty();
+                    $("#spnErrorBrand").append("Brand Name is already exists");
+                }
+
+            },
+            failure: function (response) {
+                throwException(response)
+            },
+            error: function (response) {
+                throwException(response)
+            }
+        });
+        $("#brandName123").val("");
+    }
+</script>

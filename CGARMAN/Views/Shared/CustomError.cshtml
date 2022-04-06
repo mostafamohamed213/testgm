@@ -1,0 +1,15 @@
+﻿@model Exception
+<div class="container-fluid">  
+    <div class="text-center">
+        <div class="error mx-auto" data-text="Error">Error</div>
+        @if (Model is not null)
+        {
+            <p class="lead text-gray-800 mb-5"><span>Message</span> : @Model.Message</p>
+            <p class="text-gray-500 mb-0"><span>InnerException</span> : @Model.InnerException</p>
+        }
+
+        <a asp-action="Index" asp-controller="Home">&larr; Back to Home</a>
+    </div>
+
+</div>
+

@@ -1,0 +1,400 @@
+﻿@model CGARMAN.ViewModel.TechnicianViewModels.ViewTechnicianViewModel
+
+@{
+
+    Layout = "_Authenticated";
+    ViewData["Title"] = "Technican";
+    var today = DateTime.Today;
+    var age = today.Year - Model.technician.BirthDate.Year;
+    if (Model.technician.BirthDate.Date > today.AddYears(-age)) age--;
+    int counter = 1;
+
+}
+
+<div id="idcontentshowitem" style="margin:1%">
+    <style>
+
+
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            /* Style the buttons inside the tab */
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                transition: 0.3s;
+                font-size: 17px;
+            }
+
+                /* Change background color of buttons on hover */
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                /* Create an active/current tablink class */
+                .tab button.active {
+                    background-color: #ccc;
+                }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+        <h1 class="h3 mb-0 text-gray-800">
+            Technician <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> @Model.technician.Name
+        </h1>
+        <a style="margin-right:10px" href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="createNewTechnician()">Create New Technician</a>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xl-4 col-md-6 mb-4">
+            <!-- Earnings (Monthly) Card Example -->
+            <div style="cursor: pointer" id="btnTechnician" onclick="openTablink(event, 'divShwTechnician') ;changecColorbtns('divShadowTechnician')">
+                <div class="card border-primary  h-100 " id="divShadowTechnician">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Information
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">Technician</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-address-card fa-2x text-gray-300"></i>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div style="cursor: pointer" id="btnTechnicianMaintenance" onclick="openTablink(event, 'divTechnicianMaintenance') ;changecColorbtns('divShadowTechnicianMaintenance')" class="tablinks">
+                <div class="card border-success  h-100 " id="divShadowTechnicianMaintenance">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Last 20 Maintenance
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">Maintenance</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-tools fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div style="cursor: pointer" id="btnTechnicianAttendance" onclick="openTablink(event, 'divTechnicianAttendance');changecColorbtns('divShadowTechnicianAttendance') " class="tablinks">
+                <div class="card border-info  h-100 " id="divShadowTechnicianAttendance">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                    last 20 Attendances
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">Attendance</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--
+               <div class="col-xl-3 col-md-6 mb-4">
+                   <div style="cursor: pointer" id="btnTabDivStatus" onclick="openTablink(event, 'divStatus');   GetPopupAddStausToItemType(); changecColorbtns('divShadowStatus')" class="tablinks">
+                       <div class="card  border-warning  h-100 " id="divShadowStatus">
+                           <div class="card-body">
+                               <div class="row no-gutters align-items-center">
+                                   <div class="col mr-2">
+                                       <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                           Manage Status
+                                       </div>
+                                       <div class="h5 mb-0 font-weight-bold text-gray-800">Status</div>
+                                   </div>
+                                   <div class="col-auto">
+                                       <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>-->
+
+    </div>
+
+    <div id="divShwTechnician" class="tabcontent" style="border:none">
+        <div class="row">
+            <div class=" col-xl">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 ">
+                        <h4 class="font-weight-bold text-primary">Information</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h3>Name : @Model.technician.Name</h3>
+                                    <h4>National ID : @Model.technician.NationalId</h4>
+                                    <h4>Age : @age</h4>
+                                </div>
+                                <div class="col-md-4">
+                                    @if (!string.IsNullOrEmpty(Model.technician.ImagePath))
+                                    {
+                                        <img style="border-radius: 8px; width: 200px; max-height: 130px; margin: auto; " src="~/Images/Technician/@Model.technician.ImagePath" />
+
+                                    }
+                                </div>
+                            </div>
+                            <hr class="sidebar-divider bg-gradient-primary">
+
+
+                            <div class="col-xl-12" style="font-size: larger;">
+
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="row">
+                                            <div class="col-xl-5 ">Company</div>
+                                            <div class="col-xl-7 border-left-primary">@Model.technician.TechnicianCompany.Name</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-5 ">Company Employee ID</div>
+                                            <div class="col-xl-7 border-left-primary">@Model.technician.TechnicianCompanyEmployeeId</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-5 ">Position</div>
+                                            <div class="col-xl-7 border-left-primary">@Model.technician.TechnicianPosition.Name</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-5 ">Birth Date</div>
+                                            <div class="col-xl-7 border-left-primary">@Model.technician.BirthDate.ToString("MM/dd/yyyy")</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-5 ">Contact #1</div>
+                                            <div class="col-xl-7 border-left-primary">@Model.technician.Contact1</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-5 ">Contact #2</div>
+                                            <div class="col-xl-7 border-left-primary">@(string.IsNullOrWhiteSpace(Model.technician.Contact2) ? "Empty" : Model.technician.Contact2)</div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-xl-6">
+
+                                        <div class="row">
+                                            <div class="col-xl-4 ">Cost Center (Name) </div>
+                                            <div class="col-xl-8 border-left-primary">@Model.technician.CostCenter.Name</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-4 ">Cost Center (Value) </div>
+                                            <div class="col-xl-8 border-left-primary">@Model.technician.CostCenter.Value</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-4 ">Start Date </div>
+                                            <div class="col-xl-8 border-left-primary">@Model.technician.StartDate.ToString("MM/dd/yyyy")</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-4 ">End Date </div>
+                                            <div class="col-xl-8 border-left-primary">@(Model.technician.EndDate.HasValue ? Model.technician.EndDate.Value.ToString("MM/dd/yyyy") : "Empty")</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="divTechnicianMaintenance" class="tabcontent" style="border:none">
+        <div class="row">
+            <div class=" col-xl">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 ">
+                        <h4 class="font-weight-bold text-success" style=" margin: 0px;">
+                            Maintenance (Last 20)
+                        </h4>
+                        @*<div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+                                <h3 class="h3 mb-0 text-gray-800 text-success">
+                                    Available Quantities
+                                </h3>
+                                <button onclick="goToAddQuantitiesPartialView()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm " style="margin-right:10px">Add Quantities</button>
+                            </div>*@
+                    </div>
+                    <div class="card-body">
+
+                        <div>
+
+                            <div style="max-height: 550px; overflow: hidden; overflow-y: scroll">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Type</th>
+                                            <th>Status</th>
+                                            <th>Maintenance Action</th>
+                                            <th>Workshop</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.maintenanceItems)
+                                        {
+
+                                            <tr>
+                                                <td>@(counter++)</td>
+                                                <td>@item.MaintenanceItemType.Name</td>
+                                                <td>@item.MaintenanceItemStatus.Name</td>
+                                                <td>@(item.MaintenanceAction is not null ? item.MaintenanceAction.Name : "Empty")</td>
+                                                <td>@item.Maintenance.Workshop.Name</td>
+                                                <td>@(item.StartTime.HasValue ? item.StartTime.HasValue : "Empty") </td>
+                                                <td>@(item.EndTime.HasValue ? item.EndTime.HasValue : "Empty")</td>
+                                            </tr>
+
+
+
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="divTechnicianAttendance" class="tabcontent" style="border:none">
+        <div class="row">
+            <div class=" col-xl">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 ">
+                        <h4 class="font-weight-bold text-info">Attendance (Last 20)</h4>
+                    </div>
+                    <div class="card-body">
+                        <div style="max-height: 550px; overflow: hidden; overflow-y: scroll">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Status</th>
+                                        <th>Shift</th>
+                                        <th>Event Date</th>
+                                        <th>In Time</th>
+                                        <th>Out Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{ counter = 1;}
+                                    @foreach (var item in Model.TechnicianAttendances)
+                                    {
+
+
+                                        <tr>
+                                            <td>@(counter++)</td>
+                                            <td>@item.AttendanceStatus.Name</td>
+                                            <td>@item.Shift.Name</td>
+                                            <td>@item.EventDate.ToString("MM/dd/yyyy")</td>
+                                            <td>@(item.InTime.HasValue ? item.InTime.Value : "Empty")</td>
+                                            <td>@(item.OutTime.HasValue ? item.OutTime.Value : "Empty")</td>
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+    <script>       
+        document.getElementById("btncontainerTechnicians").click();
+        ToggleColorInDashboard("linkAllTechnicians");
+        document.getElementById("btnGoToTopPage").click();
+    </script>
+    <script>
+
+        function changecColorbtns(v) {
+            var colBtnsArr = ['divShadowTechnicianAttendance', 'divShadowTechnicianMaintenance', 'divShadowTechnician'];
+            colBtnsArr.forEach(function (i) {
+                if (i == v) {
+
+                    document.getElementById(i).classList.add('shadow');
+                } else {
+                    var item = document.getElementById(i);
+                    if (item != null) {
+                        item.classList.remove('shadow');
+                    }
+                }
+            });
+        }
+
+        function openTablink(evt, v) {
+
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            if (document.getElementById(v)) {
+                document.getElementById(v).style.display = "block";
+            }
+            //if (evt != "undefined" && evt != undefined) {
+
+            //}
+            evt.currentTarget.className += " active";
+        }
+
+
+        $("#idcontentshowitem").ready(function () {
+            //openTablink(document.getElementById("btnItemv"), 'divShwItem');
+
+
+            //openTablinkInItem(document.getElementById("btnGeneralInformation"), "divGeneralInformation");
+
+        });
+
+
+        document.getElementById("btnGoToTopPage").click();
+
+    </script>
+}

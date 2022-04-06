@@ -1,0 +1,95 @@
+﻿
+@model RepositoryPatternWithUOW.Core.Models.Brand
+
+<div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+        <h1 class="h3 mb-0 text-gray-800">
+            @if (ViewBag.fromEdit is not null)
+            {
+                @if (ViewBag.fromEdit is true)
+                {
+                    <span>Eidt</span> <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> @Model.Name
+
+                }
+                else
+                {
+                    <span>Create</span>
+                }
+            }
+        </h1>
+        <button style="margin-right:10px" onclick="getBrandManagementPage()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Back to Brands</button>
+    </div>
+    <hr />
+    <div class="row" style="margin:0px 15px">
+        @if (ViewBag.ValMassage != null)
+        {
+            <p style="color:red">@ViewBag.ValMassage</p>
+        }
+        <form asp-action="Create" asp-controller=" InventoryBrand" method="post" id="frmSubmitInvBrand" class="col-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="BrandId" value="@Model.BrandId" />
+            <div class="form-group row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-md-2" style=" margin-bottom: 15px; ">
+                            <label>Name</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" asp-for="Name" class="form-control form-control-user" value="@Model.Name" required />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                </div>
+              
+            </div>
+            <div class="form-group">
+
+                <input type="button" onclick="submitInvBrand()" value="Save" id="btnsubmitInvBrand" class="btn btn-primary" />
+
+            </div>
+        </form>
+
+    </div>
+</div>
+<script>
+    function submitInvBrand() {
+
+        var form = document.getElementById('frmSubmitInvBrand');
+        var formData = new FormData(form);
+        getspinner();
+        $.ajax({
+            type: "Post",
+            url: "/InventoryBrand/Create",
+            data: formData,
+            processData: false,
+            ///* processData: false,*/
+            contentType: false,
+            success: function (response) {
+                if (response == 1) {
+                    swal("Don!", "success!", "success")
+
+                } else if (response == -1) {
+                    swal("Cancelled", "This name already exists!", "error");
+                } else if (response == 0) {
+                    swal("Cancelled", "Oops Something went wrong!", "error");
+
+                } else {
+                    swal("Cancelled", "Oops Something went wrong!", "error");
+                }
+
+                getBrandManagementPage();
+            },
+            failure: function (response) {
+                throwException(response)
+            },
+            error: function (response) {
+                throwException(response)
+            }
+        });
+    }
+    
+        document.getElementById("btnGoToTopPage").click();
+</script>
+
+

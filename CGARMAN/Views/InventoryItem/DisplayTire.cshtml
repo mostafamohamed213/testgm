@@ -1,0 +1,212 @@
+﻿@model CGARMAN.ViewModel.InventoryViewModels.InventoryItemWarehouseTires
+@{
+    string Location = Model.display.InventoryLocationId.HasValue ? "(" + Model.display.InventoryLocation.Warehouse.Name.Trim() + ") -> (" + Model.display.InventoryLocation.ParentInventoryLocation.ParentInventoryLocation.Name.Trim() + ") -> (" + Model.display.InventoryLocation.ParentInventoryLocation.Name.Trim() + ") -> (" + Model.display.InventoryLocation.Name.Trim() + ")" : Model.display.InventoryItemType.Warehouse.Name.Trim();
+    @*@if (Model.display.InventoryLocationId.HasValue)
+        {
+            Location = $"{Model.display.InventoryLocation.Warehouse.Name.Trim() } -> {Model.display.InventoryLocation.ParentInventoryLocation.ParentInventoryLocation.Name.Trim()} -> {Model.display.InventoryLocation.ParentInventoryLocation.Name.Trim()} -> {Model.display.InventoryLocation.Name.Trim()}";
+
+        }
+        else
+        {
+            Location = Model.display.InventoryItemType.Warehouse.Name.Trim();
+
+        }*@
+}
+<div style="margin: 10px">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+        <h1 class="h3 mb-0 text-gray-800">
+            Item <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i>  @Html.DisplayFor(model => model.display.InventoryItemType.Name)
+        </h1>
+        <button style="margin-right:10px" onclick="gotoItemType(@Model.InventoryItemTypeId)" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Back to Item</button>
+    </div>
+    <hr />
+
+    <div class="row">
+        <div class="col-lg-6">
+
+            <!-- Circle Buttons -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">General Information</h6>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+
+
+                        <dt class="col-sm-3">
+                            @Html.DisplayName("Warehouse")
+
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Location
+                            <hr class="sidebar-divider bg-gradient-primary" />
+                        </dd>
+
+                        <dt class="col-sm-3">
+                            @Html.DisplayName("Supplier")
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.display.Vendor.Name)
+                            <hr class="sidebar-divider bg-gradient-primary" />
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayName("Status")
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.display.InventoryItemStatus.Name)
+                            <hr class="sidebar-divider bg-gradient-primary" />
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.SerialNumbers)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.SerialNumbers)
+                            <hr class="sidebar-divider bg-gradient-primary" />
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayName("Available")
+                        </dt>
+                        <dd class="col-sm-9">
+                            @if (Model.display.Location.LocationTypeId == 2)
+                            {
+                                <i class='fas fa-check-circle' style="color: #007bff !important"></i>
+                            }
+                            else
+                            {
+                                <i class='fas fa-times-circle' style="color:brown"></i>
+                            }
+                            <hr class="sidebar-divider bg-gradient-primary" />
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.Quantity)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.Quantity)
+                            <hr class="sidebar-divider bg-gradient-primary" />
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.UnitCost)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.UnitCost)
+                            <hr class="sidebar-divider bg-gradient-primary" />
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.CodeTypeId)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @if (Model.display.CodeType == null)
+                            {
+                                <span>Empty</span>
+                            }
+                            else
+                            {
+                                <span> @Model.display.CodeType.Name</span>
+                            }
+                            <hr class="sidebar-divider bg-gradient-primary" />
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.Code)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @if (string.IsNullOrEmpty(Model.Code))
+                            {
+                                <span>Empty</span>
+                            }
+                            else
+                            {
+                                <span> @Model.Code</span>
+                            }
+
+                            <hr class="sidebar-divider bg-gradient-primary" />
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.IssueNumber)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @if (string.IsNullOrEmpty(Model.IssueNumber))
+                            {
+                                <span>Empty</span>
+                            }
+                            else
+                            {
+                                <span> @Model.IssueNumber</span>
+                            }
+                            <hr class="sidebar-divider bg-gradient-primary" />
+                        </dd>
+
+                        <dt class="col-sm-3">
+                            @Html.DisplayName("Create Date Time")
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.display.CreateDts)
+                            <hr class="sidebar-divider bg-gradient-primary" />
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.Notes)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.Notes)
+                        </dd>
+                    </dl>
+
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="col-lg-6">
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Special Information</h6>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.TireSize)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.TireSizeStr)
+                            <hr class="sidebar-divider bg-gradient-primary" />
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.TirePattern)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.TirePatternStr)
+                            <hr class="sidebar-divider bg-gradient-primary" />
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.StandardTreadDepth)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.StandardTreadDepthStr)
+                            <hr class="sidebar-divider bg-gradient-primary" />
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.Threshold)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.ThresholdStr)
+                            <hr class="sidebar-divider bg-gradient-primary" />
+                        </dd>
+
+                    </dl>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div>
+        <button style="margin:10px" onclick="gotoItemType(@Model.InventoryItemTypeId)" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Back to Item</button>
+
+    </div>
+</div>
+<script>
+    document.getElementById("btnGoToTopPage").click();
+</script>

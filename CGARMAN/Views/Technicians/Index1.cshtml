@@ -1,0 +1,315 @@
+﻿@model CGARMAN.ViewModel.TechnicianViewModels.TechniciansPagingViewModel
+@{
+
+    ViewData["Title"] = "Technicians";
+    Layout = "_Authenticated";
+    int counter = 0;
+}
+
+
+<div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+        <h1 class="h3 mb-0 text-gray-800">
+            Technicians <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> All Technicians
+        </h1>
+        <a style="margin-right:10px"  class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" asp-controller="Technicians" asp-action="Create" >Create New Technician</a>
+    </div>
+
+    <div class="card shadow mb-4" style="margin:0px 15px">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Technicians
+                @*<a style="margin-right:10px;float:right" href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="createInvUnit()">Create Technician</a>*@
+            </h6>
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-2">
+                            <div class="dataTables_length" id="dataTable_length">
+                                <form asp-action="Changelength" asp-controller="Technicians" id="formTechniciansChangelength">
+                                    <label>
+                                        Show
+                                        <select name="length" onchange="document.getElementById('formTechniciansChangelength').submit()" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
+                                            @if (Model.Tablelength == 10)
+                                            {
+                                                <option value="10" selected>10</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="10">10</option>
+                                            }
+                                            @if (Model.Tablelength == 25)
+                                            {
+                                                <option value="25" selected>25</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="25">25</option>
+                                            }
+                                            @if (Model.Tablelength == 50)
+                                            {
+                                                <option value="50" selected>50</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="50">50</option>
+                                            }
+                                            @if (Model.Tablelength == 100)
+                                            {
+                                                <option value="100" selected>100</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="100">100</option>
+                                            }
+
+
+
+
+                                        </select>
+                                        entries
+                                    </label>
+                                </form>
+
+                            </div>
+                        </div>
+                        @*<div class="col-sm-12 col-md-6">
+                            <div id="dataTable_filter" class="dataTables_filter">
+                                <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label>
+                            </div>
+                        </div>*@
+                        <div class="col-sm-12 col-md-9">
+                            <div id="dataTable_filter" class="dataTables_filter">
+
+                                <div class="row">
+                                    <div class="col-lg-12 col-xl-4">
+                                        <label>
+                                            Name <input type="text" class="form-control form-control-sm" id="txtNameTechnician" aria-controls="dataTable">
+                                            <input type="hidden" id="hfNameTechnicians" @*name="hfItemType"*@ />
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12 col-xl-4">
+                                        <label>
+                                            Position
+                                            <select asp-items="ViewBag.Positions" id="selSearchPositionsId" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12 col-xl-4">
+                                        <label>
+                                            Company
+                                            <select asp-items="ViewBag.Companies" id="selSearchCompanyId" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
+                                        </label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="containerTabeTechnicians">
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Company</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    @*<tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Supplier</th>
+                            <th>Status</th>
+                            <th>Start date</th>
+                            <th>Brand</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>*@
+                                    <tbody>
+                                        @foreach (var item in Model.technicians)
+                                        {
+                                            counter++;
+                                            <tr>
+                                                <td>
+                                                    @counter
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Name)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TechnicianPosition.Name)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TechnicianCompany.Name)
+                                                </td>
+                                                <td>
+                                                    <a asp-action="Delete" asp-controller="Technicians" asp-route-id="@item.TechnicianId" class="btn btn-danger">Delete</a>
+
+                                                    <a asp-action="Edit" asp-controller="Technicians" asp-route-id="@item.TechnicianId" class="btn btn-warning">Edit</a>
+                                                    <a asp-action="ViewTechnician" asp-controller="Technicians" asp-route-id="@item.TechnicianId" class="btn btn-primary">View</a>
+
+
+                                                    @**@
+                                                    @*<input type="button" class="btn btn-warning" value="Edit" onclick="getspinner(); getEditItemType(@item.InventoryItemTypeId)" />
+                                    <input type="button" class="btn btn-warning" value="Edit" onclick="getspinner(); getEditItemType(@item.InventoryItemTypeId)" />*@
+
+                                                </td>
+                                            </tr>
+                                        }
+                                        @{counter = 0;}
+                                    </tbody>
+                                </table>
+                                <input type="hidden" id="hfCurrentPageIndex" name="CurrentPageIndex" value="@Model.CurrentPageIndex" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-5">
+
+                                @*@if (Model.CurrentPageIndex == 1)
+                {
+                    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to @(Model.itemsCount >= Model.Tablelength ? Model.Tablelength.ToString():Model.itemsCount) of @Model.itemsCount items</div>
+                }
+                else
+                {
+                    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing @(((Model.PageCount-1)*Model.CurrentPageIndex)+1)  to @(@Model.itemsCount >= (((Model.PageCount - 1) * Model.CurrentPageIndex) + Model.Tablelength) ? (((Model.PageCount - 1) * Model.CurrentPageIndex) + Model.Tablelength) : @Model.itemsCount ) of @Model.itemsCount items</div>
+                }*@
+                                <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite"> Total @Model.itemsCount items</div>
+
+                            </div>
+                            <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                                    <ul class="pagination">
+                                        <li class='paginate_button page-item previous @(Model.CurrentPageIndex == 1 ? "disabled":"")' id="dataTable_previous">
+                                            <a asp-action="Index" asp-controller="Technicians" asp-route-CurrentPageIndex="@(Model.CurrentPageIndex-1)" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                        @for (int i = 1; i <= Model.PageCount; i++)
+                                        {
+                                            @if (i != Model.CurrentPageIndex)
+                                            {
+                                                <li class="paginate_button page-item">
+                                                    <a asp-action="Index" asp-controller="Technicians" asp-route-CurrentPageIndex="@i" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">@i</a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="paginate_button page-item active">
+                                                    <span aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">@i</span>
+                                                </li>
+                                            }
+
+
+                                        }
+                                        <li class='paginate_button page-item next @(Model.PageCount == Model.CurrentPageIndex ? "disabled":"")' id="dataTable_next">
+                                            <a asp-action="Index" asp-controller="Technicians" asp-route-CurrentPageIndex="@(Model.CurrentPageIndex+1)" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+    <script>
+        window.onload = (event) => {
+            //document.getElementById("btncontainerTechnicians").click();
+            //ToggleColorInDashboard('linkAllTechnicians');
+
+
+        };
+        document.getElementById("btncontainerTechnicians").click();
+        ToggleColorInDashboard("linkAllTechnicians");
+        document.getElementById("btnGoToTopPage").click();
+    </script>
+    <script>
+
+        $(function () {
+            $("#txtNameTechnician").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Technicians/AutoComplete',
+                        data: { "prefix": request.term },
+                        type: "POST",
+                        success: function (data) {
+                            if (data == 0) {
+                                /* swal("Cancelled", "Oops Something went wrong!", "error");*/
+                            } else {
+                                response($.map(data, function (item) {
+                                    return item;
+                                }));
+                            }
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (e, i) {
+                    $("#hfNameTechnicians").val(i.item.val);
+                    $("#hfNameTechnicians").click(searchInventoryItemType(i.item.val, i.item.label));
+                },
+                minLength: 1
+            });
+        });
+
+
+
+        function searchInventoryItemType(val, label) {
+            $("#containerTabeTechnicians").empty();
+            $('#containerTabeTechnicians').append('<div style=" margin: 20% 50%;" class="spinner-grow text-primary"></div>');
+            $.ajax({
+                type: "Post",
+                url: "/Technicians/Search",
+                data: { "technicianID": val, "Name": label, "PositionsId": $("#selSearchPositionsId").val(), "CompanyId": $("#selSearchCompanyId").val() },
+                success: function (response) {
+                    $("#containerTabeTechnicians").empty();
+                    $("#containerTabeTechnicians").append(response);
+                },
+                failure: function (response) {
+                    throwException(response)
+                },
+                error: function (response) {
+                    throwException(response)
+                }
+            })
+        }
+        $("#txtNameTechnician").keyup(function (event) {
+            if (event.keyCode === 13) {
+                searchInventoryItemType(0, $("#txtNameTechnician").val());
+            }
+        });
+        $("#selSearchPositionsId").change(function () {
+
+            searchInventoryItemType(0, $("#txtNameTechnician").val());
+
+        });
+        $("#selSearchCompanyId").change(function () {
+
+            searchInventoryItemType(0, $("#txtNameTechnician").val());
+
+        });
+        document.getElementById("btnGoToTopPage").click();
+
+    </script>
+
+
+}
+
+

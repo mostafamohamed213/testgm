@@ -1,0 +1,24 @@
+﻿@using RepositoryPatternWithUOW.Core.Models;
+@model CGARMAN.ViewModel.PagingViewModel<TechnicianCompany>
+
+@{ int counter = 0;}
+
+
+@foreach (var item in Model.items)
+{
+
+    counter++;
+    <tr>
+        <td>
+            @counter
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            <a asp-action="Delete" asp-controller="TechnicianCompany" asp-route-id="@item.TechnicianCompanyId" class="btn btn-danger">Delete</a>
+            <a asp-action="Edit" asp-controller="TechnicianCompany" asp-route-id="@item.TechnicianCompanyId" class="btn btn-warning">Edit</a>
+            <a asp-action="View" asp-controller="TechnicianCompany" asp-route-id="@item.TechnicianCompanyId" class="btn btn-primary">View</a>
+        </td>
+    </tr>
+}

@@ -1,0 +1,771 @@
+﻿@model CGARMAN.ViewModel.InventoryViewModels.ViewItemTypeViewModel
+<div id="idcontentshowitem" style="margin:1%">
+    <style>
+
+
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            /* Style the buttons inside the tab */
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                transition: 0.3s;
+                font-size: 17px;
+            }
+
+                /* Change background color of buttons on hover */
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                /* Create an active/current tablink class */
+                .tab button.active {
+                    background-color: #ccc;
+                }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+        <h1 class="h3 mb-0 text-gray-800">
+            Inventory <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> Item  <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> @Model.Name
+        </h1>
+        <a style="margin-right:10px" href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="createInvItemName()">Create New</a>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <!--<div class="tab">
+        <div class="row">-->
+    @*<div class="col-md-6 col-12">
+            <div class="col-md-2 col-sm-12">
+                <button class="tablinks" id="btnItemv" onclick="openTablink(event, 'divShwItem')">
+                    <div class="row">
+                        <div class="col-4" style="padding:0px"><i class="fas fa-dolly-flatbed text-primary" style="margin: 10px; font-size: 128%;">Item</i> </div>
+
+                    </div>
+                </button>
+            </div>
+        </div>*@
+    @*<div class="col-md-2 col-12" style=" max-width: 11%;">
+            <button class="tablinks" id="btnOnHand" onclick="openTablink(event, 'divOnHand')">
+                <div class="row">
+                    <div class="col-4" style="padding:0px"><i class="fas fa-boxes text-primary" style="margin: 10px; font-size: 128%;"></i></div>
+                    <div class="col-8" style="padding: 0px; font-size: 75%;"><span>@Model.CurrentQuantity.ToString("0.00") @Model.Unit <br />Available Quantities</span> </div>
+                </div>
+            </button>
+        </div>*@
+    @*<div class="col-md-2 col-12" style=" max-width: 12%;">
+            <button class="tablinks" onclick="openTablink(event, 'divAllQuantities')">
+                <div class="row">
+                    <div class="col-4" style="padding:0px"><i class="fas fa-boxes text-primary" style="margin: 10px; font-size: 128%;"></i></div>
+                    <div class="col-8" style="padding: 0px; font-size: 75%;"><span>@Model.Items.Sum(c => c.Quantity).ToString("0.00") @Model.Unit <br />All Quantities</span> </div>
+                </div>
+            </button>
+        </div>*@
+    @*<div class="col-md-2 col-12" style=" max-width: 10%;">
+            <button class="tablinks" id="btnTabDivStatus" onclick="openTablink(event, 'divStatus');   GetPopupAddStausToItemType();">
+                <div class="row">
+                    <div class="col-4" style="padding:0px"><i class="fas fa-calendar-check text-primary" style="margin: 10px; font-size: 128%;"></i></div>
+                    <div class="col-8" style="padding: 0px; font-size: 91%; margin: auto;"><span>Status</span> </div>
+                </div>
+            </button>
+        </div>*@
+    <!--</div>
+
+
+
+    </div>-->
+    <!-- Content Row -->
+    <div class="row">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <!-- Earnings (Monthly) Card Example -->
+            <div style="cursor: pointer" id="btnItemv" onclick="openTablink(event, 'divShwItem');changecColorbtns('divShadowItemv')">
+                <div class="card border-primary  h-100 " id="divShadowItemv">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Information
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">Item</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-dolly-flatbed fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <!-- Earnings (Monthly) Card Example -->
+            <div style="cursor: pointer" id="btnOnHand" onclick="openTablink(event, 'divOnHand') ;changecColorbtns('divShadowOnHand')" class="tablinks">
+                <div class="card border-success  h-100 " id="divShadowOnHand">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    @Model.CurrentQuantity.ToString("0.00") @Model.Unit
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">Available Quantities</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-boxes fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div style="cursor: pointer" id="btnAllQuantities" onclick="openTablink(event, 'divAllQuantities');changecColorbtns('divShadowAllQuantities') " class="tablinks">
+                <div class="card border-info  h-100 " id="divShadowAllQuantities">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                    @Model.Items.Sum(c => c.Quantity).ToString("0.00") @Model.Unit
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">All Quantities</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-boxes fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div style="cursor: pointer" id="btnTabDivStatus" onclick="openTablink(event, 'divStatus');   GetPopupAddStausToItemType(); changecColorbtns('divShadowStatus')" class="tablinks">
+                <div class="card  border-warning  h-100 " id="divShadowStatus">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Manage Status
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">Status</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="divShwItem" class="tabcontent" style="border:none">
+        <div class="row">
+            <div class=" col-xl">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 ">
+                        <h4 class="font-weight-bold text-primary">Information</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h3>Item Name :</h3>
+                                    <h3>@Model.Name</h3>
+                                </div>
+                                <div class="col-md-4">
+                                    @if (!string.IsNullOrEmpty(Model.PathImage))
+                                    {
+                                        <img style="border-radius: 8px; width: 200px; max-height: 130px; margin: auto; " src="~/Images/Inventory/ItemType/@Model.PathImage" />
+
+                                    }
+                                </div>
+                            </div>
+                            <br />
+                            <div class="tab">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <button class="tablinksItem" id="btnGeneralInformation" onclick="openTablinkInItem(event, 'divGeneralInformation')">
+                                            General Information
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="tablinksItem" onclick="openTablinkInItem(event, 'divInventoryItem')">
+                                            Inventory
+                                        </button>
+                                    </div>
+                                    <div class="col-md-5">
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div id="divGeneralInformation" class="row tabcontentItem" style="margin:3%;display : none;">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4 ">Item Type</div>
+                                            <div class="col-md-8 border-left-primary">@Model.Classification</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">Cost center</div>
+                                            <div class="col-md-8 border-left-primary">@(string.IsNullOrWhiteSpace(Model.CostCenter) ? "Not specified" : Model.CostCenter)</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">Category</div>
+                                            <div class="col-md-8 border-left-primary">@(string.IsNullOrWhiteSpace(Model.Category) ? "Not specified" : Model.Category)</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">Brand</div>
+                                            <div class="col-md-8 border-left-primary">@(string.IsNullOrWhiteSpace(Model.Brand) ? "Not specified" : Model.Brand)</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">Model</div>
+                                            <div class="col-md-8 border-left-primary">@(string.IsNullOrWhiteSpace(Model.Model) ? "Not specified" : Model.Model)</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <div class="row">
+                                            <div class="col-md-4 ">Unit of measure</div>
+                                            <div class="col-md-8 border-left-primary">@(string.IsNullOrWhiteSpace(Model.Unit) ? "Not specified" : Model.Unit)  </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">Auto generate serial</div>
+                                            <div class="col-md-8 border-left-primary">
+                                                @if (Model.AutoGenerateSerial)
+                                                {
+                                                    <i class='fas fa-check-circle' style="color: #007bff !important"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class='fas fa-times-circle' style="color:brown"></i>
+                                                }
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                                <br />
+                                <br />
+                                <div>
+                                    <div>Description</div>
+                                    <textarea class="form-control" rows="3" disabled>
+                          @Model.Description
+                </textarea>
+                                </div>
+                            </div>
+
+                            <div id="divInventoryItem" class="row tabcontentItem" style="margin: 3%; display: none;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4 ">Warehouse</div>
+                                            <div class="col-md-8 border-left-primary">@Model.Warehouse</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">IsEnabled</div>
+                                            <div class="col-md-8 border-left-primary">
+                                                @if (Model.IsEnabled)
+                                                {
+                                                    <i class='fas fa-check-circle' style="color: #007bff !important"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class='fas fa-times-circle' style="color:brown"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4 ">Creation time</div>
+                                            <div class="col-md-8 border-left-primary">@Model.CreateDts</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="divOnHand" class="tabcontent" style="border:none">
+        <div class="row">
+            <div class=" col-xl">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 ">
+                        <h4 class="font-weight-bold text-success" style=" margin: 0px;">
+                            Available Quantities
+                            <button onclick="goToAddQuantitiesPartialView()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm " style="margin-right:10px; float:right">Add Quantities</button>
+                        </h4>
+                        @*<div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+                                <h3 class="h3 mb-0 text-gray-800 text-success">
+                                    Available Quantities
+                                </h3>
+                                <button onclick="goToAddQuantitiesPartialView()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm " style="margin-right:10px">Add Quantities</button>
+                            </div>*@
+                    </div>
+                    <div class="card-body">
+
+                        <div>
+
+                            <div style="max-height: 550px; overflow: hidden; overflow-y: scroll">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Create Date</th>
+                                            <th>Unit Cost</th>
+                                            <th>Status</th>
+                                            <th>Warehouse</th>
+                                            <th>Quantity</th>
+                                            <th>Current Quantity</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.Items)
+                                        {
+                                            if (item.CurrentQuantity > 0 && item.Location.LocationTypeId == 2)
+                                            {
+                                                <tr>
+                                                    <td>@item.CreateDts</td>
+                                                    <td>@item.UnitCost</td>
+                                                    <td>@item.InventoryItemStatus</td>
+                                                    <td>@item.InventoryLocation</td>
+                                                    <td>@item.Quantity</td>
+                                                    <td>@item.CurrentQuantity</td>
+                                                    <td>
+                                                        <input type="button" class="btn btn-warning" value="Edit" onclick="getspinner(); editInvItem(@item.InventoryItemId)" />
+                                                        <input type="button" class="btn btn-primary" value="View" onclick="getspinner(); editDisplay(@item.InventoryItemId)" />
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="divAllQuantities" class="tabcontent" style="border:none">
+        <div class="row">
+            <div class=" col-xl">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 ">
+                        <h4 class="font-weight-bold text-info"> All Quantities</h4>
+                    </div>
+                    <div class="card-body">
+                        <div style="max-height: 550px; overflow: hidden; overflow-y: scroll">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Create Date</th>
+                                        <th>Unit Cost</th>
+                                        <th>Status</th>
+                                        <th>Warehouse</th>
+                                        <th>Quantity</th>
+                                        <th>Current Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Items)
+                                    {
+
+                                        <tr>
+                                            <td>@item.CreateDts</td>
+                                            <td>@item.UnitCost</td>
+                                            <td>@item.InventoryItemStatus</td>
+                                            <td>@item.InventoryLocation</td>
+                                            <td>@item.Quantity</td>
+                                            <td>@item.CurrentQuantity</td>
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="divStatus" class="tabcontent" style="border:none">
+        <div class="row">
+            <div class=" col-xl">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 ">
+                        <h4 class="font-weight-bold text-warning" style=" margin: 0px;">
+                            Status
+
+                            <span id="PopupAddStausToItemType"  style="margin-right: 10px; color: #212529; float:right"></span>
+                            @*<button onclick="goToAddQuantitiesPartialView()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm " style="margin-right:10px; float:right">Add Quantities</button>*@
+                        </h4>
+                        @*<div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+                                <h3 class="h3 mb-0 text-gray-800 text-success">
+                                    Available Quantities
+                                </h3>
+                                <button onclick="goToAddQuantitiesPartialView()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm " style="margin-right:10px">Add Quantities</button>
+                            </div>*@
+
+                    </div>
+                    <div class="card-body">
+
+                        <div >
+                            @*<h3>Status</h3>*@
+                            <!--<div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+                                <h3 class="h3 mb-0 text-gray-800">
+                                    Status
+                                </h3>-->
+                                @*<button onclick="GetPopupAddStausToItemType()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="margin-right:10px">Add Staus</button>*@
+                                <!--<span id="PopupAddStausToItemType"></span>
+                            </div>-->
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>.NO</th>
+                                        <th>Name</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyItemTypeStatus">
+                                    @{ int counter = 1;}
+                                    @foreach (var item in Model.Status)
+                                    {
+
+                                        <tr>
+                                            <td>@(counter++)</td>
+                                            <td>@item.Name</td>
+                                            <td>
+                                                <input type="button" class="btn btn-danger" value="Delete" onclick="deleteRelationInventoryItemTypeAndStatus(@item.InventoryItemStatusId,@Model.InventoryItemTypeId)" />
+                                            </td>
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!--<div id="divAllQuantities" class="tabcontent" style="border:none">
+        <div class="row">
+            <div class=" col-xl">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 ">
+                        <h6 class="font-weight-bold text-success">Information</h6>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <hr class="sidebar-divider bg-gradient-info" />
+                            <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+                                <h3 class="h3 mb-0 text-gray-800">
+                                    All Quantities
+                                </h3>-->
+    @*<button onclick="goToAddQuantitiesPartialView()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm " style="margin-right:10px">Add Quantities</button>*@
+    <!--</div>
+                            <div style="max-height: 550px; overflow: hidden; overflow-y: scroll">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Create Date</th>
+                                            <th>Unit Cost</th>
+                                            <th>Status</th>
+                                            <th>Warehouse</th>
+                                            <th>Quantity</th>
+                                            <th>Current Quantity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.Items)
+                                        {
+
+                                            <tr>
+                                                <td>@item.CreateDts</td>
+                                                <td>@item.UnitCost</td>
+                                                <td>@item.InventoryItemStatus</td>
+                                                <td>@item.InventoryLocation</td>
+                                                <td>@item.Quantity</td>
+                                                <td>@item.CurrentQuantity</td>
+                                            </tr>
+
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>-->
+
+
+
+
+
+   
+
+
+
+
+    <script>
+            function changecColorbtns(v) {
+                var colBtnsArr = ['divShadowStatus', 'divShadowAllQuantities', 'divShadowOnHand', 'divShadowItemv'];
+                colBtnsArr.forEach(function (i) {
+                    if (i == v) {
+
+                        document.getElementById(i).classList.add('shadow');
+                    } else {
+                        var item = document.getElementById(i);
+                        if (item != null) {
+                            item.classList.remove('shadow');
+                        }
+                    }
+                });
+            }
+        function goToAddQuantitiesPartialView() {
+            getspinner();
+              $.ajax({
+                type: "Get",
+                  url: "/InventoryItem/Create",
+                  data: { "itemTypeId": '@Model.InventoryItemTypeId'},
+                success: function (response) {
+
+                    if (response != 'null') {
+                        $("#ChangingBody").empty();
+                        $('#ChangingBody').append(response);
+
+
+                    } else {
+                        alert("Error");
+                    }
+                },
+                failure: function (response) {
+                    throwException(response)
+                },
+                error: function (response) {
+                    throwException(response)
+                }
+            });
+        }
+
+        function GetPopupAddStausToItemType() {
+            $.ajax({
+                type: "Get",
+                url: "/InventoryItemType/GetPopupAddStausToItemType",
+                data: { "id": '@Model.InventoryItemTypeId', "Name": '@Model.Name' },
+                success: function (response) {
+
+                    if (response != 'null') {
+
+                        $("#PopupAddStausToItemType").empty();
+                        $('#PopupAddStausToItemType').append(response);
+
+
+                    } else {
+                        alert("Error");
+                    }
+                },
+                failure: function (response) {
+                    throwException(response)
+                },
+                error: function (response) {
+                    throwException(response)
+                }
+            });
+
+        }
+            function openTablink(evt, v) {
+
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            if ( document.getElementById(v)) {
+                document.getElementById(v).style.display = "block";
+            }
+                //if (evt != "undefined" && evt != undefined) {
+
+                //}
+            evt.currentTarget.className += " active";
+        }
+
+        function openTablinkInItem(evt, v) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontentItem");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinksItem");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(v).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        $("#idcontentshowitem").ready(function () {
+            //openTablink(document.getElementById("btnItemv"), 'divShwItem');
+
+
+            //openTablinkInItem(document.getElementById("btnGeneralInformation"), "divGeneralInformation");
+
+        });
+
+        function deleteRelationInventoryItemTypeAndStatus(statusId,itemTypeId) {
+            swal({
+                title: "Are you sure?",
+                text: "Are you sure to delete this status!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function () {
+                setTimeout(function () {
+                    $.ajax({
+                        type: "Post",
+                        url: "/InventoryItemType/DeleteRelationInventoryItemTypeAndStatus",
+                        data: { "statusId": statusId, "itemTypeId": itemTypeId },
+                        success: function (response) {
+                            if (response.status > 0) {
+                                swal("Deleted!", "Your Model has been status.", "success");
+                                $("#tbodyItemTypeStatus").empty();
+
+                                var counter = 1;
+                                response.currentStatus.forEach(function (i) {
+                                    var tr = document.createElement('tr');
+                                    var td = document.createElement('td');
+                                    td.appendChild(document.createTextNode(i.text));
+                                    td.style = "width: max-content;font-weight: 400;";
+                                    var td2 = document.createElement('td');
+                                    td2.appendChild(document.createTextNode(counter));
+                                    var td3 = document.createElement('td');
+                                    var input = document.createElement("input");
+                                    input.type = "button";
+                                    input.className = "btn btn-danger";
+                                    input.value = 'Delete';
+                                    input.addEventListener('click', (e) => {
+                                        deleteRelationInventoryItemTypeAndStatus(i.value, response.status);
+                                    });
+                                    td3.appendChild(input);
+                                    tr.appendChild(td2);
+                                    tr.appendChild(td);
+                                    tr.appendChild(td3);
+                                    $('#tbodyItemTypeStatus').append(tr);
+                                    counter++;
+                                });
+                                $("#divSetValue").empty();
+
+                                response.statusNotContain.forEach(function (ss) {
+
+                                    var div = document.createElement('div');
+                                    div.setAttribute('class', 'row');
+
+
+                                    var div1 = document.createElement('div');
+                                    div1.setAttribute('class', 'col-lg-4');
+                                    var label = document.createElement('label');
+                                    label.append(document.createTextNode(ss.text));
+                                    div1.append(label);
+                                    div.append(div1);
+
+                                    var div2 = document.createElement('div');
+                                    div2.setAttribute('class', 'col-lg-2');
+                                    var input = document.createElement('input');
+                                    input.setAttribute('type', 'checkbox');
+                                    input.setAttribute('style', 'direction:ltr');
+                                    input.setAttribute('class', 'form-control form-control-user');
+                                    input.setAttribute('id', ss.value);
+                                    div2.append(input);
+                                    div.append(div2);
+
+                                    var div3 = document.createElement('div');
+                                    div3.setAttribute('class', 'col-lg-6');
+                                    div.append(div3);
+
+                                    var br = document.createElement('br');
+
+                                    $("#divSetValue").append(div);
+                                    $("#divSetValue").append(br);
+                                });
+
+                            } else if (response.status == 0) {
+                                swal("Cancelled", "One or more using this status!", "error");
+                            }
+                            else if (response.status == -1) {
+                                swal("Cancelled", "Oops Something went wrong!", "error");
+                            }
+                        },
+                        failure: function (response) {
+                            throwException(response)
+                        },
+                        error: function (response) {
+                            throwException(response)
+                        }
+                    })
+                }, 2000);
+            });
+            }
+            document.getElementById("btnGoToTopPage").click();
+
+    </script>
+</div>
