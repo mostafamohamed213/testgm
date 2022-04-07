@@ -100,7 +100,13 @@ namespace RepositoryPatternWithUOW.EF.Repositories
             {
                 query = _context.Set<T>().Where(criteria);
             }
-
+            if (orderBy != null)
+            {
+                if (orderByDirection == OrderBy.Ascending)
+                    query = query.OrderBy(orderBy);
+                else
+                    query = query.OrderByDescending(orderBy);
+            }
             if (skip.HasValue)
                 query = query.Skip(skip.Value);
 
@@ -109,13 +115,7 @@ namespace RepositoryPatternWithUOW.EF.Repositories
             if (includes != null)
                 foreach (var include in includes)
                     query = query.Include(include);
-            if (orderBy != null)
-            {
-                if (orderByDirection == OrderBy.Ascending)
-                    query = query.OrderBy(orderBy);
-                else
-                    query = query.OrderByDescending(orderBy);
-            }
+           
 
             return query.ToList();
         }
@@ -132,6 +132,13 @@ namespace RepositoryPatternWithUOW.EF.Repositories
                 query = _context.Set<T>().Where(criteria);
             }
 
+            if (orderBy != null)
+            {
+                if (orderByDirection == OrderBy.Ascending)
+                    query = query.OrderBy(orderBy);
+                else
+                    query = query.OrderByDescending(orderBy);
+            }
             if (take.HasValue)
                 query = query.Take(take.Value);
 
@@ -141,13 +148,7 @@ namespace RepositoryPatternWithUOW.EF.Repositories
                 foreach (var include in includes)
                     query = query.Include(include);
 
-            if (orderBy != null)
-            {
-                if (orderByDirection == OrderBy.Ascending)
-                    query = query.OrderBy(orderBy);
-                else
-                    query = query.OrderByDescending(orderBy);
-            }
+          
 
             return await query.ToListAsync();
         }

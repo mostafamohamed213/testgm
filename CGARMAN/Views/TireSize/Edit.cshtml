@@ -1,21 +1,21 @@
 ﻿
-@model CGARMAN.ViewModel.Shared.CostCenterEditViewModel
+@model CGARMAN.ViewModel.Vehicle.TireSizeEditViewModel
 @{
-    ViewData["Title"] = "Edit Cost Center";
+    ViewData["Title"] = "Edit Tire Size";
     Layout = "_Authenticated";
 }
 <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
     <h1 class="h3 mb-0 text-gray-800">
-       Edit Cost Center <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> @Model.Name
+        Vehicle <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> Edit Tire Size <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> @Model.Name
     </h1>
     <a style="margin-right:10px" asp-action="Index" asp-controller="Home" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Back to Home</a>
 </div>
 <hr />
 <div class="row" style="margin:1%">
     <div class="col-lg-12">
-        <form asp-action="Edit" asp-controller="CostCenter" method="post">
+        <form asp-action="Edit" asp-controller="TireSize" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CostCenterId" />
+            <input type="hidden" asp-for="TireSizeId" />
             <div class="form-group row">
                 <div class="col-xl-12">
                     <div class="row">
@@ -27,18 +27,10 @@
                             <span asp-validation-for="Name" style="margin:auto" class="text-danger"></span>
 
                         </div>
-                        <div class="col-xl-1 border-left-primary" style="padding-top: 5px;">
-                            <label>Value</label>
-                        </div>
-                        <div class="col-xl-3">
-                            <input type="text" asp-for="Value" class="form-control form-control-user" />
-                            <span asp-validation-for="Value" style="margin:auto" class="text-danger"></span>
-
-                        </div>
                         @*<div class="col-xl-6">
-            <input in asp-for="Enable" class="form-control form-control-user" />
-            <span asp-validation-for="Enable" style="margin:auto" class="text-danger"></span>
-        </div>*@
+                                <input in asp-for="Enable" class="form-control form-control-user" />
+                                <span asp-validation-for="Enable" style="margin:auto" class="text-danger"></span>
+                            </div>*@
                     </div>
                 </div>
             </div>
@@ -50,8 +42,8 @@
 </div>
 @section Scripts{
     <script>
-        document.getElementById("btncontainerShared").click();
-        ToggleColorInDashboard("linkAllCostCenters");
+        document.getElementById("btncontainerVehicles").click();
+        ToggleColorInDashboard("linkAllTireSizes");
         document.getElementById("btnGoToTopPage").click();
 
     </script>

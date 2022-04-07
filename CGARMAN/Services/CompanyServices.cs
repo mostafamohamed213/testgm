@@ -16,6 +16,7 @@ namespace CGARMAN.Services
         public CompanyServices(IUnitOfWork _unitOfWork)
         {
             unitOfWork = _unitOfWork;
+            
         }
 
         public PagingViewModel<TechnicianCompany> getAllCompaniesPaging(int currentPage)

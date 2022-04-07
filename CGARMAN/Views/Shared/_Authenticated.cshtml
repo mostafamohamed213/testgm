@@ -119,7 +119,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         @*<h6 class="collapse-header">Quantities </h6>
                     <a class="collapse-item" style="cursor: pointer" id="ItemsScreen">All Quantities</a>*@
-                        <h6 class="collapse-header">Items :</h6>
+                        <h6 class="collapse-header">Items</h6>
                         <a class="collapse-item" style="cursor: pointer" id="ItemNameScreen" onclick="invItemNamess()">Items  </a>
                         <a class="collapse-item" style="cursor: pointer" id="CreateItemNameScreen" onclick="createInvItemName()">Add Item</a>
                         <div class="collapse-divider"></div>
@@ -172,17 +172,20 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed " id="btncontainerShared" href="#" data-toggle="collapse" data-target="#collapsePagesShared"
-                   aria-expanded="true" aria-controls="collapsePagesShared">
+                <a class="nav-link collapsed " id="btncontainerVehicles" href="#" data-toggle="collapse" data-target="#collapsePagesVehicles"
+                   aria-expanded="true" aria-controls="collapsePagesVehicles">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Vehicles</span>
                 </a>
-                <div id="collapsePagesShared" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div id="collapsePagesVehicles" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Tire Sizes</h6>
-                        <a class="collapse-item" style="cursor: pointer" id="linkAllTireSizes" asp-action="Index" asp-controller="CostCenter" asp-route-CurrentPageIndex="1">Tire Sizes</a>
-                        <a class="collapse-item" style="cursor: pointer" id="linkCreateTireSize" asp-action="Create" asp-controller="CostCenter">Ceate Tire Size</a>
+                        <h6 class="collapse-header">Vehicle Management</h6>
+                        <a class="collapse-item" style="cursor: pointer" id="linkAllVehicleStatus" asp-action="Index" asp-controller="VehicleStatus" asp-route-CurrentPageIndex="1">Status</a>
+
+                        <h6 class="collapse-header">Other</h6>
+                        <a class="collapse-item" style="cursor: pointer" id="linkAllTireSizes" asp-action="Index" asp-controller="TireSize" asp-route-CurrentPageIndex="1">Tire Sizes</a>
+                        <a class="collapse-item" style="cursor: pointer" id="linkCreateTireSize" asp-action="Create" asp-controller="TireSize">Ceate Tire Size</a>
                     </div>
                 </div>
             </li>
@@ -702,7 +705,11 @@
 
 
         function ToggleColorInDashboard(id) {
-            let IdsItems = ['linkAllTireSizes', 'linkCreateTireSize','linkIndexTechniciansDailyAttendance', 'linkTechniciansDays', 'linkAllCostCenters', 'linkCreateCostCenter', 'linkCreatePosition', 'linkIndexTechniciansPosition', 'linkIndexTechniciansShift', 'linkCreateShift', 'linkIndexTechniciansCompanies', 'linkCreateCompany', 'linkAllTechnicians', 'ItemsScreen', 'linkCreateTechnicians', 'CreateItemScreen', 'CreateItemNameScreen', 'ItemNameScreen', 'StatusManagement', 'UnitManagement', 'VendorManagement', 'ClassificationsManagement', 'BrandManagement', 'ModelManagement'];
+            let IdsItems = ['linkAllVehicleStatus', 'linkAllTireSizes', 'linkCreateTireSize', 'linkIndexTechniciansDailyAttendance', 'linkTechniciansDays',
+                'linkAllCostCenters', 'linkCreateCostCenter', 'linkCreatePosition', 'linkIndexTechniciansPosition', 'linkIndexTechniciansShift',
+                'linkCreateShift', 'linkIndexTechniciansCompanies', 'linkCreateCompany', 'linkAllTechnicians', 'ItemsScreen', 'linkCreateTechnicians',
+                'CreateItemScreen', 'CreateItemNameScreen', 'ItemNameScreen', 'StatusManagement', 'UnitManagement', 'VendorManagement',
+                'ClassificationsManagement', 'BrandManagement', 'ModelManagement'];
             IdsItems.forEach(function (i) {
                 if (i == id) {
                     document.getElementById(i).classList.add('active');
