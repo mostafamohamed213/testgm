@@ -16,7 +16,7 @@ namespace CGARMAN.Services
         public VehicleStatusServices(IUnitOfWork _unitOfWork)
         {
             unitOfWork = _unitOfWork;
-
+            
         }
         public PagingViewModel<VehicleStatus> getAllVehicleStatusPaging(int currentPage)
         {

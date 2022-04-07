@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RepositoryPatternWithUOW.Core.Models;
@@ -9,9 +10,10 @@ using RepositoryPatternWithUOW.Core.Models;
 namespace RepositoryPatternWithUOW.EF.Migrations
 {
     [DbContext(typeof(WMSContext))]
-    partial class WMSContextModelSnapshot : ModelSnapshot
+    [Migration("20220407053809_vd34")]
+    partial class vd34
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3213,10 +3215,10 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                         .HasColumnName("vehicle_department_id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn);
 
-                    b.Property<DateTime>("CreateDts")
+                    b.Property<DateTime?>("CreateDts")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<bool>("Enable")
+                    b.Property<bool?>("Enable")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
@@ -3226,7 +3228,6 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                         .HasColumnName("name");
 
                     b.Property<string>("SystemUserCreate")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("VehicleDepartmentId");

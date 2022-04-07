@@ -181,6 +181,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Vehicle Management</h6>
+                        <a class="collapse-item" style="cursor: pointer" id="linkAllVehicleDepartments" asp-action="Index" asp-controller="VehicleStatus" asp-route-CurrentPageIndex="1">Departments</a>
                         <a class="collapse-item" style="cursor: pointer" id="linkAllVehicleStatus" asp-action="Index" asp-controller="VehicleStatus" asp-route-CurrentPageIndex="1">Status</a>
 
                         <h6 class="collapse-header">Other</h6>
@@ -709,7 +710,7 @@
                 'linkAllCostCenters', 'linkCreateCostCenter', 'linkCreatePosition', 'linkIndexTechniciansPosition', 'linkIndexTechniciansShift',
                 'linkCreateShift', 'linkIndexTechniciansCompanies', 'linkCreateCompany', 'linkAllTechnicians', 'ItemsScreen', 'linkCreateTechnicians',
                 'CreateItemScreen', 'CreateItemNameScreen', 'ItemNameScreen', 'StatusManagement', 'UnitManagement', 'VendorManagement',
-                'ClassificationsManagement', 'BrandManagement', 'ModelManagement'];
+                'ClassificationsManagement', 'BrandManagement', 'ModelManagement','linkAllVehicleDepartments'];
             IdsItems.forEach(function (i) {
                 if (i == id) {
                     document.getElementById(i).classList.add('active');
