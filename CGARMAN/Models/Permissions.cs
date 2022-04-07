@@ -10,17 +10,8 @@ namespace CGARMAN.Models
         public static List<string> GeneratePermissionsList(string module)
         {
             //   if module do somthing else
-            if (module == "Map")
-            {
-                return new List<string>()
-            {
-                $"Permissions.{module}.View",
-                $"Permissions.{module}.MapTracking",
-                $"Permissions.{module}.Active_DeActive"
-
-            };
-            }
-            else if (module == "Users")
+        
+          if (module == "Users")
             {
                 return new List<string>()
             {
@@ -32,17 +23,7 @@ namespace CGARMAN.Models
 
 
             }
-            else if (module == "Tasks")
-            {
-                return new List<string>()
-            {
-                $"Permissions.{module}.Manage",
 
-
-            };
-
-
-            }
             else if (module == "Roles")
             {
                 return new List<string>()

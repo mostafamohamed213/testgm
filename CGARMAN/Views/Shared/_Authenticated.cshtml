@@ -108,6 +108,24 @@
                 Administration
             </div>
 
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" id="userssetting" data-toggle="collapse" data-target="#collapsePages0"
+                   aria-expanded="true" aria-controls="collapsePages1">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Users Settings</span>
+                </a>
+                <div id="collapsePages0" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        @*<h6 class="collapse-header">Quantities </h6>
+                    <a class="collapse-item" style="cursor: pointer" id="ItemsScreen">All Quantities</a>*@
+                      
+                        <a class="collapse-item" style="cursor: pointer" id="manageusers" asp-controller="Administration" asp-action="ListUsers">Manage Users</a>
+                        <a class="collapse-item" style="cursor: pointer" id="manageroles" asp-controller="Administration" asp-action="ListRoles">Roles & Permissions</a>
+             
+                    </div>
+                </div>
+            </li>
+
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages1"
@@ -711,7 +729,7 @@
                 'linkAllCostCenters', 'linkCreateCostCenter', 'linkCreatePosition', 'linkIndexTechniciansPosition', 'linkIndexTechniciansShift',
                 'linkCreateShift', 'linkIndexTechniciansCompanies', 'linkCreateCompany', 'linkAllTechnicians', 'ItemsScreen', 'linkCreateTechnicians',
                 'CreateItemScreen', 'CreateItemNameScreen', 'ItemNameScreen', 'StatusManagement', 'UnitManagement', 'VendorManagement',
-                'ClassificationsManagement', 'BrandManagement', 'ModelManagement', 'linkAllVehicleDepartments','linkAllVehicleOwners'];
+                'ClassificationsManagement', 'BrandManagement', 'ModelManagement', 'linkAllVehicleDepartments', 'linkAllVehicleOwners', 'manageusers','manageroles'];
             IdsItems.forEach(function (i) {
                 if (i == id) {
                     document.getElementById(i).classList.add('active');

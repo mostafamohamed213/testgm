@@ -145,6 +145,8 @@
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
+            document.getElementById("userssetting").click();
+            ToggleColorInDashboard("manageusers");
             // Setup - add a text input to each footer cell
             $('#example tfoot th').each(function () {
                 var title = $(this).text();
