@@ -48,6 +48,10 @@ namespace RepositoryPatternWithUOW.Core
         IBaseRepository<TechnicianAttendanceStatusLog> TechnicianAttendanceStatusLog { get; }
         IBaseRepository<VehicleStatus> VehicleStatus { get; }
         IBaseRepository<VehicleDepartment> VehicleDepartment { get; }
+        IBaseRepository<VehicleOwner> VehicleOwner { get; }
+        IBaseRepository<VehicleFamily> VehicleFamily { get; }
+        IBaseRepository<VehicleBrand> VehicleBrand { get; }
+
         int Complete();
     }
 }

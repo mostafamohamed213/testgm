@@ -1,0 +1,95 @@
+﻿@model CGARMAN.ViewModel.Vehicle.VehicleOwnerEditViewModel
+@{
+
+    Layout = "_Authenticated";
+    if (ViewBag.fromDeleteAction != null && ViewBag.fromDeleteAction == true)
+    {
+        ViewData["Title"] = "Delete Vehicle Owner";
+    }
+    else
+    {
+        ViewData["Title"] = "View Vehicle Owner";
+    }
+}
+<div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+    <h1 class="h3 mb-0 text-gray-800">
+        Vehicle <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> @if (ViewBag.fromDeleteAction != null && ViewBag.fromDeleteAction == true)
+        {
+            <span>Delete</span>
+        }
+        else
+        { <span>View</span>} Owner <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> @Model.Name
+    </h1>
+    <a style="margin-right:10px" asp-action="Index" asp-controller="Home" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Back to Home</a>
+</div>
+<hr />
+@if (ViewBag.fromDeleteAction != null && ViewBag.fromDeleteAction == true)
+{
+    <div class="row" style="margin:auto;">
+
+        <div class="col-lg-12 text-danger">
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-danger">are you sure !  do you want delete this Owner ? </h6>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row" style="margin:1%">
+    <div class="col-lg-12">
+        <form asp-action="Delete" asp-controller="VehicleOwner" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="VehicleOwnerId" />
+            <div class="form-group row">
+                <div class="col-xl-12">
+                    <div class="row">
+                        <div class="col-xl-1" style=" padding-top: 5px;">
+                            <label>Name</label>
+                        </div>
+                        <div class="col-xl-3">
+                            <input type="text" asp-for="Name" class="form-control form-control-user" disabled />
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1">Create DT</div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input asp-for="CreateDts" class="form-check-input" disabled>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group row">
+                <div class="col-xl-2">
+                    <a class="btn btn-primary text-white w-100" onclick="history.go(-1)">Go Back</a>
+                </div>
+                <div class="col-xl-2">
+                    @if (ViewBag.fromDeleteAction != null && ViewBag.fromDeleteAction == true)
+                    {
+                        <input type="submit" value="Delete" class="btn btn-danger w-100" />
+                    }
+                </div>
+            </div>
+
+        </form>
+
+
+    </div>
+</div>
+@section Scripts{
+    <script>
+        document.getElementById("btncontainerVehicles").click();
+        ToggleColorInDashboard("linkAllVehicleOwners");
+        document.getElementById("btnGoToTopPage").click();
+
+    </script>
+
+}

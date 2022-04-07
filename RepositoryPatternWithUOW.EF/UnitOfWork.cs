@@ -52,6 +52,9 @@ namespace RepositoryPatternWithUOW.EF
         public IBaseRepository<TechnicianAttendanceStatusLog> TechnicianAttendanceStatusLog { get; }
         public IBaseRepository<VehicleStatus> VehicleStatus { get; }
         public IBaseRepository<VehicleDepartment> VehicleDepartment { get; }
+        public IBaseRepository<VehicleOwner> VehicleOwner { get; }
+        public IBaseRepository<VehicleFamily> VehicleFamily { get; }
+        public IBaseRepository<VehicleBrand> VehicleBrand { get; }
         public UnitOfWork(WMSContext context)
         {
             _context = context;
@@ -94,6 +97,9 @@ namespace RepositoryPatternWithUOW.EF
             TechnicianAttendanceLog = new BaseRepository<TechnicianAttendanceLog>(_context);
             VehicleStatus = new BaseRepository<VehicleStatus>(_context);
             VehicleDepartment = new BaseRepository<VehicleDepartment>(_context);
+            VehicleOwner = new BaseRepository<VehicleOwner>(_context);
+            VehicleFamily = new BaseRepository<VehicleFamily>(_context);
+            VehicleBrand = new BaseRepository<VehicleBrand>(_context);
         }
 
         public int Complete()

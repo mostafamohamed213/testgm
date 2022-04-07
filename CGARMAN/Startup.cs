@@ -81,7 +81,8 @@ namespace CGARMAN
             services.AddTransient<TireSizeServices, TireSizeServices>(); 
             services.AddTransient<VehicleStatusServices, VehicleStatusServices>();
             services.AddTransient<VehicleDepartmentServices, VehicleDepartmentServices>();
-
+            services.AddTransient<VehicleOwnerServices, VehicleOwnerServices>();
+            
             services.AddAutoMapper(typeof(Startup));
             //services.AddTransient(provider => new MapperConfiguration(cfg =>
             //{
