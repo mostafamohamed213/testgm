@@ -25,6 +25,8 @@ namespace RepositoryPatternWithUOW.Core.Consts
         public static int AttendanceIndex { get; set; }
         public static int AttendanceDaysIndex { get; set; }
         public static int TireSizeIndex { get; set; }
+        public static int VehicleStatusIndex { get; set; }
+        
         static TablesMaxRows()
         {
             InventoryItemIndex = 10;
@@ -43,6 +45,7 @@ namespace RepositoryPatternWithUOW.Core.Consts
             AttendanceIndex = 10;
             AttendanceDaysIndex = 10;
             TireSizeIndex = 10;
+            VehicleStatusIndex = 10;
         }
     }
 }
