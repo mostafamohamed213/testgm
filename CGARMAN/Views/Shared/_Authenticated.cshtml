@@ -199,6 +199,9 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Vehicle Management</h6>
+                        <a class="collapse-item" style="cursor: pointer" id="linkAllVehicleFamilies" asp-action="Index" asp-controller="VehicleFamily" asp-route-CurrentPageIndex="1">Families</a>
+                        <a class="collapse-item" style="cursor: pointer" id="linkAllVehicleBrands" asp-action="Index" asp-controller="VehicleBrand" asp-route-CurrentPageIndex="1">Brands</a>
+
                         <a class="collapse-item" style="cursor: pointer" id="linkAllVehicleOwners" asp-action="Index" asp-controller="VehicleOwner" asp-route-CurrentPageIndex="1">Owners</a>
                         <a class="collapse-item" style="cursor: pointer" id="linkAllVehicleDepartments" asp-action="Index" asp-controller="VehicleDepartment" asp-route-CurrentPageIndex="1">Departments</a>
                         <a class="collapse-item" style="cursor: pointer" id="linkAllVehicleStatus" asp-action="Index" asp-controller="VehicleStatus" asp-route-CurrentPageIndex="1">Status</a>
@@ -726,9 +729,9 @@
 
         function ToggleColorInDashboard(id) {
             let IdsItems = ['linkAllVehicleStatus', 'linkAllTireSizes', 'linkCreateTireSize', 'linkIndexTechniciansDailyAttendance', 'linkTechniciansDays',
-                'linkAllCostCenters', 'linkCreateCostCenter', 'linkCreatePosition', 'linkIndexTechniciansPosition', 'linkIndexTechniciansShift',
+                'linkAllCostCenters', 'linkCreateCostCenter', 'linkCreatePosition', 'linkIndexTechniciansPosition', 'linkIndexTechniciansShift','linkAllVehicleBrands',
                 'linkCreateShift', 'linkIndexTechniciansCompanies', 'linkCreateCompany', 'linkAllTechnicians', 'ItemsScreen', 'linkCreateTechnicians',
-                'CreateItemScreen', 'CreateItemNameScreen', 'ItemNameScreen', 'StatusManagement', 'UnitManagement', 'VendorManagement',
+                'CreateItemScreen', 'CreateItemNameScreen', 'ItemNameScreen', 'StatusManagement', 'UnitManagement', 'VendorManagement','linkAllVehicleFamilies',
                 'ClassificationsManagement', 'BrandManagement', 'ModelManagement', 'linkAllVehicleDepartments', 'linkAllVehicleOwners', 'manageusers','manageroles'];
             IdsItems.forEach(function (i) {
                 if (i == id) {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -18,6 +19,10 @@ namespace RepositoryPatternWithUOW.Core.Models
         public int VehicleFamilyId { get; set; }
         public string Name { get; set; }
         public int? ParentVehicleFamilyId { get; set; }
+        public bool Enable { get; set; }
+        public DateTime CreateDts { get; set; }
+        [Required]
+        public string SystemUserCreate { get; set; }
 
         public virtual VehicleFamily ParentVehicleFamily { get; set; }
         public virtual ICollection<VehicleFamily> InverseParentVehicleFamily { get; set; }
