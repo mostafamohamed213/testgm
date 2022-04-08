@@ -197,7 +197,9 @@
                 </a>
                 <div id="collapsePagesVehicles" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" style="cursor: pointer" id="linkAllVehicle" asp-action="Index" asp-controller="Vehicle" asp-route-CurrentPageIndex="1">Vehicles</a>
                         <div class="collapse-divider"></div>
+
                         <h6 class="collapse-header">Vehicle Management</h6>
                         <a class="collapse-item" style="cursor: pointer" id="linkAllVehicleFamilies" asp-action="Index" asp-controller="VehicleFamily" asp-route-CurrentPageIndex="1">Families</a>
                         <a class="collapse-item" style="cursor: pointer" id="linkAllVehicleBrands" asp-action="Index" asp-controller="VehicleBrand" asp-route-CurrentPageIndex="1">Brands</a>
@@ -730,7 +732,7 @@
         function ToggleColorInDashboard(id) {
             let IdsItems = ['linkAllVehicleStatus', 'linkAllTireSizes', 'linkCreateTireSize', 'linkIndexTechniciansDailyAttendance', 'linkTechniciansDays',
                 'linkAllCostCenters', 'linkCreateCostCenter', 'linkCreatePosition', 'linkIndexTechniciansPosition', 'linkIndexTechniciansShift','linkAllVehicleBrands',
-                'linkCreateShift', 'linkIndexTechniciansCompanies', 'linkCreateCompany', 'linkAllTechnicians', 'ItemsScreen', 'linkCreateTechnicians',
+                'linkCreateShift', 'linkIndexTechniciansCompanies', 'linkCreateCompany', 'linkAllTechnicians', 'ItemsScreen', 'linkCreateTechnicians','linkAllVehicle',
                 'CreateItemScreen', 'CreateItemNameScreen', 'ItemNameScreen', 'StatusManagement', 'UnitManagement', 'VendorManagement','linkAllVehicleFamilies',
                 'ClassificationsManagement', 'BrandManagement', 'ModelManagement', 'linkAllVehicleDepartments', 'linkAllVehicleOwners', 'manageusers','manageroles'];
             IdsItems.forEach(function (i) {
