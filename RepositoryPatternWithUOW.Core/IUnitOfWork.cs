@@ -51,7 +51,8 @@ namespace RepositoryPatternWithUOW.Core
         IBaseRepository<VehicleOwner> VehicleOwner { get; }
         IBaseRepository<VehicleFamily> VehicleFamily { get; }
         IBaseRepository<VehicleBrand> VehicleBrand { get; }
-
+        IBaseRepository<Vehicle> Vehicle { get; }
+        IBaseRepository<VehicleLicense> VehicleLicense { get; }
         int Complete();
     }
 }

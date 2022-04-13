@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -36,6 +37,11 @@ namespace RepositoryPatternWithUOW.Core.Models
         public DateTime CreateDts { get; set; }
         public int VehicleOwnerId { get; set; }
         public int VehicleDepartmentId { get; set; }
+        public bool Enable { get; set; }      
+        [Required]
+        public string SystemUserCreate { get; set; }
+        [Required]
+        public string LicenseNumber { get; set; }
 
         public virtual Vehicle AttachedVehicle { get; set; }
         public virtual CostCenter CostCenter { get; set; }

@@ -119,6 +119,7 @@ namespace RepositoryPatternWithUOW.EF.Repositories
 
             return query.ToList();
         }
+    
         public async Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> criteria, int? take, int? skip,
             Expression<Func<T, object>> orderBy = null, string orderByDirection = OrderBy.Ascending , string[] includes = null)
         {

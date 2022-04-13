@@ -21,6 +21,7 @@ namespace CGARMAN.Controllers
             {
                 if (!string.IsNullOrWhiteSpace(label))
                 {
+                    ViewBag.label = label;
                     return View(services.Search(label, 1));
                 }
                 return View(services.getAllVehicleDepartmentsPaging(CurrentPageIndex));

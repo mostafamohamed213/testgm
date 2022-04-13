@@ -30,7 +30,8 @@ namespace RepositoryPatternWithUOW.Core.Consts
         public static int VehicleOwnerIndex { get; set; }
         public static int VehicleFamilyIndex { get; set; }
         public static int VehicleBrandIndex { get; set; }
-        
+        public static int VehicleIndex { get; set; }      
+
 
         static TablesMaxRows()
         {
@@ -55,6 +56,7 @@ namespace RepositoryPatternWithUOW.Core.Consts
             VehicleOwnerIndex = 10;
             VehicleFamilyIndex = 10;
             VehicleBrandIndex = 10;
+            VehicleIndex = 10;
         }
     }
 }

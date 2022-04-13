@@ -22,6 +22,7 @@ namespace CGARMAN.Controllers
                 ViewBag.Families = services.GetAllFamilies(FamilyId);
                 if (!string.IsNullOrWhiteSpace(label)|| FamilyId > 0)
                 {
+                    ViewBag.label = label;
                     return View(services.Search(label,1, FamilyId));
                 }
                 return View(services.getAllVehicleBrandsPaging(CurrentPageIndex));

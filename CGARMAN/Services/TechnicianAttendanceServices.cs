@@ -21,10 +21,11 @@ namespace CGARMAN.Services
 
         internal PagingViewModel<Technician> GetTechnicians(int currentPage)
         {
+           
             PagingViewModel<Technician> model = new PagingViewModel<Technician>();
 
             List<Technician> Technicians = unitOfWork.Technician.
-                                  FindAll(c => c.Enable, (currentPage - 1) * TablesMaxRows.AttendanceIndex, TablesMaxRows.AttendanceIndex, d => d.TechnicianId, OrderBy.Ascending, includes: new[] { "TechnicianCompany", "TechnicianPosition" }).ToList();
+                                  FindAll(c => c.Enable , (currentPage - 1) * TablesMaxRows.AttendanceIndex, TablesMaxRows.AttendanceIndex, d => d.TechnicianId, OrderBy.Ascending, includes: new[] { "TechnicianCompany", "TechnicianPosition" }).ToList();
             int itemsCount = unitOfWork.Technician.Count(c => c.Enable);
             foreach (var item in Technicians)
             {
