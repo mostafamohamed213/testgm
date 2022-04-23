@@ -22,9 +22,21 @@
                         <input type="text" name="PlateNumber" id="PlateNumberId" value="@ViewBag.PlateNumber" class="form-control form-control-user" />
                     </div>
                     <div class="col-xl-2">
+                        <label>Family</label>
+                        <select name="FamilyID" onchange="getBrandByfamilyId(this.value)" id="FamilyID" style="width :100%" asp-items="@ViewBag.Families" class="form-control form-control-user">
+                            <option value="-1">Please select one</option>
+                        </select>
+                    </div>
+                    <div class="col-xl-2">
+                        <label>Brand</label>
+                        <select name="BrandID" id="VehicleBrandID" asp-items="@ViewBag.Brands" style="width :100%" class="form-control form-control-user" disabled>
+                            <option value="-1">Please select one</option>
+                        </select>
+                    </div>
+                    <div class="col-xl-2">
                         <label>Department</label>
 
-                        <select name="DepartmentID" style="width :100%"  id="DepartmentID" asp-items="@ViewBag.Departments" class="form-control form-control-user">
+                        <select name="DepartmentID" style="width :100%" id="DepartmentID" asp-items="@ViewBag.Departments" class="form-control form-control-user">
                             <option value="-1">Please select one</option>
                         </select>
                     </div>
@@ -40,19 +52,6 @@
                             <option value="-1">Please select one</option>
                         </select>
                     </div>
-                    <div class="col-xl-2">
-                        <label>Family</label>
-                        <select name="FamilyID" onchange="getBrandByfamilyId(this.value)" id="FamilyID" style="width :100%" asp-items="@ViewBag.Families" class="form-control form-control-user">
-                            <option value="-1">Please select one</option>
-                        </select>
-                    </div>
-                    <div class="col-xl-2">
-                        <label>Brand</label>
-                        <select name="BrandID" id="VehicleBrandID"  asp-items="@ViewBag.Brands" style="width :100%"  class="form-control form-control-user" disabled>
-                            <option value="-1">Please select one</option>
-                        </select>
-                    </div>
-                    
                 </div>
                 <div class="row">
                     <div class="col-xl-4">                        

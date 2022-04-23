@@ -53,6 +53,7 @@ namespace RepositoryPatternWithUOW.Core
         IBaseRepository<VehicleBrand> VehicleBrand { get; }
         IBaseRepository<Vehicle> Vehicle { get; }
         IBaseRepository<VehicleLicense> VehicleLicense { get; }
+        IBaseRepository<VehicleAttachment> VehicleAttachment { get; }
         int Complete();
     }
 }

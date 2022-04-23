@@ -1,0 +1,47 @@
+﻿@model List<RepositoryPatternWithUOW.Core.Models.VehicleAttachment>
+
+<div class="row mxheight">
+
+    @if (Model is not null && Model.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Plate Number (Vehicle)</th>
+                    <th scope="col">Plate Number (Trailer or Silo)</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@item.Vehicle.LicenseNumber</th>
+                        <th scope="row">@item.AttachedVehicle.LicenseNumber</th>
+                        <td>@item.StartDate.ToShortDateString()</td>
+                        <td>@item.EndDate?.ToShortDateString()</td>
+                        <td>
+                            @if (!item.EndDate.HasValue)
+                            {
+                                <span>(Current)</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-12">
+                <h3>This vehicle does not contain a trailer yet</h3>
+            </div>
+        </div>
+
+    }
+
+
+</div>

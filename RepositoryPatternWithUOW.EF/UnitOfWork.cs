@@ -57,6 +57,7 @@ namespace RepositoryPatternWithUOW.EF
         public IBaseRepository<VehicleBrand> VehicleBrand { get; }
         public IBaseRepository<Vehicle> Vehicle { get; }
         public IBaseRepository<VehicleLicense> VehicleLicense { get; }
+        public IBaseRepository<VehicleAttachment> VehicleAttachment { get; }
         public UnitOfWork(WMSContext context)
         {
             _context = context;
@@ -104,6 +105,7 @@ namespace RepositoryPatternWithUOW.EF
             VehicleBrand = new BaseRepository<VehicleBrand>(_context);
             Vehicle = new BaseRepository<Vehicle>(_context);
             VehicleLicense = new BaseRepository<VehicleLicense>(_context);
+            VehicleAttachment = new BaseRepository<VehicleAttachment>(_context);
         }
 
         public int Complete()
