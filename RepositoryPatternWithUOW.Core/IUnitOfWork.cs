@@ -23,6 +23,7 @@ namespace RepositoryPatternWithUOW.Core
         IBaseRepository<InventoryItemType> InventoryItemType { get; }
         IBaseRepository<InventoryItemStatusInventoryItemType> InventoryItemStatusInventoryItemType { get; }
         IBaseRepository<InventoryItemStatus> InventoryItemStatus { get; }
+        IBaseRepository<InventoryItemAssignment> InventoryItemAssignment { get; }
         IBaseRepository<Model> Models { get; }
         IBaseRepository<ParameterEntity> ParameterEntities { get; }
         IBaseRepository<Parameter> Parameters { get; }
@@ -54,6 +55,10 @@ namespace RepositoryPatternWithUOW.Core
         IBaseRepository<Vehicle> Vehicle { get; }
         IBaseRepository<VehicleLicense> VehicleLicense { get; }
         IBaseRepository<VehicleAttachment> VehicleAttachment { get; }
+        IBaseRepository<VehicleCurrentTire> VehicleCurrentTire { get; }
+        IBaseRepository<VehicleTire> VehicleTire { get; }
+        IBaseRepository<Maintenance> Maintenance { get; }
+        IBaseRepository<WorkOrder> WorkOrder { get; }
         int Complete();
     }
 }

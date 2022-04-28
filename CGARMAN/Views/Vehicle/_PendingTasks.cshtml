@@ -1,0 +1,39 @@
+﻿@model List<RepositoryPatternWithUOW.Core.Models.MaintenanceItem>
+@if (Model is not null && Model.Count > 0)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Maintenance Type</th>
+                <th scope="col">Action</th>
+                <th scope="col">Task</th>
+                <th scope="col">Technician</th>
+                <th scope="col">Notes</th>
+                <th scope="col">Checked</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MaintenanceItemType.Name</td>
+                    <td>@item.MaintenanceAction.Name</td>
+                    <td>@item.MaintenanceAction.Name</td>
+                    <td>@item.Technician.Name</td>
+                    <td>@item.Comments</td>
+                    <td>@item.Checked</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-8">
+            <h3>
+                There are no pending tasks yet!
+            </h3>
+        </div>
+    </div>
+}

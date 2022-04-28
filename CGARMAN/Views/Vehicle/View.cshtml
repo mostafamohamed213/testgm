@@ -57,6 +57,11 @@
         border: 1px solid #ccc;
         border-top: none;
     }
+    .ui-autocomplete1 {
+        position: absolute;
+        cursor: default;
+        z-index: 1001 !important
+    }
 </style>
 <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
     <h1 class="h3 mb-0 text-gray-800">
@@ -99,28 +104,28 @@
 <div class="row" style="margin:0px">
     <div class="col-xl-3 col-md-6 mb-4">
         <!-- Earnings (Monthly) Card Example -->
-        <div style="cursor: pointer" id="divInfVehicle" onclick="openTablink(event, 'divInformationVehicle')">
-            <div class="card border-primary  h-100 " id="divShadowItemv">
+        <div style="cursor: pointer" id="divInfVehicle" onclick="openTablink(event, 'divInformationVehicle');changecColorbtns('divShadowInfVehicle')">
+            <div class="card border-primary  h-100 " id="divShadowInfVehicle">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">                                
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Information
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                 @if (Model.isVehicle)
-                                 {
+                                {
                                     <span>Vehicle</span>
-                                 }
-                                 else
-                                 {
+                                }
+                                else
+                                {
                                     <span>Trailer or Silo</span>
-                                 }
+                                }
 
                             </div>
-        
-                                </div>
-        
+
+                        </div>
+
                         <div class="col-auto">
                             @if (Model.isVehicle)
                             {
@@ -140,8 +145,8 @@
 
     <div class="col-xl-3 col-md-6 mb-4">
         <!-- Earnings (Monthly) Card Example -->
-        <div style="cursor: pointer" id="btnTrailer" onclick="openTablink(event, 'divTrailer');" class="tablinks">
-            <div class="card border-success  h-100 " id="divShadowOnHand">
+        <div style="cursor: pointer" id="btnTrailer" onclick="openTablink(event, 'divTrailer');changecColorbtns('divShadowTrailer')" class="tablinks">
+            <div class="card border-success  h-100 " id="divShadowTrailer">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
@@ -151,7 +156,7 @@
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                 @if (Model.isVehicle)
                                 {
-                                <span>Trailer or Silo</span>
+                                    <span>Trailer or Silo</span>
                                 }
                                 else
                                 {
@@ -178,18 +183,18 @@
         </div>
     </div>
     <div class="col-xl-3 col-md-6 mb-4">
-        <div style="cursor: pointer" id="btnAllQuantities" onclick="openTablink(event, 'divAllQuantities');changecColorbtns('divShadowAllQuantities') " class="tablinks">
-            <div class="card border-info  h-100 " id="divShadowAllQuantities">
+        <div style="cursor: pointer" id="btnTires" onclick="openTablink(event, 'divTires');changecColorbtns('divShadowTires') " class="tablinks">
+            <div class="card border-info  h-100 " id="divShadowTires">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                any
+                                Tires
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">All Quantities</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Tires</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-boxes fa-2x text-gray-300"></i>
+                            <i class="fas fa-record-vinyl fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -198,15 +203,17 @@
     </div>
 
     <div class="col-xl-3 col-md-6 mb-4">
-        <div style="cursor: pointer" id="btnTabDivStatus" onclick="openTablink(event, 'divStatus');   GetPopupAddStausToItemType(); changecColorbtns('divShadowStatus')" class="tablinks">
-            <div class="card  border-warning  h-100 " id="divShadowStatus">
+        <div style="cursor: pointer" id="btnTabDivPendingTasks" onclick="openTablink(event, 'divPendingTasks'); changecColorbtns('divShadowPendingTasks'); getPendingTasks(@Model.VehicleId)" class="tablinks">
+            <div class="card  border-warning  h-100 " id="divShadowPendingTasks">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Manage Status
+                                Tasks
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">Status</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                Pending Tasks
+                            </div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -357,7 +364,7 @@
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
-                                        <tbody>                                           
+                                        <tbody>
                                             @foreach (var item in Model.VehicleLicenses)
                                             {
                                                 <tr>
@@ -458,11 +465,11 @@
                             </div>
 
                             <div id="CurrentTrailer" class="row tabcontentItemTrailer" style="margin:3%;display : none;">
-                              
+
 
                                 @if (Model.AttachedVehicle is not null)
                                 {
-                                  
+
 
                                     <div class="row">
                                         <div class="col-md-6">
@@ -544,9 +551,139 @@
                             </div>
 
                             <div id="TrailerHistory" class="row tabcontentItemTrailer" style="margin: 3%; display: none;">
-                               
+
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="divTires" class="tabcontent col-12" style="border:none">
+        <div class="row">
+            <div class=" col-xl">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 ">
+                        <span class="font-weight-bold text-info h4">Tires</span>
+                        <button type="button" class="btn btn-info float-right" data-toggle="modal" data-target="#addTireModal">
+                            Add Tire
+                        </button>
+
+
+                        <div class="modal fade" id="addTireModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="alert alert-error" id="alertErrorAddTire" style=" background-color: indianred; display:none">
+                                        <strong>Error!</strong> <span id="spnErrorAddTire" style="color: #001a4e"> </span>
+                                    </div>
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Add Tire</h5>
+                                        <button type="button" class="close" id="btnCloseAddTire" onclick="clearPopupAddTire()" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="form-group">
+                                            <label class="control-label">Tire Location</label>
+                                            <select id="ddlTireLocations" class="form-control form-control-user w-100">
+                                                @for (int i = 0; i < Model.TiresCount; i++)
+                                                {
+                                                    <option value="@(i + 1)">@(i + 1)</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Tire Serial</label>
+                                            <input type="text" id="tireSerialId" class="form-control form-control-user" aria-controls="dataTable" />
+                                            <input type="hidden" id="hfTireSerialId" @*name="hfBrand"*@ />
+                                            <!--<label>
+                                                Name <input type="text" class="form-control form-control-sm" id="txtNameCostCenter" value="@ViewBag.label" aria-controls="dataTable">
+
+                                                <input type="hidden" id="hfCostCenters"-->
+                                            @*name="hfBrand"*@
+                                            <!--/>
+                                            </label>-->
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" onclick="clearPopupAddTire()" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="saveTire(this)" id="btnSaveTire">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="card-body" id="divContainerCurrentTire">
+                        @*@if (Model.vehicleCurrentTire is not null && Model.vehicleCurrentTire.Count > 0)
+                            {
+                                <div style="max-height: 550px; overflow: hidden; overflow-y: scroll">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Tire Location</th>
+                                                <th>Serial</th>
+                                                <th>Status</th>
+                                                <th>Brand</th>
+                                                <th>Pattern</th>
+                                                <th>Standard Tread Depth</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.vehicleCurrentTire)
+                                            {
+
+                                                <tr>
+                                                    <td>@item.TirePosition</td>
+                                                    <td>@item.SerialNumber</td>
+                                                    <td>@item.InventoryItemStatus</td>
+                                                    <td>@item.Brand</td>
+                                                    <td>@item.Pattern</td>
+                                                    <td>@item.StandardTreadDepth</td>
+                                                </tr>
+
+                                            }
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h3>Tires have not been added yet!</h3>
+                                    </div>
+                                </div>
+                            }*@
+
+                        @await Html.PartialAsync("_VehicleCurrentTire", Model.vehicleCurrentTire)
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="divPendingTasks" class="tabcontent col-12" style="border:none">
+        <div class="row">
+            <div class=" col-xl">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 ">
+                        <h4 class="font-weight-bold text-warning" style=" margin: 0px;">
+                            Pending Tasks
+                        </h4>                      
+                    </div>
+                    <div class="card-body" id="divContainerPendingTasks">
+                       
                     </div>
                 </div>
             </div>
@@ -560,6 +697,179 @@
         document.getElementById("btncontainerVehicles").click();
         ToggleColorInDashboard("linkAllVehicle");
         document.getElementById("btnGoToTopPage").click();
+
+        $(function () {
+            $("#tireSerialId").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Vehicle/AutoCompleteAddTire',
+                        data: { "prefix": request.term },
+                        type: "POST",
+                        success: function (data) {
+                            if (data == 0) {
+                                /* swal("Cancelled", "Oops Something went wrong!", "error");*/
+                            } else {
+                                $('.ui-autocomplete').css('z-index', 99999999999999);
+                                response($.map(data, function (item) {
+                                    return item;
+                                }));
+                            }
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (e, i) {
+                    $("#hfTireSerialId").val(i.item.label);
+
+                },
+                minLength: 1
+            });
+        });
+
+        function changecColorbtns(v) {
+            var colBtnsArr = ['divShadowTrailer', 'divShadowTires', 'divShadowInfVehicle', 'divShadowPendingTasks'];
+            colBtnsArr.forEach(function (i) {
+                if (i == v) {
+
+                    document.getElementById(i).classList.add('shadow');
+                } else {
+                    var item = document.getElementById(i);
+                    if (item != null) {
+                        item.classList.remove('shadow');
+                    }
+                }
+            });
+        }
+        function clearPopupAddTire() {
+            var btnSave = document.getElementById("btnSaveTire");
+            var tirePosition = document.getElementById("ddlTireLocations");
+            var serial = document.getElementById("tireSerialId");
+            btnSave.disabled = false;
+            tirePosition.value = "";
+            serial.value = "";
+            document.getElementById("spnErrorAddTire").innerHTML = "";
+            document.getElementById("alertErrorAddTire").style.display = "none";
+        }
+        function saveTire(ele) {
+            ele.disabled = true;
+            document.getElementById("spnErrorAddTire").innerHTML = "";
+            document.getElementById("alertErrorAddTire").style.display = "none";
+            var tirePosition = document.getElementById("ddlTireLocations");
+            var serial = document.getElementById("tireSerialId");
+              $.ajax({
+                type: "Post",
+                  url: "/Vehicle/SaveTire",
+                  data: { "VehicleId": @Model.VehicleId , "TirePosition": tirePosition.value, "Serial": serial.value},
+                  success: function (response) {
+
+                      if (response.status == 1) {
+                          $.ajax({
+                              url: '/Vehicle/LoadCurrentTire',
+                              data: { "VehicleId":  @Model.VehicleId},
+                              type: "POST",
+                              success: function (data) {
+                                  $('#divContainerCurrentTire').empty();
+                                  $('#divContainerCurrentTire').append(data);
+                              },
+                              error: function (response) {
+                                  alert(response.responseText);
+                              },
+                              failure: function (response) {
+                                  alert(response.responseText);
+                              }
+                          });
+                          document.getElementById("btnCloseAddTire").click();
+                          clearPopupAddTire();
+                      }else{
+                          document.getElementById("spnErrorAddTire").innerHTML = response.object;
+
+                          document.getElementById("alertErrorAddTire").style.display = "block";
+                          ele.disabled = false;
+                      }
+
+                },
+                failure: function (response) {
+                    throwException(response)
+                },
+                error: function (response) {
+                    throwException(response)
+                }
+            })
+        }
+        function deleteTire(inventoryItemId, vehicleId,position) {
+            swal({
+                title: "Are you sure?",
+                text: "are you sure do you want delete this tire",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, unlink it!",
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function () {
+                setTimeout(function () {
+                    $.ajax({
+                        type: "Post",
+                        url: "/Vehicle/DeleteTire",
+                        data: { "InventoryItemId": inventoryItemId, "VehicleId": vehicleId, "Position": position},
+                        success: function (response) {
+                            if (response == 1) {
+                                 $.ajax({
+                                   url: '/Vehicle/LoadCurrentTire',
+                                   data: { "VehicleId":  @Model.VehicleId},
+                                   type: "POST",
+                                      success: function (data) {
+                                          $('#divContainerCurrentTire').empty();
+                                          $('#divContainerCurrentTire').append(data);
+                                      },
+                                      error: function (response) {
+                                          alert(response.responseText);
+                                      },
+                                      failure: function (response) {
+                                          alert(response.responseText);
+                                      }
+                                });
+                                swal("Unlinked!", "Done.", "success");
+
+
+                            } else if (response == -1) {
+                                swal("Cancelled", "Oops Something went wrong!", "error");
+                            }
+                        },
+                        failure: function (response) {
+                            throwException(response)
+                        },
+                        error: function (response) {
+                            throwException(response)
+                        }
+                    })
+                }, 2000);
+            });
+        }
+        function getPendingTasks(vid) {
+            $("#divContainerPendingTasks").empty();
+            $('#divContainerPendingTasks').append('<div style=" margin: 20% 50%;" class="spinner-grow text-primary"></div>');
+            $.ajax({
+                type: "Get",
+                url: "/Vehicle/PendingTasks",
+                data: { "VehicleId": vid },
+                success: function (response) {
+                    $('#divContainerPendingTasks').empty();
+                    $('#divContainerPendingTasks').append(response);
+                },
+                failure: function (response) {
+                    throwException(response)
+                },
+                error: function (response) {
+                    throwException(response)
+                }
+            });
+        }
 
         function openTablink(evt, v) {
 
@@ -620,7 +930,7 @@
                   data: { "VehicleId": @Model.VehicleId },
                 success: function (response) {
                     $("#TrailerHistory").empty();
-                    $("#TrailerHistory").append(response);             
+                    $("#TrailerHistory").append(response);
                 },
                 failure: function (response) {
                     throwException(response)

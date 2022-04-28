@@ -7,6 +7,7 @@ using RepositoryPatternWithUOW.Core.Consts;
 using RepositoryPatternWithUOW.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -59,6 +60,21 @@ namespace CGARMAN.Services
             if (values.Count < 15)
             {
                 values.AddRange(unitOfWork.Vehicle.GetAllWithCriteria(c => c.Enable && !c.LicenseNumber.ToLower().StartsWith(prefix.ToLower()) && c.LicenseNumber.ToLower().Contains(prefix.ToLower())).Select(c => new AutoCompleteViewModel { val = c.VehicleId, label = c.LicenseNumber }).ToList());
+                if (values.Count > 15)
+                {
+                    values.RemoveRange(15, values.Count - 15);
+                }
+            }
+            return values;
+        }
+        internal List<AutoCompleteViewModel> AutoCompleteAddTire(string prefix)
+        {
+            var ItemTypeIds = unitOfWork.InventoryItemType.GetAllWithCriteria(c => c.Name.ToLower().Contains("tire")).Select(c=>c.InventoryItemTypeId);
+            List<AutoCompleteViewModel> values =
+                unitOfWork.InventoryItems.GetAllWithCriteria(c => ItemTypeIds.Contains(c.InventoryItemTypeId) && c.SerialNumber.ToLower().StartsWith(prefix.ToLower())).Select(c => new AutoCompleteViewModel { val = c.InventoryItemId, label = c.SerialNumber }).ToList();
+            if (values.Count < 15)
+            {
+                values.AddRange(unitOfWork.InventoryItems.GetAllWithCriteria(c => ItemTypeIds.Contains(c.InventoryItemTypeId) && !c.SerialNumber.ToLower().StartsWith(prefix.ToLower()) && c.SerialNumber.ToLower().Contains(prefix.ToLower())).Select(c => new AutoCompleteViewModel { val = c.InventoryItemId, label = c.SerialNumber }).ToList());
                 if (values.Count > 15)
                 {
                     values.RemoveRange(15, values.Count - 15);
@@ -258,6 +274,153 @@ namespace CGARMAN.Services
             return false;
         }
 
+        internal int SaveTire(long vehicleId, int tirePosition, string serial)
+        {
+          var InventoryItem =  unitOfWork.InventoryItems.GetOne(c => c.SerialNumber == serial.Trim() && c.InventoryItemTypeId == 40);
+            var Vehicle = unitOfWork.Vehicle.GetOne(c=>c.VehicleId == vehicleId && c.Enable);
+            if (InventoryItem is not null && Vehicle is not null)
+            {
+                var oldTire = unitOfWork.VehicleTire.GetOne(c => c.VehicleId == vehicleId && c.TirePosition == tirePosition && !c.EndDts.HasValue);
+                if (oldTire is not null && oldTire.InventoryItemId == InventoryItem.InventoryItemId)
+                {
+                    return 1;
+                }
+                if (InventoryItem.CurrentQuantity>0)
+                {
+                    DateTime now = DateTime.Now;
+                    InventoryItemAssignment itemAssignment = new InventoryItemAssignment()
+                    {
+                        AssignmentDts = now,
+                        InventoryItemId = InventoryItem.InventoryItemId,
+                        ObjectId = Vehicle.VehicleId,
+                        Quantity =1
+                    };
+                    unitOfWork.InventoryItemAssignment.Add(itemAssignment);
+                    decimal oldCurrentQuantity = InventoryItem.CurrentQuantity;
+                    InventoryItem.CurrentQuantity--;
+                    InventoryItem.InventoryItemStatusId = 4;
+                    InventoryLog log = new InventoryLog()
+                    {
+                        CreateDT = now,
+                        Description = "add tire to vechile and update CurrentQuantity",
+                        InventoryLogOperationID = 1,
+                        InventoryLogTableID = 12,
+                        SystemUserID = "1",
+                        ObjectID = InventoryItem.InventoryItemId,
+                        Object1 = $"OldCurrentQuantity = {oldCurrentQuantity} , NewCurrentQuantity = {InventoryItem.CurrentQuantity}"
+
+                    };
+                    unitOfWork.InventoryLog.Add(log);
+                    InventoryItemStatusLog statusLog = new InventoryItemStatusLog
+                    {
+                        InventoryItem = InventoryItem,
+                        InventoryItemStatusId = InventoryItem.InventoryItemStatusId,
+                        StatusDts = now
+                    };
+                    unitOfWork.InventoryItemStatusLog.Add(statusLog);
+                    //var  vt=  unitOfWork.VehicleTire.GetOne(c=>c.VehicleId == vehicleId && c.TirePosition == tirePosition && !c.EndDts.HasValue);
+                    if (oldTire is not null && oldTire.InventoryItemId != InventoryItem.InventoryItemId)
+                    {
+                        oldTire.EndDts = now;
+                        ReturnTireToInventory(oldTire.InventoryItemId, oldTire.VehicleId);
+                    }                   
+                    unitOfWork.VehicleTire.Add(new VehicleTire
+                    {
+                        InventoryItemId = InventoryItem.InventoryItemId,
+                        Pressure = 0,
+                        TirePosition = tirePosition,
+                        StartDts = now,
+                        TireTreadDepthA = 0,
+                        TireTreadDepthB = 0,
+                        TireTreadDepthC = 0,
+                        VehicleId = vehicleId
+                    });
+           
+                    unitOfWork.Complete();
+                    return 1;
+                }
+                return -3;
+            }
+            return -2;
+        }
+
+        internal List<MaintenanceItem> PendingTasks(long vehicleId)
+        {
+            //WMSContext _context = new WMSContext();
+            //long? lastWO = _context.WorkOrders.Where(w => w.VehicleId == vehicleId).Max(w => (long?)w.WorkOrderNumber);
+            var wos = unitOfWork.WorkOrder.GetAllWithCriteria(c => c.VehicleId == vehicleId);
+            long? lastWO = wos is not null && wos.Count()>0 ? wos.Max(c => c.WorkOrderNumber) : null;
+              
+            List<MaintenanceItem> items;
+            if (lastWO.HasValue && lastWO.Value > 0 )
+            {
+                var woIds = unitOfWork.WorkOrder.GetAllWithCriteria(c => c.VehicleId == vehicleId && c.WorkOrderNumber == lastWO).Select(c=>c.WorkOrderNumber).ToList();
+                var mIds = unitOfWork.Maintenance.GetAllWithCriteria(c => woIds.Contains(c.WorkOrderNumber)).Select(c=>c.MaintenanceId).ToList();
+                items = unitOfWork.MaintenanceItem.GetAllWithCriteria(c => c.MaintenanceItemStatusId == 1 && !c.EndTime.HasValue && mIds.Contains(c.MaintenanceId),new[] { "MaintenanceItemType", "MaintenanceAction", "Technician" , "Maintenance" }).ToList();
+                //items = (from mi in _context.MaintenanceItems
+                //         join m in _context.Maintenances on mi.MaintenanceId equals m.MaintenanceId
+                //         join w in _context.WorkOrders on m.WorkOrderNumber equals w.WorkOrderNumber
+                //         where w.VehicleId == vehicleId  && w.WorkOrderNumber == lastWO && !mi.EndTime.HasValue && mi.MaintenanceItemStatusId == 1
+                //         select mi)
+                //             .Include(m => m.MaintenanceAction)
+                //             .Include(m => m.Technician)
+                //             .Include(m => m.MaintenanceItemType)
+                //             .ToList();
+            }
+            else
+            {
+                items = new List<MaintenanceItem>();
+            }
+            return items;
+        }
+
+        internal int DeleteTire(long inventoryItemId, long vehicleId, int position)
+        {
+            var tire = unitOfWork.VehicleTire.GetOne(c => c.VehicleId == vehicleId && c.TirePosition == position && c.InventoryItemId == inventoryItemId && !c.EndDts.HasValue);
+            if (tire is not null )
+            {
+                tire.EndDts = DateTime.Now;
+              return  ReturnTireToInventory(inventoryItemId, vehicleId);
+            }
+            return -1;
+        }
+
+        internal int ReturnTireToInventory(long InventoryItemId ,long VehicleID)
+        {
+           
+
+            var InventoryItem = unitOfWork.InventoryItems.GetOne(c => c.InventoryItemId == InventoryItemId);
+            if (InventoryItem is not null)
+            {
+                DateTime now = DateTime.Now;
+                decimal oldCurrentQuantity = InventoryItem.CurrentQuantity;
+                InventoryItem.CurrentQuantity++;
+                var ItemAssignment =   unitOfWork.InventoryItemAssignment.GetOne(c=>c.ObjectId==VehicleID && c.InventoryItemId == InventoryItemId && !c.EndDateTime.HasValue );
+                ItemAssignment.EndDateTime = now;
+                InventoryItem.InventoryItemStatusId = 6;
+                InventoryItemStatusLog statusLog = new InventoryItemStatusLog
+                {
+                    InventoryItem = InventoryItem,
+                    InventoryItemStatusId = InventoryItem.InventoryItemStatusId,
+                    StatusDts = now
+                };
+                unitOfWork.InventoryItemStatusLog.Add(statusLog);
+                InventoryLog log = new InventoryLog()
+                {
+                    CreateDT = now,
+                    Description = "Remove tire From vechile then return this to inventory and update CurrentQuantity",
+                    InventoryLogOperationID = 2,
+                    InventoryLogTableID = 12,
+                    SystemUserID = "1",
+                    ObjectID = InventoryItem.InventoryItemId,
+                    Object1 = $"OldCurrentQuantity = {oldCurrentQuantity} , NewCurrentQuantity = {InventoryItem.CurrentQuantity}"
+                };
+                unitOfWork.InventoryLog.Add(log);
+                unitOfWork.Complete();
+                return 1;
+            }
+            return -1;
+        }
         internal int UnlinkTrailer(long vehicleId, long trailerId)
         {
            var vehicle = unitOfWork.Vehicle.GetOne(c => c.VehicleId == vehicleId && c.Enable);
@@ -517,8 +680,13 @@ namespace CGARMAN.Services
             {
                 model.isVehicle = true;
             }
-           
+            model.vehicleCurrentTire = GetVehicleCurrentTireByVehicleId(vehicleId);
             return model;
+
+        }
+        internal List<VehicleCurrentTire> GetVehicleCurrentTireByVehicleId(long vehicleId)
+        {
+           return unitOfWork.VehicleCurrentTire.GetAllWithCriteria(c => c.VehicleId == vehicleId).OrderBy(c => c.TirePosition).ToList();
 
         }
     }

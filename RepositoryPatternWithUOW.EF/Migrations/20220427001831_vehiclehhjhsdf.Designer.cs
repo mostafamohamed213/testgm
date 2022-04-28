@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RepositoryPatternWithUOW.Core.Models;
@@ -9,9 +10,10 @@ using RepositoryPatternWithUOW.Core.Models;
 namespace RepositoryPatternWithUOW.EF.Migrations
 {
     [DbContext(typeof(WMSContext))]
-    partial class WMSContextModelSnapshot : ModelSnapshot
+    [Migration("20220427001831_vehiclehhjhsdf")]
+    partial class vehiclehhjhsdf
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -713,6 +715,9 @@ namespace RepositoryPatternWithUOW.EF.Migrations
 
                     b.Property<DateTime?>("EndDateTime")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("MyProperty")
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("Quantity")
                         .HasPrecision(18, 5)

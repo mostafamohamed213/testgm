@@ -391,6 +391,100 @@ namespace CGARMAN.Controllers
             }
 
         }
+        [HttpPost]
+        public JsonResult AutoCompleteAddTire(string prefix)
+        {
+            try
+            {
+                var values = services.AutoCompleteAddTire(prefix);
+                return Json(values);
+            }
+            catch (Exception)
+            {
+                return Json(0);
+            }
+
+        }
+        [HttpPost]
+        public IActionResult SaveTire(long VehicleId ,int TirePosition,string Serial)
+        {
+            try
+            {
+                if (VehicleId >0 && TirePosition > 0&& !string.IsNullOrEmpty(Serial))
+                {
+                    int status = services.SaveTire(VehicleId, TirePosition, Serial);
+                    if (status == 1)
+                    {
+                        return Json(new { status = 1, @object = "Done"}); 
+                    }
+                    else if (status == -2)
+                    {
+                        return Json(new { status = -2, @object = "Please check the serial number" });
+                    }
+                    else if (status == -3)
+                    {
+                       return Json(new { status = -3, @object = "This tire is not available" });
+                    }
+                }
+                
+                return Json(new { status = 0, @object = "Please check your input" });
+            }
+            catch (Exception)
+            {
+              return Json(new { statusId = -1, @object = "Something went wrong please try again" });
+            }
+        }
+        [HttpPost]
+        public IActionResult LoadCurrentTire(long VehicleId)
+        {
+            try
+            {
+                if (VehicleId > 0)
+                {
+                    return PartialView("_VehicleCurrentTire", services.GetVehicleCurrentTireByVehicleId(VehicleId));
+                }
+                return View("Error");
+            }
+            catch (Exception ex)
+            {
+                return View("Error", ex);
+            }
+        }
+        [HttpPost]
+        public IActionResult DeleteTire(long InventoryItemId, long VehicleId,int Position)
+        {
+            try
+            {
+                if (VehicleId > 0 && InventoryItemId >0)
+                {
+                    int status = services.DeleteTire(InventoryItemId,VehicleId, Position);
+                    if (status == 1)
+                    {
+                        return Json(1);
+                    }
+                  
+                }
+                return Json(-1);
+            }
+            catch (Exception)
+            {
+                return Json(-1);
+            }
+        }
+        [HttpGet]
+        public IActionResult PendingTasks(long VehicleId)
+        {
+            try
+            {
+                var model = services.PendingTasks(VehicleId);
+                return PartialView("_PendingTasks",model);
+            }
+            catch (Exception ex)
+            {
+                return PartialView("CustomError", ex);
+            }
+        }
+
         [HttpGet]
         public IActionResult Delete(long id)
         {

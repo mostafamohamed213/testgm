@@ -58,6 +58,12 @@ namespace RepositoryPatternWithUOW.EF
         public IBaseRepository<Vehicle> Vehicle { get; }
         public IBaseRepository<VehicleLicense> VehicleLicense { get; }
         public IBaseRepository<VehicleAttachment> VehicleAttachment { get; }
+        public IBaseRepository<VehicleCurrentTire> VehicleCurrentTire { get; }
+        public IBaseRepository<InventoryItemAssignment> InventoryItemAssignment { get; }
+        public IBaseRepository<VehicleTire> VehicleTire { get; }
+        
+        public IBaseRepository<Maintenance> Maintenance { get; }
+        public IBaseRepository<WorkOrder> WorkOrder { get; }
         public UnitOfWork(WMSContext context)
         {
             _context = context;
@@ -106,6 +112,12 @@ namespace RepositoryPatternWithUOW.EF
             Vehicle = new BaseRepository<Vehicle>(_context);
             VehicleLicense = new BaseRepository<VehicleLicense>(_context);
             VehicleAttachment = new BaseRepository<VehicleAttachment>(_context);
+            VehicleCurrentTire = new BaseRepository<VehicleCurrentTire>(_context);
+            InventoryItemAssignment = new BaseRepository<InventoryItemAssignment>(_context);
+            VehicleTire = new BaseRepository<VehicleTire>(_context);
+
+            Maintenance = new BaseRepository<Maintenance>(_context);
+            WorkOrder = new BaseRepository<WorkOrder>(_context);
         }
 
         public int Complete()

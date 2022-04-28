@@ -29,5 +29,6 @@ namespace CGARMAN.ViewModel.Vehicle
         public VehicleStatus VehicleStatus { get; set; }
         public virtual ICollection<VehicleLicense> VehicleLicenses { get; set; }
         public bool isVehicle { get; set; }
+        public List<VehicleCurrentTire> vehicleCurrentTire { get; set; }
     }
 }
