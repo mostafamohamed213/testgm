@@ -11,7 +11,7 @@ namespace RepositoryPatternWithUOW.Core.Models
         public long ObjectId { get; set; }
         public decimal Quantity { get; set; }
         public DateTime AssignmentDts { get; set; }
-
+        public DateTime? EndDateTime { get; set; }      
         public virtual InventoryItem InventoryItem { get; set; }
     }
 }

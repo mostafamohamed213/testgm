@@ -198,6 +198,8 @@
                 <div id="collapsePagesVehicles" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" style="cursor: pointer" id="linkAllVehicle" asp-action="Index" asp-controller="Vehicle" asp-route-CurrentPageIndex="1">Vehicles</a>
+                        <a class="collapse-item" style="cursor: pointer" id="linkAllCreateVehicle" asp-action="Create" asp-controller="Vehicle">Create Vehicle</a>
+
                         <div class="collapse-divider"></div>
 
                         <h6 class="collapse-header">Vehicle Management</h6>
@@ -734,7 +736,8 @@
                 'linkAllCostCenters', 'linkCreateCostCenter', 'linkCreatePosition', 'linkIndexTechniciansPosition', 'linkIndexTechniciansShift','linkAllVehicleBrands',
                 'linkCreateShift', 'linkIndexTechniciansCompanies', 'linkCreateCompany', 'linkAllTechnicians', 'ItemsScreen', 'linkCreateTechnicians','linkAllVehicle',
                 'CreateItemScreen', 'CreateItemNameScreen', 'ItemNameScreen', 'StatusManagement', 'UnitManagement', 'VendorManagement','linkAllVehicleFamilies',
-                'ClassificationsManagement', 'BrandManagement', 'ModelManagement', 'linkAllVehicleDepartments', 'linkAllVehicleOwners', 'manageusers', 'manageroles','linkTechniciansDisplayattendence'];
+                'ClassificationsManagement', 'BrandManagement', 'ModelManagement', 'linkAllVehicleDepartments', 'linkAllVehicleOwners', 'manageusers', 'manageroles',
+                'linkAllCreateVehicle','linkTechniciansDisplayattendence'];
             IdsItems.forEach(function (i) {
                 if (i == id) {
                     document.getElementById(i).classList.add('active');

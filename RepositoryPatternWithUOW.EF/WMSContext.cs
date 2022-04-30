@@ -2466,17 +2466,17 @@ namespace RepositoryPatternWithUOW.Core.Models
                 entity.Property(e => e.AttachedVehicleId).HasColumnName("attached_vehicle_id");
 
                 entity.Property(e => e.Capacity)
-                    .IsRequired()
+                    //.IsRequired()
                     .HasMaxLength(128)
                     .HasColumnName("capacity");
 
                 entity.Property(e => e.ChassisSerial)
-                    .IsRequired()
+                    //.IsRequired()
                     .HasMaxLength(128)
                     .HasColumnName("chassis_serial");
 
                 entity.Property(e => e.ChassisType)
-                    .IsRequired()
+                    //.IsRequired()
                     .HasMaxLength(128)
                     .HasColumnName("chassis_type");
 
@@ -2487,12 +2487,12 @@ namespace RepositoryPatternWithUOW.Core.Models
                     .HasDefaultValueSql("now()");
 
                 entity.Property(e => e.EngineSerial)
-                    .IsRequired()
+                    //.IsRequired()
                     .HasMaxLength(128)
                     .HasColumnName("engine_serial");
 
                 entity.Property(e => e.EngineType)
-                    .IsRequired()
+                    //.IsRequired()
                     .HasMaxLength(128)
                     .HasColumnName("engine_type");
 

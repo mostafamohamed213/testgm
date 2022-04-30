@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CGARMAN.ViewModel.InventoryViewModels;
 using CGARMAN.ViewModel.TechnicianViewModels;
+using CGARMAN.ViewModel.Vehicle;
 using RepositoryPatternWithUOW.Core;
 using RepositoryPatternWithUOW.Core.Models;
 using RepositoryPatternWithUOW.EF;
@@ -60,8 +61,9 @@ namespace CGARMAN.ViewModel
             CreateMap<InventoryItem, InventoryItemWarehouseTires>().ReverseMap();
             CreateMap<InventoryItem, InventoryItemWarehouseOils>().ReverseMap();
             CreateMap<CreateTechnicianViewModel, Technician>().ReverseMap();
+            CreateMap<VehicleCreateViewModel,RepositoryPatternWithUOW.Core.Models.Vehicle>().ReverseMap();
+            CreateMap<RepositoryPatternWithUOW.Core.Models.Vehicle, VehicleViewViewModel>().ReverseMap();
 
         }
-
-    }
+    } 
 }

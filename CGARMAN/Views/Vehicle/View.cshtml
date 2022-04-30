@@ -1,0 +1,981 @@
+﻿
+@model CGARMAN.ViewModel.Vehicle.VehicleViewViewModel
+@{
+
+    Layout = "_Authenticated";
+    if (ViewBag.fromDeleteAction != null && ViewBag.fromDeleteAction == true)
+    {
+        ViewData["Title"] = "Delete Vehicle";
+
+    }
+    else
+    {
+        ViewData["Title"] = "View Vehicle";
+
+    }    
+    Model.VehicleLicenses = Model.VehicleLicenses.OrderBy(c => c.CreateDts).ToList();
+}
+<style>
+
+    .mxheight {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: #ccc;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+    .ui-autocomplete1 {
+        position: absolute;
+        cursor: default;
+        z-index: 1001 !important
+    }
+</style>
+<div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+    <h1 class="h3 mb-0 text-gray-800">
+        @if (ViewBag.fromDeleteAction != null && ViewBag.fromDeleteAction == true)
+        {
+            <span>Delete</span>
+        }
+        else
+        { <span></span>} Vehicle <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> @Model.LicenseNumber
+    </h1>
+    <a style="margin-right:10px" asp-action="Index" asp-controller="Home" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Back to Home</a>
+</div>
+<hr />
+@if (ViewBag.fromDeleteAction != null && ViewBag.fromDeleteAction == true)
+{
+    <div class="row" style="margin:auto;">
+
+        <div class="col-lg-12 text-danger">
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-danger">are you sure !  do you want delete this @Model.VehicleFamily.Name ? </h6>
+                </div>
+                <form asp-action="Delete" asp-controller="Vehicle" method="post">
+                    <input type="hidden" asp-for="VehicleId" />
+                    <div class="form-group row" style="margin:10px">
+                        <div class="col-xl-2">
+                            <a class="btn btn-primary text-white w-100" onclick="history.go(-1)">Go Back</a>
+                        </div>
+                        <div class="col-xl-2">                           
+                            <input type="submit" value="Delete" class="btn btn-danger w-100" />                          
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row" style="margin:0px">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <!-- Earnings (Monthly) Card Example -->
+        <div style="cursor: pointer" id="divInfVehicle" onclick="openTablink(event, 'divInformationVehicle');changecColorbtns('divShadowInfVehicle')">
+            <div class="card border-primary  h-100 " id="divShadowInfVehicle">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Information
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @if (Model.isVehicle)
+                                {
+                                    <span>Vehicle</span>
+                                }
+                                else
+                                {
+                                    <span>Trailer or Silo</span>
+                                }
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-auto">
+                            @if (Model.isVehicle)
+                            {
+                                <i class="fas fa-truck fa-2x text-gray-300"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-trailer fa-2x text-gray-300"></i>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <!-- Earnings (Monthly) Card Example -->
+        <div style="cursor: pointer" id="btnTrailer" onclick="openTablink(event, 'divTrailer');changecColorbtns('divShadowTrailer')" class="tablinks">
+            <div class="card border-success  h-100 " id="divShadowTrailer">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                link
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @if (Model.isVehicle)
+                                {
+                                    <span>Trailer or Silo</span>
+                                }
+                                else
+                                {
+                                    <span>Linked Vehicle</span>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            @if (Model.isVehicle)
+                            {
+                                <i class="fas fa-trailer fa-2x text-gray-300"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-truck fa-2x text-gray-300"></i>
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div style="cursor: pointer" id="btnTires" onclick="openTablink(event, 'divTires');changecColorbtns('divShadowTires') " class="tablinks">
+            <div class="card border-info  h-100 " id="divShadowTires">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Tires
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Tires</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-record-vinyl fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div style="cursor: pointer" id="btnTabDivPendingTasks" onclick="openTablink(event, 'divPendingTasks'); changecColorbtns('divShadowPendingTasks'); getPendingTasks(@Model.VehicleId)" class="tablinks">
+            <div class="card  border-warning  h-100 " id="divShadowPendingTasks">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Tasks
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                Pending Tasks
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="divInformationVehicle" class="tabcontent col-12" style="border:none">
+        <div class="row">
+            <div class=" col-xl">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 ">
+                        <h4 class="font-weight-bold text-primary">Information & Plate Numbers</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h3>Plate Number : @Model.LicenseNumber</h3>
+                                </div>
+
+                            </div>
+                            <br />
+                            <div class="tab">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <button class="tablinksItem" id="divGerInfoVehicle" onclick="openTablinkVehicle(event, 'divGeneralInformation')">
+                                            General Information
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="tablinksItem" onclick="openTablinkVehicle(event, 'divPlateNumbers')">
+                                            Plate Numbers
+                                        </button>
+                                    </div>
+                                    <div class="col-md-5">
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div id="divGeneralInformation" class="row tabcontentItem" style="margin:3%;display : none;">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4 ">Department</div>
+                                            <div class="col-md-8 border-left-primary">@Model.VehicleDepartment.Name</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">Owner</div>
+                                            <div class="col-md-8 border-left-primary">@Model.VehicleOwner.Name</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">Family</div>
+                                            <div class="col-md-8 border-left-primary">@Model.VehicleFamily.Name</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">Brand</div>
+                                            <div class="col-md-8 border-left-primary">@Model.VehicleBrand.Name</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">Cost Center(Name)</div>
+                                            <div class="col-md-8 border-left-primary">@Model.CostCenter.Name</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">Cost Center(Value)</div>
+                                            <div class="col-md-8 border-left-primary">@Model.CostCenter.Value</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">Status</div>
+                                            <div class="col-md-8 border-left-primary">@Model.VehicleStatus.Name</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">Manufacturing Year</div>
+                                            <div class="col-md-8 border-left-primary">@Model.ManufacturingYear</div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        @if (Model.isVehicle)
+                                        {
+                                            <div class="row">
+                                                <div class="col-md-4 ">Capacity</div>
+                                                <div class="col-md-8 border-left-primary">@Model.Capacity</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 ">Chassis Type</div>
+                                                <div class="col-md-8 border-left-primary">@Model.ChassisType</div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4 ">Chassis Serial</div>
+                                                <div class="col-md-8 border-left-primary">@Model.ChassisSerial</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 ">Engine Type</div>
+                                                <div class="col-md-8 border-left-primary">@Model.EngineType</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 ">Engine Serial</div>
+                                                <div class="col-md-8 border-left-primary">@Model.EngineSerial</div>
+                                            </div>
+                                        }
+
+                                        <div class="row">
+                                            <div class="col-md-4 ">Tires Count</div>
+                                            <div class="col-md-8 border-left-primary">@Model.TiresCount</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">Tire Size</div>
+                                            <div class="col-md-8 border-left-primary">@Model.TireSize.Name</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 ">Creation time</div>
+                                            <div class="col-md-8 border-left-primary">@Model.CreateDts</div>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                                <br />
+                                <br />
+                                <div>
+                                    <div>Notes</div>
+                                    <textarea class="form-control" rows="3" disabled>
+                                      @Model.Notes
+                                    </textarea>
+                                </div>
+                            </div>
+
+                            <div id="divPlateNumbers" class="row tabcontentItem" style="margin: 3%; display: none;">
+                                <div class="row mxheight">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">License Number</th>
+                                                <th scope="col">Start Date</th>
+                                                <th scope="col">End Date</th>
+                                                <th scope="col"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.VehicleLicenses)
+                                            {
+                                                <tr>
+                                                    <th scope="row">@item.LicenseNumber</th>
+                                                    <td>@item.StartDate</td>
+                                                    <td>@item.EndDate</td>
+                                                    <td>
+                                                        @if (!item.EndDate.HasValue)
+                                                        {
+                                                            <span>(Current)</span>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="divTrailer" class="tabcontent col-12" style="border:none">
+        <div class="row">
+            <div class=" col-xl">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 ">
+                        <span class="font-weight-bold text-primary h4 float-left">Linked  & History</span>
+                        @if (ViewBag.fromDeleteAction == false)
+                        {
+                            if (Model.isVehicle)
+                            {
+                                <div class="float-right">
+                                    @if (Model.AttachedVehicle is not null)
+                                    {
+                                        <input type="button" class="btn btn-danger" value="Unlink" onclick="ClearTrailer(@Model.VehicleId,@Model.AttachedVehicle.VehicleId)" />
+                                    }
+                                    <a asp-action="LinkTrailer" asp-controller="Vehicle" asp-route-VehicleId="@Model.VehicleId" class="btn btn-success ">@(Model.AttachedVehicle is not null ? "Change" : "Link")</a>
+
+                                </div>
+
+                            }
+                            else
+                            {
+                                if (Model.AttachedVehicle is not null)
+                                {
+                                    <input type="button" class="btn btn-danger float-right" value="Unlink" onclick="ClearTrailer(@Model.AttachedVehicle.VehicleId,@Model.VehicleId)" />
+                                }
+                            }
+                        }
+
+                    </div>
+                    <div class="card-body">
+
+                        <div>
+                            @if (Model.AttachedVehicle is not null)
+                            {
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h3>Plate Number (@Model.AttachedVehicle.VehicleFamily.Name) : @Model.AttachedVehicle.LicenseNumber</h3>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h3>
+                                            This @Model.VehicleFamily.Name does not contain a @(Model.isVehicle ? "trailer or silo" : "vehicle") yet!
+                                        </h3>
+                                    </div>
+                                </div>
+
+                            }
+
+                            <br />
+                            <div class="tab">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <button class="tablinksItemTrailer" id="divGerInfoVehicle" onclick="openTablinkTrailer(event, 'CurrentTrailer')">
+                                            @(Model.isVehicle ? "Trailer or Silo" : "Vehicle")
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="tablinksItemTrailer" onclick="openTablinkTrailer(event, 'TrailerHistory'); getTrailerHistory();">
+                                            History
+                                        </button>
+                                    </div>
+                                    <div class="col-md-5">
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div id="CurrentTrailer" class="row tabcontentItemTrailer" style="margin:3%;display : none;">
+
+
+                                @if (Model.AttachedVehicle is not null)
+                                {
+
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-4 ">Family</div>
+                                                <div class="col-md-8 border-left-primary">@Model.AttachedVehicle.VehicleFamily.Name</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 ">Brand</div>
+                                                <div class="col-md-8 border-left-primary">@Model.AttachedVehicle.VehicleBrand.Name</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 ">Department</div>
+                                                <div class="col-md-8 border-left-primary">@Model.AttachedVehicle.VehicleDepartment.Name</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 ">Owner</div>
+                                                <div class="col-md-8 border-left-primary">@Model.AttachedVehicle.VehicleOwner.Name</div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-4 ">Status</div>
+                                                <div class="col-md-8 border-left-primary">@Model.AttachedVehicle.VehicleStatus.Name</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 ">Manufacturing Year</div>
+                                                <div class="col-md-8 border-left-primary">@Model.AttachedVehicle.ManufacturingYear</div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-4 ">Cost Center(Name)</div>
+                                                <div class="col-md-8 border-left-primary">@Model.AttachedVehicle.CostCenter.Name</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 ">Cost Center(Value)</div>
+                                                <div class="col-md-8 border-left-primary">@Model.AttachedVehicle.CostCenter.Value</div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4 ">Tires Count</div>
+                                                <div class="col-md-8 border-left-primary">@Model.AttachedVehicle.TiresCount</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 ">Tire Size</div>
+                                                <div class="col-md-8 border-left-primary">@Model.AttachedVehicle.TireSize.Name</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 ">Creation time</div>
+                                                <div class="col-md-8 border-left-primary">@Model.AttachedVehicle.CreateDts</div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div>
+                                        <div>Notes</div>
+                                        <textarea class="form-control" rows="3" disabled>
+                                      @Model.AttachedVehicle.Notes
+                                    </textarea>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h3>This @Model.VehicleFamily.Name does not contain a @(Model.isVehicle ? "trailer or silo" : "vehicle") yet!</h3>
+                                        </div>
+                                    </div>
+
+                                }
+
+                            </div>
+
+                            <div id="TrailerHistory" class="row tabcontentItemTrailer" style="margin: 3%; display: none;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="divTires" class="tabcontent col-12" style="border:none">
+        <div class="row">
+            <div class=" col-xl">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 ">
+                        <span class="font-weight-bold text-info h4">Tires</span>
+                        <button type="button" class="btn btn-info float-right" data-toggle="modal" data-target="#addTireModal">
+                            Add Tire
+                        </button>
+
+
+                        <div class="modal fade" id="addTireModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="alert alert-error" id="alertErrorAddTire" style=" background-color: indianred; display:none">
+                                        <strong>Error!</strong> <span id="spnErrorAddTire" style="color: #001a4e"> </span>
+                                    </div>
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Add Tire</h5>
+                                        <button type="button" class="close" id="btnCloseAddTire" onclick="clearPopupAddTire()" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="form-group">
+                                            <label class="control-label">Tire Location</label>
+                                            <select id="ddlTireLocations" class="form-control form-control-user w-100">
+                                                @for (int i = 0; i < Model.TiresCount; i++)
+                                                {
+                                                    <option value="@(i + 1)">@(i + 1)</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Tire Serial</label>
+                                            <input type="text" id="tireSerialId" class="form-control form-control-user" aria-controls="dataTable" />
+                                            <input type="hidden" id="hfTireSerialId" @*name="hfBrand"*@ />
+                                            <!--<label>
+                                                Name <input type="text" class="form-control form-control-sm" id="txtNameCostCenter" value="@ViewBag.label" aria-controls="dataTable">
+
+                                                <input type="hidden" id="hfCostCenters"-->
+                                            @*name="hfBrand"*@
+                                            <!--/>
+                                            </label>-->
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" onclick="clearPopupAddTire()" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="saveTire(this)" id="btnSaveTire">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="card-body" id="divContainerCurrentTire">
+                        @*@if (Model.vehicleCurrentTire is not null && Model.vehicleCurrentTire.Count > 0)
+                            {
+                                <div style="max-height: 550px; overflow: hidden; overflow-y: scroll">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Tire Location</th>
+                                                <th>Serial</th>
+                                                <th>Status</th>
+                                                <th>Brand</th>
+                                                <th>Pattern</th>
+                                                <th>Standard Tread Depth</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.vehicleCurrentTire)
+                                            {
+
+                                                <tr>
+                                                    <td>@item.TirePosition</td>
+                                                    <td>@item.SerialNumber</td>
+                                                    <td>@item.InventoryItemStatus</td>
+                                                    <td>@item.Brand</td>
+                                                    <td>@item.Pattern</td>
+                                                    <td>@item.StandardTreadDepth</td>
+                                                </tr>
+
+                                            }
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h3>Tires have not been added yet!</h3>
+                                    </div>
+                                </div>
+                            }*@
+
+                        @await Html.PartialAsync("_VehicleCurrentTire", Model.vehicleCurrentTire)
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="divPendingTasks" class="tabcontent col-12" style="border:none">
+        <div class="row">
+            <div class=" col-xl">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 ">
+                        <h4 class="font-weight-bold text-warning" style=" margin: 0px;">
+                            Pending Tasks
+                        </h4>                      
+                    </div>
+                    <div class="card-body" id="divContainerPendingTasks">
+                       
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        document.getElementById("btncontainerVehicles").click();
+        ToggleColorInDashboard("linkAllVehicle");
+        document.getElementById("btnGoToTopPage").click();
+
+        $(function () {
+            $("#tireSerialId").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Vehicle/AutoCompleteAddTire',
+                        data: { "prefix": request.term },
+                        type: "POST",
+                        success: function (data) {
+                            if (data == 0) {
+                                /* swal("Cancelled", "Oops Something went wrong!", "error");*/
+                            } else {
+                                $('.ui-autocomplete').css('z-index', 99999999999999);
+                                response($.map(data, function (item) {
+                                    return item;
+                                }));
+                            }
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (e, i) {
+                    $("#hfTireSerialId").val(i.item.label);
+
+                },
+                minLength: 1
+            });
+        });
+
+        function changecColorbtns(v) {
+            var colBtnsArr = ['divShadowTrailer', 'divShadowTires', 'divShadowInfVehicle', 'divShadowPendingTasks'];
+            colBtnsArr.forEach(function (i) {
+                if (i == v) {
+
+                    document.getElementById(i).classList.add('shadow');
+                } else {
+                    var item = document.getElementById(i);
+                    if (item != null) {
+                        item.classList.remove('shadow');
+                    }
+                }
+            });
+        }
+        function clearPopupAddTire() {
+            var btnSave = document.getElementById("btnSaveTire");
+            var tirePosition = document.getElementById("ddlTireLocations");
+            var serial = document.getElementById("tireSerialId");
+            btnSave.disabled = false;
+            tirePosition.value = "";
+            serial.value = "";
+            document.getElementById("spnErrorAddTire").innerHTML = "";
+            document.getElementById("alertErrorAddTire").style.display = "none";
+        }
+        function saveTire(ele) {
+            ele.disabled = true;
+            document.getElementById("spnErrorAddTire").innerHTML = "";
+            document.getElementById("alertErrorAddTire").style.display = "none";
+            var tirePosition = document.getElementById("ddlTireLocations");
+            var serial = document.getElementById("tireSerialId");
+              $.ajax({
+                type: "Post",
+                  url: "/Vehicle/SaveTire",
+                  data: { "VehicleId": @Model.VehicleId , "TirePosition": tirePosition.value, "Serial": serial.value},
+                  success: function (response) {
+
+                      if (response.status == 1) {
+                          $.ajax({
+                              url: '/Vehicle/LoadCurrentTire',
+                              data: { "VehicleId":  @Model.VehicleId},
+                              type: "POST",
+                              success: function (data) {
+                                  $('#divContainerCurrentTire').empty();
+                                  $('#divContainerCurrentTire').append(data);
+                              },
+                              error: function (response) {
+                                  alert(response.responseText);
+                              },
+                              failure: function (response) {
+                                  alert(response.responseText);
+                              }
+                          });
+                          document.getElementById("btnCloseAddTire").click();
+                          clearPopupAddTire();
+                      }else{
+                          document.getElementById("spnErrorAddTire").innerHTML = response.object;
+
+                          document.getElementById("alertErrorAddTire").style.display = "block";
+                          ele.disabled = false;
+                      }
+
+                },
+                failure: function (response) {
+                    throwException(response)
+                },
+                error: function (response) {
+                    throwException(response)
+                }
+            })
+        }
+        function deleteTire(inventoryItemId, vehicleId,position) {
+            swal({
+                title: "Are you sure?",
+                text: "are you sure do you want delete this tire",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, unlink it!",
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function () {
+                setTimeout(function () {
+                    $.ajax({
+                        type: "Post",
+                        url: "/Vehicle/DeleteTire",
+                        data: { "InventoryItemId": inventoryItemId, "VehicleId": vehicleId, "Position": position},
+                        success: function (response) {
+                            if (response == 1) {
+                                 $.ajax({
+                                   url: '/Vehicle/LoadCurrentTire',
+                                   data: { "VehicleId":  @Model.VehicleId},
+                                   type: "POST",
+                                      success: function (data) {
+                                          $('#divContainerCurrentTire').empty();
+                                          $('#divContainerCurrentTire').append(data);
+                                      },
+                                      error: function (response) {
+                                          alert(response.responseText);
+                                      },
+                                      failure: function (response) {
+                                          alert(response.responseText);
+                                      }
+                                });
+                                swal("Unlinked!", "Done.", "success");
+
+
+                            } else if (response == -1) {
+                                swal("Cancelled", "Oops Something went wrong!", "error");
+                            }
+                        },
+                        failure: function (response) {
+                            throwException(response)
+                        },
+                        error: function (response) {
+                            throwException(response)
+                        }
+                    })
+                }, 2000);
+            });
+        }
+        function getPendingTasks(vid) {
+            $("#divContainerPendingTasks").empty();
+            $('#divContainerPendingTasks').append('<div style=" margin: 20% 50%;" class="spinner-grow text-primary"></div>');
+            $.ajax({
+                type: "Get",
+                url: "/Vehicle/PendingTasks",
+                data: { "VehicleId": vid },
+                success: function (response) {
+                    $('#divContainerPendingTasks').empty();
+                    $('#divContainerPendingTasks').append(response);
+                },
+                failure: function (response) {
+                    throwException(response)
+                },
+                error: function (response) {
+                    throwException(response)
+                }
+            });
+        }
+
+        function openTablink(evt, v) {
+
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            if (document.getElementById(v)) {
+                document.getElementById(v).style.display = "block";
+            }
+            //if (evt != "undefined" && evt != undefined) {
+
+            //}
+            evt.currentTarget.className += " active";
+        }
+
+        function openTablinkVehicle(evt, v) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontentItem");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinksItem");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(v).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        function openTablinkTrailer(evt, v) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontentItemTrailer");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinksItemTrailer");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(v).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        window.onload = function () {
+            document.getElementById("divInfVehicle").click();
+            document.getElementById("divGerInfoVehicle").click();
+        };
+        function getTrailerHistory() {
+            $("#TrailerHistory").empty();
+            $('#TrailerHistory').append('<div style=" margin: 20% 50%;" class="spinner-grow text-primary"></div>');
+              $.ajax({
+                type: "Get",
+                  url: "/Vehicle/TrailerHistory",
+                  data: { "VehicleId": @Model.VehicleId },
+                success: function (response) {
+                    $("#TrailerHistory").empty();
+                    $("#TrailerHistory").append(response);
+                },
+                failure: function (response) {
+                    throwException(response)
+                },
+                error: function (response) {
+                    throwException(response)
+                }
+            })
+        }
+
+        function ClearTrailer(vehicleId, trailerId) {
+            swal({
+                title: "Are you sure?",
+                text: "are you sure do you want unlink trailer",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, unlink it!",
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function () {
+                setTimeout(function () {
+                    $.ajax({
+                        type: "Post",
+                        url: "/Vehicle/UnlinkTrailer",
+                        data: { "VehicleId": vehicleId, "TrailerId": trailerId},
+                        success: function (response) {
+                            if (response == 1) {
+                                swal("Unlinked!", "Done.", "success");
+                                window.location.reload();
+                                document.getElementById("btnTrailer").click();
+                            } else if (response == -1) {
+                                swal("Cancelled", "Oops Something went wrong!", "error");
+                            }
+                        },
+                        failure: function (response) {
+                            throwException(response)
+                        },
+                        error: function (response) {
+                            throwException(response)
+                        }
+                    })
+                }, 2000);
+            });
+        }
+    </script>
+
+}

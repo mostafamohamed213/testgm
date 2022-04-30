@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RepositoryPatternWithUOW.Core.Models;
@@ -9,9 +10,10 @@ using RepositoryPatternWithUOW.Core.Models;
 namespace RepositoryPatternWithUOW.EF.Migrations
 {
     [DbContext(typeof(WMSContext))]
-    partial class WMSContextModelSnapshot : ModelSnapshot
+    [Migration("20220423070202_vehiclehhjh")]
+    partial class vehiclehhjh
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -710,9 +712,6 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("assignment_dts")
                         .HasDefaultValueSql("now()");
-
-                    b.Property<DateTime?>("EndDateTime")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<decimal>("Quantity")
                         .HasPrecision(18, 5)
@@ -2993,7 +2992,6 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                         .HasColumnName("engine_type");
 
                     b.Property<string>("LicenseNumber")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("ManufacturingYear")
