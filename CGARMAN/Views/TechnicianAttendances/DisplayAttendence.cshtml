@@ -67,7 +67,8 @@
                                         <tr>
                                             <th>Date</th>
                                             <th>Name</th>
-
+                                            <th>Status</th>
+                                            <th>Shift</th>
                                         </tr>
                                      
                                     </thead>
@@ -75,15 +76,21 @@
                                         @foreach (var item in Model.items)
                                         {
 
-                                            <tr>
-                                                <td>
-                                                    @item.EventDate.ToShortDateString()
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Technician.Name)
-                                                </td>
-                                              
-                                            </tr>
+                                        <tr>
+                                            <td>
+                                                @item.EventDate.ToShortDateString()
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Technician.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.AttendanceStatus.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Shift.Name)
+                                            </td>
+
+                                        </tr>
                                         }
 
                                     </tbody>

@@ -49,7 +49,7 @@ namespace CGARMAN.Services
 
             PagingViewModel<TechnicianAttendance> model = new PagingViewModel<TechnicianAttendance>();
 
-            List<TechnicianAttendance> Technicians = unitOfWork.TechnicianAttendance.FindAll(c=> c.EventDate.Date==DateTime.Now.Date, (currentPage - 1) * 10, 10, includes: new[] { "Technician" }).ToList();
+            List<TechnicianAttendance> Technicians = unitOfWork.TechnicianAttendance.FindAll(c=> c.EventDate.Date==DateTime.Now.Date, (currentPage - 1) * 10, 10, includes: new[] { "Technician" , "AttendanceStatus" , "Shift" }).ToList();
 
                 int itemsCount = unitOfWork.TechnicianAttendance.Count(c => c.EventDate.Date == DateTime.Now.Date);
           
@@ -189,7 +189,7 @@ namespace CGARMAN.Services
         {
             var Technicians = unitOfWork.TechnicianAttendance.
                 FindAll(c =>  (datefrom.HasValue ? c.EventDate.Date>=datefrom.Value.Date:true) && (dateto.HasValue ? c.EventDate.Date <= dateto.Value.Date: true)
-                , (CurrentPageIndex - 1) * 10, 10, d => d.TechnicianId, OrderBy.Ascending, includes: new[] { "Technician" }).ToList();
+                , (CurrentPageIndex - 1) * 10, 10, d => d.TechnicianId, OrderBy.Ascending, includes: new[] { "Technician", "AttendanceStatus", "Shift" }).ToList();
             var itemsCount = unitOfWork.TechnicianAttendance.Count(c => (datefrom.HasValue ? c.EventDate.Date >= datefrom.Value.Date : true) && (dateto.HasValue ? c.EventDate.Date <= dateto.Value.Date : true));
 
            // var Companies = unitOfWork.TechnicianCompany.GetAllWithCriteria(c => c.Enable && !string.IsNullOrEmpty(Name) ? c.Name.ToLower().Contains(Name.ToLower()) : false, null);
