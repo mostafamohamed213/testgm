@@ -41,14 +41,16 @@ namespace CGARMAN.Services
         }
 
        
-        internal ViewTechnicianViewModel getTechnicianDetails(int id)
+
+
+        internal ViewTechnicianViewModel getTechnicianDetails(int id,DateTime? datefrom = null, DateTime? dateto = null)
         {
             var tech = unitOfWork.Technician.GetOne(c => c.TechnicianId == id, new[] { "CostCenter", "TechnicianCompany", "TechnicianPosition" });
             ViewTechnicianViewModel model = new ViewTechnicianViewModel();
             model.technician = tech;
             model.maintenanceItems = unitOfWork.MaintenanceItem.FindAll(c => c.TechnicianId == tech.TechnicianId, null, 20, c => c.MaintenanceItemId, OrderBy.Descending, new[] { "MaintenanceItemType", "MaintenanceItemStatus", "MaintenanceAction", "Maintenance.Workshop" }).ToList();
             //model.maintenanceItems = unitOfWork.MaintenanceItem.GetAllWithCriteria(c => c.TechnicianId == tech.TechnicianId, new[] { "MaintenanceItemType", "MaintenanceItemStatus", "MaintenanceAction", "Maintenance.Workshop" }).ToList(); ;
-            model.TechnicianAttendances = unitOfWork.TechnicianAttendance.FindAll(c => c.TechnicianId == tech.TechnicianId, null, 20, c => c.CreateDts, OrderBy.Descending, new[] { "AttendanceStatus", "Shift"}).ToList();
+            model.TechnicianAttendances = unitOfWork.TechnicianAttendance.FindAll(c => c.TechnicianId == tech.TechnicianId && (datefrom.HasValue ? c.EventDate.Date >= datefrom.Value.Date : true) && (dateto.HasValue ? c.EventDate.Date <= dateto.Value.Date : true), null, 20, c => c.CreateDts, OrderBy.Descending, new[] { "AttendanceStatus", "Shift"}).ToList();
             return model;
         }
         internal int Delete(int technicianId)

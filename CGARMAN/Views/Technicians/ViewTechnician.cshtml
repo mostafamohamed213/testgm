@@ -110,7 +110,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                    last 20 Attendances
+                                    Last 20 Attendance
                                 </div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">Attendance</div>
                             </div>
@@ -298,8 +298,34 @@
             <div class=" col-xl">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 ">
-                        <h4 class="font-weight-bold text-info">Attendance (Last 20)</h4>
-                    </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-xl-3">
+                                <h4 class="font-weight-bold text-info">Attendance</h4>
+                                you can search for last 20 attendance between any period
+                            </div>
+                                <div class="col-lg-4 col-xl-3">
+                                    <label>
+                                        From <input type="date" class=" form-control-sm" id="datefrom" value="@ViewBag.datefrom" aria-controls="dataTable">
+
+                                    </label>
+                                </div>
+                                <div class="col-lg-4 col-xl-3">
+                                    <label>
+                                        To <input type="date" class=" form-control-sm" id="dateto" value="@ViewBag.dateto" aria-controls="dataTable">
+
+                                    </label>
+                                </div>
+                                <div class="col-lg-4 col-xl-3">
+                                    <label>
+                                        <input type="text" style="display:none" class="form-control form-control-sm" id="id" value="@ViewBag.id">
+                                        <input type="text" style="display:none" class="form-control form-control-sm" id="isattend" value="@ViewBag.isattend">
+                                        <input type="button" class="btn btn-primary" value="search" onclick="searchTechnicians()" aria-controls="dataTable">
+
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
                     <div class="card-body">
                         <div style="max-height: 550px; overflow: hidden; overflow-y: scroll">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -348,6 +374,26 @@
         document.getElementById("btnGoToTopPage").click();
     </script>
     <script>
+
+
+        $(document).ready(function () {
+            var isattend = document.getElementById("isattend").value;
+            if (isattend != null) {
+                if (isattend == 1) {
+                    openTablink(event, 'divTechnicianAttendance'); changecColorbtns('divShadowTechnicianAttendance')
+                }
+            }
+        });
+
+        function searchTechnicians() {
+    
+            var datefrom = document.getElementById("datefrom").value;
+            var dateto = document.getElementById("dateto").value;
+      
+            var id = document.getElementById("id").value;
+            
+            window.location.href = "/Technicians/ViewTechnician?id=" + id + "&&datefrom=" + datefrom + "&&dateto=" + dateto + "&&isattend=" + "1";
+        }
 
         function changecColorbtns(v) {
             var colBtnsArr = ['divShadowTechnicianAttendance', 'divShadowTechnicianMaintenance', 'divShadowTechnician'];

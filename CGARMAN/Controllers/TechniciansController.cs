@@ -62,10 +62,44 @@ namespace CGARMAN.Controllers
 
         }
         [HttpGet]
-        public IActionResult ViewTechnician(int id)
+        public IActionResult ViewTechnician(int id, DateTime? datefrom = null, DateTime? dateto = null,int? isattend=null)
         {
             try
             {
+                ViewBag.datefrom = datefrom;
+                ViewBag.dateto = dateto;
+                ViewBag.id = id;
+                ViewBag.isattend = isattend;
+                if (datefrom != null)
+                {
+                    DateTime datef = (DateTime)datefrom;
+                    string ss = datef.ToString("yyyy/MM/dd");
+                    ss = ss.Replace("/", "-");
+                    ViewBag.datefrom = ss;
+                }
+                else
+                {
+                    ViewBag.datefrom = datefrom;
+                }
+                if (dateto != null)
+                {
+                    DateTime datet = (DateTime)dateto;
+                    string s = datet.ToString("yyyy/MM/dd");
+                    s = s.Replace("/", "-");
+
+                    ViewBag.dateto = s;
+                }
+                else
+                {
+                    ViewBag.dateto = dateto;
+                }
+
+
+                if (datefrom != null || dateto != null)
+                {
+                    return View(TechniciansServices.getTechnicianDetails(id, datefrom, dateto));
+                }
+
                 var technician = TechniciansServices.getTechnicianDetails(id);
                 return View(technician);
             }

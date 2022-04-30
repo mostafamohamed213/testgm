@@ -1,0 +1,169 @@
+﻿@using RepositoryPatternWithUOW.Core.Models;
+@model CGARMAN.ViewModel.PagingViewModel<TechnicianAttendance>
+@{
+
+    ViewData["Title"] = "Attendance";
+    Layout = "_Authenticated";
+    DateTime DateNow = DateTime.Now;
+
+}
+
+<div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+        <h1 class="h3 mb-0 text-gray-800">
+            Technicians <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> Attendance 
+        </h1>
+    </div>
+
+    <div class="card shadow mb-4" style="margin:0px 15px">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Attendances
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-2">
+                            <div class="dataTables_length" id="dataTable_length">
+                              
+
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-9">
+                            <div id="dataTable_filter" class="dataTables_filter">
+
+                                <div class="row">
+                                    <div class="col-lg-12 col-xl-4">
+                                        <label>
+                                            From <input type="date" class="form-control form-control-sm" id="datefrom" value="@ViewBag.datefrom" aria-controls="dataTable">
+
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12 col-xl-4">
+                                        <label>
+                                            To <input type="date" class="form-control form-control-sm" id="dateto" value="@ViewBag.dateto" aria-controls="dataTable">
+
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12 col-xl-4">
+                                        <label>
+                                             <input type="button" class="btn btn-primary" value="search"  onclick="searchTechnicians()" aria-controls="dataTable">
+
+                                        </label>
+                                    </div>
+                                </div>
+
+                                </div>
+                            </div>
+                    </div>
+                    <div id="containerTabeTechnicians">
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Name</th>
+
+                                        </tr>
+                                     
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.items)
+                                        {
+
+                                            <tr>
+                                                <td>
+                                                    @item.EventDate.ToShortDateString()
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Technician.Name)
+                                                </td>
+                                              
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                                <input type="hidden" id="hfCurrentPageIndex" name="CurrentPageIndex" value="@Model.CurrentPageIndex" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite"> Total @Model.itemsCount items</div>
+
+                            </div>
+                            <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                                    <ul class="pagination">
+                                        <li class='paginate_button page-item previous @(Model.CurrentPageIndex == 1 ? "disabled":"")' id="dataTable_previous">
+                                            <a asp-action="DisplayAttendence" asp-controller="TechnicianAttendances" asp-route-CurrentPageIndex="@(Model.CurrentPageIndex-1)" asp-route-datefrom="@ViewBag.datefrom" asp-route-dateto="@ViewBag.dateto" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                        @for (int i = 1; i <= Model.PageCount; i++)
+                                        {
+                                            @if (i != Model.CurrentPageIndex)
+                                            {
+                                                <li class="paginate_button page-item">
+                                                    <a asp-action="DisplayAttendence" asp-controller="TechnicianAttendances" asp-route-CurrentPageIndex="@i" asp-route-datefrom="@ViewBag.datefrom" asp-route-dateto="@ViewBag.dateto" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">@i</a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="paginate_button page-item active">
+                                                    <span aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">@i</span>
+                                                </li>
+                                            }
+
+
+                                        }
+                                        <li class='paginate_button page-item next @(Model.PageCount == Model.CurrentPageIndex ? "disabled":"")' id="dataTable_next">
+                                            <a asp-action="DisplayAttendence" asp-controller="TechnicianAttendances" asp-route-CurrentPageIndex="@(Model.CurrentPageIndex+1)" asp-route-datefrom="@ViewBag.datefrom" asp-route-dateto="@ViewBag.dateto" asp-="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+
+    <script>
+
+  
+        document.getElementById("btncontainerTechnicians").click();
+        ToggleColorInDashboard("linkTechniciansDisplayattendence");
+        document.getElementById("btnGoToTopPage").click();
+
+
+
+
+        function searchTechnicians() {
+            $("#containerTabeTechnicians").empty();
+            $('#containerTabeTechnicians').append('<div style=" margin: 20% 50%;" class="spinner-grow text-primary"></div>');
+
+            var datefrom = document.getElementById("datefrom").value;
+            var dateto = document.getElementById("dateto").value;
+            var currentPageIndex = "1";
+     
+            window.location.href = "/TechnicianAttendances/DisplayAttendence?CurrentPageIndex=" + currentPageIndex + "&&datefrom=" + datefrom + "&&dateto=" + dateto;
+        }
+ 
+
+      
+        document.getElementById("btnGoToTopPage").click();
+
+    </script>
+
+
+}
+
+

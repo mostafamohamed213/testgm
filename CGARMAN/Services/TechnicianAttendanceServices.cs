@@ -44,6 +44,23 @@ namespace CGARMAN.Services
             return model;
         }
 
+        internal PagingViewModel<TechnicianAttendance> GetTechniciansattendence(int currentPage)
+        {
+
+            PagingViewModel<TechnicianAttendance> model = new PagingViewModel<TechnicianAttendance>();
+
+            List<TechnicianAttendance> Technicians = unitOfWork.TechnicianAttendance.FindAll(c=> c.EventDate.Date==DateTime.Now.Date, (currentPage - 1) * 10, 10, includes: new[] { "Technician" }).ToList();
+
+                int itemsCount = unitOfWork.TechnicianAttendance.Count(c => c.EventDate.Date == DateTime.Now.Date);
+          
+            model.items = Technicians;
+            double pageCount = (double)(itemsCount / Convert.ToDecimal(10));
+            model.PageCount = (int)Math.Ceiling(pageCount);
+            model.CurrentPageIndex = currentPage;
+            model.itemsCount = itemsCount;
+            model.Tablelength =10;
+            return model;
+        }
 
         internal SelectList GetAllStatus(int StatusId = 0)
         {
@@ -167,6 +184,34 @@ namespace CGARMAN.Services
             return model;
         }
 
+        
+        internal PagingViewModel<TechnicianAttendance> SearchTechniciansattendence(int CurrentPageIndex, DateTime? datefrom = null, DateTime? dateto = null)
+        {
+            var Technicians = unitOfWork.TechnicianAttendance.
+                FindAll(c =>  (datefrom.HasValue ? c.EventDate.Date>=datefrom.Value.Date:true) && (dateto.HasValue ? c.EventDate.Date <= dateto.Value.Date: true)
+                , (CurrentPageIndex - 1) * 10, 10, d => d.TechnicianId, OrderBy.Ascending, includes: new[] { "Technician" }).ToList();
+            var itemsCount = unitOfWork.TechnicianAttendance.Count(c => (datefrom.HasValue ? c.EventDate.Date >= datefrom.Value.Date : true) && (dateto.HasValue ? c.EventDate.Date <= dateto.Value.Date : true));
+
+           // var Companies = unitOfWork.TechnicianCompany.GetAllWithCriteria(c => c.Enable && !string.IsNullOrEmpty(Name) ? c.Name.ToLower().Contains(Name.ToLower()) : false, null);
+            PagingViewModel<TechnicianAttendance> model = new PagingViewModel<TechnicianAttendance>();
+            model.items = Technicians.ToList();
+          //  foreach (var item in Technicians)
+            //{
+              //  TechnicianAttendance attendance = unitOfWork.TechnicianAttendance.GetAllWithCriteria(c => c.EventDate.Date == DateTime.Now.Date && c.TechnicianId == item.TechnicianId).FirstOrDefault();
+               // if (attendance is not null)
+                //{
+                 //   item.TechnicianAttendances.Add(attendance);
+                //}
+            //}
+
+            double pageCount = (double)(itemsCount / Convert.ToDecimal(10));
+            model.PageCount = (int)Math.Ceiling(pageCount);
+            model.CurrentPageIndex = CurrentPageIndex;
+            model.itemsCount = itemsCount;
+            model.Tablelength = 10;
+            return model;
+        }
+        
         public PagingViewModel<Technician> getAllTechniciansPagingWithChangelength(int currentPageIndex, int length)
         {
             TablesMaxRows.AttendanceIndex = length;

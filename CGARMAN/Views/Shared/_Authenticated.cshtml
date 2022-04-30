@@ -179,12 +179,12 @@
                         <h6 class="collapse-header">Attendance</h6>
                         <a class="collapse-item" style="cursor: pointer" id="linkIndexTechniciansDailyAttendance" asp-action="Daily" asp-controller="TechnicianAttendances">Daily</a>
                         <a class="collapse-item" style="cursor: pointer" id="linkTechniciansDays" asp-action="Days" asp-controller="TechnicianAttendances">Days</a>
-
+                        <a class="collapse-item" style="cursor: pointer" id="linkTechniciansDisplayattendence" asp-action="DisplayAttendence" asp-controller="TechnicianAttendances">Display Attendence</a>
                         @* <a class="collapse-item" style="cursor: pointer" id="UnitManagement" onclick="getUnitsManagementPage()">Units</a>
-                    <a class="collapse-item" style="cursor: pointer" id="VendorManagement" onclick="getVendorManagementPage()">Suppliers</a>
-                    <a class="collapse-item" style="cursor: pointer" id="ClassificationsManagement" onclick="getClassificationsManagementPage()">Classifications</a>
-                    <a class="collapse-item" style="cursor: pointer" id="BrandManagement" onclick="getBrandManagementPage()">Brands</a>
-                    <a class="collapse-item" style="cursor: pointer" id="ModelManagement" onclick="getModelManagementPage()">Models</a>*@
+        <a class="collapse-item" style="cursor: pointer" id="VendorManagement" onclick="getVendorManagementPage()">Suppliers</a>
+        <a class="collapse-item" style="cursor: pointer" id="ClassificationsManagement" onclick="getClassificationsManagementPage()">Classifications</a>
+        <a class="collapse-item" style="cursor: pointer" id="BrandManagement" onclick="getBrandManagementPage()">Brands</a>
+        <a class="collapse-item" style="cursor: pointer" id="ModelManagement" onclick="getModelManagementPage()">Models</a>*@
                     </div>
                 </div>
             </li>
@@ -734,7 +734,7 @@
                 'linkAllCostCenters', 'linkCreateCostCenter', 'linkCreatePosition', 'linkIndexTechniciansPosition', 'linkIndexTechniciansShift','linkAllVehicleBrands',
                 'linkCreateShift', 'linkIndexTechniciansCompanies', 'linkCreateCompany', 'linkAllTechnicians', 'ItemsScreen', 'linkCreateTechnicians','linkAllVehicle',
                 'CreateItemScreen', 'CreateItemNameScreen', 'ItemNameScreen', 'StatusManagement', 'UnitManagement', 'VendorManagement','linkAllVehicleFamilies',
-                'ClassificationsManagement', 'BrandManagement', 'ModelManagement', 'linkAllVehicleDepartments', 'linkAllVehicleOwners', 'manageusers','manageroles'];
+                'ClassificationsManagement', 'BrandManagement', 'ModelManagement', 'linkAllVehicleDepartments', 'linkAllVehicleOwners', 'manageusers', 'manageroles','linkTechniciansDisplayattendence'];
             IdsItems.forEach(function (i) {
                 if (i == id) {
                     document.getElementById(i).classList.add('active');

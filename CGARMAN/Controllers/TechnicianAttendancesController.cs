@@ -38,6 +38,62 @@ namespace CGARMAN.Controllers
             }
 
         }
+
+        
+        [HttpGet]
+        public IActionResult DisplayAttendence(int CurrentPageIndex = 1,DateTime? datefrom=null, DateTime? dateto = null)
+        {
+            try
+            {
+                ViewBag.datefrom = datefrom;
+                ViewBag.dateto = dateto;
+
+                if (datefrom != null)
+                {
+                    DateTime datef = (DateTime)datefrom;
+                    string ss = datef.ToString("yyyy/MM/dd");
+                    ss = ss.Replace("/", "-");
+                    ViewBag.datefrom = ss;
+                }
+                else
+                {
+                    ViewBag.datefrom = datefrom;
+                }
+                if (dateto != null)
+                {
+                    DateTime datet = (DateTime)dateto;
+                    string s = datet.ToString("yyyy/MM/dd");
+                    s = s.Replace("/", "-");
+
+                    ViewBag.dateto = s;
+                }
+                else
+                {
+                    ViewBag.dateto = dateto;
+                }
+
+
+                if (datefrom !=null || dateto != null)
+                {
+                    return View(servicesAttendances.SearchTechniciansattendence(CurrentPageIndex,datefrom,dateto));
+                }
+                //ViewBag.Companies = servicesTechnicians.GetAllCompanies(CompanyId);
+                //ViewBag.Positions = servicesTechnicians.GetAllTechnicianPositions(PositionsId);
+
+                //ViewBag.Name = Name;
+                // ViewBag.Status = servicesAttendances.GetAllStatus();
+                // ViewBag.Shifts = servicesAttendances.GetAllShifts();
+
+                return View(servicesAttendances.GetTechniciansattendence(CurrentPageIndex));
+            }
+            catch (Exception ex)
+            {
+
+                return View("Error", ex);
+            }
+
+        }
+        
         [HttpPost]
         public IActionResult ChangelengthDaily(int length, int CurrentPageIndex = 1)
         {
