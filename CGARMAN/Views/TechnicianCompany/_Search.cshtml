@@ -16,9 +16,21 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            <a asp-action="Delete" asp-controller="TechnicianCompany" asp-route-id="@item.TechnicianCompanyId" class="btn btn-danger">Delete</a>
+            @*<a asp-action="Delete" asp-controller="TechnicianCompany" asp-route-id="@item.TechnicianCompanyId" class="btn btn-danger">Delete</a>
             <a asp-action="Edit" asp-controller="TechnicianCompany" asp-route-id="@item.TechnicianCompanyId" class="btn btn-warning">Edit</a>
-            <a asp-action="View" asp-controller="TechnicianCompany" asp-route-id="@item.TechnicianCompanyId" class="btn btn-primary">View</a>
+            <a asp-action="View" asp-controller="TechnicianCompany" asp-route-id="@item.TechnicianCompanyId" class="btn btn-primary">View</a>*@
+
+            <a style="cursor:pointer" class="p-1" asp-action="Delete" asp-controller="TechnicianCompany" asp-route-id="@item.TechnicianCompanyId">
+                <i class="fa fa-trash-o text-danger fa-lg" aria-hidden="true" title="Delete"></i>
+            </a>
+
+            <a style="cursor:pointer" class="p-1" asp-action="Edit" asp-controller="TechnicianCompany" asp-route-id="@item.TechnicianCompanyId">
+                <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+            </a>
+
+            <a style="cursor:pointer" class="p-1" asp-action="View" asp-controller="TechnicianCompany" asp-route-id="@item.TechnicianCompanyId">
+                <i class="fa fa-eye text-primary fa-lg" aria-hidden="true" title="View"></i>
+            </a>
         </td>
     </tr>
 }

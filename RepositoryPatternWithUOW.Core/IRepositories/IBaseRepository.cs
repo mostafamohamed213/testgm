@@ -30,6 +30,7 @@ namespace RepositoryPatternWithUOW.Core.IRepositories
         Task<int> CountAsync();
         Task<int> CountAsync(Expression<Func<T, bool>> criteria);
         T Add(T entity);
+        void AddRange(IEnumerable<T> entities);
         Task<T> AddAsync(T entity);
         T Update(T entity);
         void Delete(T entity);

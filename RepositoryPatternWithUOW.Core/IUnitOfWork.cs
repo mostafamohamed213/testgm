@@ -59,6 +59,7 @@ namespace RepositoryPatternWithUOW.Core
         IBaseRepository<VehicleTire> VehicleTire { get; }
         IBaseRepository<Maintenance> Maintenance { get; }
         IBaseRepository<WorkOrder> WorkOrder { get; }
+        IBaseRepository<Schedule> Schedule { get; }
         int Complete();
     }
 }

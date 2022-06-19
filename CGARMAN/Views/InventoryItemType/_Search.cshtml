@@ -50,9 +50,18 @@
                                     @Html.DisplayFor(modelItem => item.Brand)
                                 </td>
                                 <td>
-                                    <input type="button" class="btn btn-warning" value="Edit" onclick="getspinner(); getEditItemType(@item.InventoryItemTypeId)" />
+                                    @*<input type="button" class="btn btn-warning" value="Edit" onclick="getspinner(); getEditItemType(@item.InventoryItemTypeId)" />
 
-                                    <input type="button" class="btn btn-primary" value="View" onclick="getspinner(); getViewItemType(@item.InventoryItemTypeId)" />
+                                    <input type="button" class="btn btn-primary" value="View" onclick="getspinner(); getViewItemType(@item.InventoryItemTypeId)" />*@
+
+                                    <a style="cursor:pointer" class="p-1" onclick="getspinner(); getEditItemType(@item.InventoryItemTypeId)">
+                                        <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                                    </a>
+
+                                    <a style="cursor:pointer" class="p-1" onclick="getspinner(); getViewItemType(@item.InventoryItemTypeId)">
+                                        <i class="fa fa-eye text-primary fa-lg" aria-hidden="true" title="View"></i>
+                                    </a>
+
                                 </td>
                             </tr>
                         }

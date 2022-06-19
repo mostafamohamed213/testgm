@@ -229,7 +229,15 @@
             <div class=" col-xl">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 ">
-                        <h4 class="font-weight-bold text-primary">Information & Plate Numbers</h4>
+                        <h4 class="font-weight-bold text-primary">
+                            Information & Plate Numbers
+                            @if (ViewBag.fromDeleteAction == false)
+                            { 
+                                <a style="cursor:pointer" class="p-2 float-right" asp-action="Edit" asp-controller="Vehicle" asp-route-id="@Model.VehicleId">
+                                    <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                                </a>
+                            }
+                        </h4>
                     </div>
                     <div class="card-body">
 
@@ -567,9 +575,13 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 ">
                         <span class="font-weight-bold text-info h4">Tires</span>
-                        <button type="button" class="btn btn-info float-right" data-toggle="modal" data-target="#addTireModal">
-                            Add Tire
-                        </button>
+                        @if (ViewBag.fromDeleteAction == false)
+                        {
+                            <button type="button" class="btn btn-info float-right" data-toggle="modal" data-target="#addTireModal">
+                                Add Tire
+                            </button>
+                        }
+
 
 
                         <div class="modal fade" id="addTireModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -600,12 +612,12 @@
                                             <input type="text" id="tireSerialId" class="form-control form-control-user" aria-controls="dataTable" />
                                             <input type="hidden" id="hfTireSerialId" @*name="hfBrand"*@ />
                                             <!--<label>
-                                                Name <input type="text" class="form-control form-control-sm" id="txtNameCostCenter" value="@ViewBag.label" aria-controls="dataTable">
+                        Name <input type="text" class="form-control form-control-sm" id="txtNameCostCenter" value="@ViewBag.label" aria-controls="dataTable">
 
-                                                <input type="hidden" id="hfCostCenters"-->
+                        <input type="hidden" id="hfCostCenters"-->
                                             @*name="hfBrand"*@
                                             <!--/>
-                                            </label>-->
+                        </label>-->
                                         </div>
 
                                     </div>

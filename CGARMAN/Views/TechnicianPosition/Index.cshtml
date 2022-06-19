@@ -10,13 +10,29 @@
         <h1 class="h3 mb-0 text-gray-800">
             Technicians <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> Positions
         </h1>
-        <a style="margin-right:10px" asp-action="Create" asp-controller="TechnicianPosition" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create Position</a>
+        <div class="float-right">
+            <a id="aDownload" onclick="exportFiles()" class="d-none d-sm-inline-block btn btn-sm btn-secondary text-white shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Download Template
+            </a>
+
+            <a href="~/ExcelTemplates/TechnicianPositions.xlsx" style="display:none;" id="aTechnicianPositionsDownload"></a>
+
+            <a onclick="fileImport.click();" class="d-none d-sm-inline-block btn btn-sm btn-success text-white shadow-sm">
+                <i class="fas fa-upload fa-sm text-white-50"></i> Import Report
+            </a>
+            <input type="file" id="fileImport" style="display: none" onchange="importFile();" />
+            <a style="margin-right:10px" asp-action="Create" asp-controller="TechnicianPosition" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create Position</a>
+
+        </div>
     </div>
 
     <div class="card shadow mb-4" style="margin:0px 15px">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">
                 Positions
+                <a class="collapse-item active float-right" style="cursor: pointer" href="/TechnicianPosition">
+                    <i class="fa fa-refresh text-primary fa-2x" title="Refresh"></i>
+                </a>
             </h6>
         </div>
         <div class="card-body">
@@ -104,9 +120,21 @@
                                             </td>
 
                                             <td>
-                                                <a asp-action="Delete" asp-controller="TechnicianPosition" asp-route-id="@item.TechnicianPositionId" class="btn btn-danger">Delete</a>
-                                                <a asp-action="Edit" asp-controller="TechnicianPosition" asp-route-id="@item.TechnicianPositionId" class="btn btn-warning">Edit</a>
-                                                <a asp-action="View" asp-controller="TechnicianPosition" asp-route-id="@item.TechnicianPositionId" class="btn btn-primary">View</a>
+                                                @*<a  class="btn btn-danger">Delete</a>
+                                                    <a  class="btn btn-warning">Edit</a>
+                                                    <a class="btn btn-primary">View</a>*@
+
+                                                <a style="cursor:pointer" class="p-1" asp-action="Delete" asp-controller="TechnicianPosition" asp-route-id="@item.TechnicianPositionId">
+                                                    <i class="fa fa-trash-o text-danger fa-lg" aria-hidden="true" title="Delete"></i>
+                                                </a>
+
+                                                <a style="cursor:pointer" class="p-1" asp-action="Edit" asp-controller="TechnicianPosition" asp-route-id="@item.TechnicianPositionId">
+                                                    <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                                                </a>
+
+                                                <a style="cursor:pointer" class="p-1" asp-action="View" asp-controller="TechnicianPosition" asp-route-id="@item.TechnicianPositionId">
+                                                    <i class="fa fa-eye text-primary fa-lg" aria-hidden="true" title="View"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     }
@@ -168,10 +196,13 @@
 </div>
 
 @section Scripts{
+    <script src="~/js/TechnicianPositionImportFile.js"></script>
+
     <script>
         document.getElementById("btncontainerTechnicians").click();
         ToggleColorInDashboard("linkIndexTechniciansPosition");
         document.getElementById("btnGoToTopPage").click();
+        document.getElementById("aCollapseTechManagement").click();
         $(function () {
             $("#txtNamePosition").autocomplete({
                 source: function (request, response) {
@@ -221,8 +252,8 @@
             //    error: function (response) {
             //        throwException(response)
             //    }
-            //})           
-            window.location.href = "/TechnicianPosition/Index?CurrentPageIndex=1&&label=" +$("#txtNamePosition").val();
+            //})
+            window.location.href = "/TechnicianPosition/Index?CurrentPageIndex=1&&label=" + $("#txtNamePosition").val();
         }
         $("#txtNamePosition").keyup(function (event) {
             if (event.keyCode === 13) {

@@ -17,6 +17,9 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">
                 Shift
+                <a class="collapse-item active float-right" style="cursor: pointer" href="/TechnicianShift">
+                    <i class="fa fa-refresh text-primary fa-2x" title="Refresh"></i>
+                </a>
             </h6>
         </div>
         <div class="card-body">
@@ -106,9 +109,21 @@
                                             </td>
 
                                             <td>
-                                                <a asp-action="Delete" asp-controller="TechnicianShift" asp-route-id="@item.ShiftId" class="btn btn-danger">Delete</a>
-                                                <a asp-action="Edit" asp-controller="TechnicianShift" asp-route-id="@item.ShiftId" class="btn btn-warning">Edit</a>
-                                                <a asp-action="View" asp-controller="TechnicianShift" asp-route-id="@item.ShiftId" class="btn btn-primary">View</a>
+                                                @*<a  class="btn btn-danger">Delete</a>
+                                                <a class="btn btn-warning">Edit</a>
+                                                <a  class="btn btn-primary">View</a>*@
+
+                                                <a style="cursor:pointer" class="p-1" asp-action="Delete" asp-controller="TechnicianShift" asp-route-id="@item.ShiftId">
+                                                    <i class="fa fa-trash-o text-danger fa-lg" aria-hidden="true" title="Delete"></i>
+                                                </a>
+
+                                                <a style="cursor:pointer" class="p-1" asp-action="Edit" asp-controller="TechnicianShift" asp-route-id="@item.ShiftId">
+                                                    <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                                                </a>
+
+                                                <a style="cursor:pointer" class="p-1" asp-action="View" asp-controller="TechnicianShift" asp-route-id="@item.ShiftId">
+                                                    <i class="fa fa-eye text-primary fa-lg" aria-hidden="true" title="View"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     }
@@ -174,6 +189,7 @@
     document.getElementById("btncontainerTechnicians").click();
         ToggleColorInDashboard("linkIndexTechniciansShift");
         document.getElementById("btnGoToTopPage").click();
+        document.getElementById("aCollapseTechManagement").click();
         $(function () {
             $("#txtNameShift").autocomplete({
                 source: function (request, response) {

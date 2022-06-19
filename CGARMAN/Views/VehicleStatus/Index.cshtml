@@ -16,7 +16,10 @@
     <div class="card shadow mb-4" style="margin:0px 15px">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">
-               Status
+                Status
+                <a class="collapse-item active float-right" style="cursor: pointer" href="/VehicleStatus?CurrentPageIndex=1">
+                    <i class="fa fa-refresh text-primary fa-2x" title="Refresh"></i>
+                </a>
             </h6>
         </div>
         <div class="card-body">
@@ -106,9 +109,22 @@
                                             </td>
 
                                             <td>
-                                                <a asp-action="Delete" asp-controller="VehicleStatus" asp-route-id="@item.VehicleStatusId" class="btn btn-danger">Delete</a>
+                                                @*<a asp-action="Delete" asp-controller="VehicleStatus" asp-route-id="@item.VehicleStatusId" class="btn btn-danger">Delete</a>
                                                 <a asp-action="Edit" asp-controller="VehicleStatus" asp-route-id="@item.VehicleStatusId" class="btn btn-warning">Edit</a>
-                                                <a asp-action="View" asp-controller="VehicleStatus" asp-route-id="@item.VehicleStatusId" class="btn btn-primary">View</a>
+                                                <a asp-action="View" asp-controller="VehicleStatus" asp-route-id="@item.VehicleStatusId" class="btn btn-primary">View</a>*@
+
+                                                <a style="cursor:pointer" class="p-1" asp-action="Delete" asp-controller="VehicleStatus" asp-route-id="@item.VehicleStatusId">
+                                                    <i class="fa fa-trash-o text-danger fa-lg" aria-hidden="true" title="Delete"></i>
+                                                </a>
+
+                                                <a style="cursor:pointer" class="p-1" asp-action="Edit" asp-controller="VehicleStatus" asp-route-id="@item.VehicleStatusId">
+                                                    <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                                                </a>
+
+                                                <a style="cursor:pointer" class="p-1" asp-action="View" asp-controller="VehicleStatus" asp-route-id="@item.VehicleStatusId">
+                                                    <i class="fa fa-eye text-primary fa-lg" aria-hidden="true" title="View"></i>
+                                                </a>
+
                                             </td>
                                         </tr>
                                     }
@@ -174,6 +190,7 @@
         document.getElementById("btncontainerVehicles").click();
         ToggleColorInDashboard("linkAllVehicleStatus");
         document.getElementById("btnGoToTopPage").click();
+        document.getElementById("aCollapseVehicleManagement").click();
         $(function () {
             $("#txtNameVehicleStatus").autocomplete({
                 source: function (request, response) {

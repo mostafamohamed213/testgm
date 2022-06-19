@@ -18,6 +18,10 @@
         "themes/base/jquery-ui.css",
         "jquery-ui.js"
       ]
+    },
+    {
+      "library": "font-awesome@4.7.0",
+      "destination": "wwwroot/font-awesome/"
     }
   ]
 }

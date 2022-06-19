@@ -26,7 +26,11 @@
                     <td>@item.Brand</td>
                     <td>@item.Pattern</td>
                     <td>@item.StandardTreadDepth</td>
-                    <td><button class="btn btn-danger" onclick="deleteTire(@item.InventoryItemId,@item.VehicleId,@item.TirePosition)">Delete</button></td>
+                    <td>
+                        <button class="btn btn-danger" onclick="deleteTire(@item.InventoryItemId,@item.VehicleId,@item.TirePosition)">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </button>
+                    </td>
                 </tr>
 
                 }

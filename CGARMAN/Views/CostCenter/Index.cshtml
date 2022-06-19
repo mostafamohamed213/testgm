@@ -10,13 +10,30 @@
         <h1 class="h3 mb-0 text-gray-800">
             Cost Centers
         </h1>
-        <a style="margin-right:10px" asp-action="Create" asp-controller="CostCenter" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create Cost Center</a>
+        <div class="float-right">
+            <a id="aDownload" onclick="exportFiles()" class="d-none d-sm-inline-block btn btn-sm btn-secondary text-white shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Download Template
+            </a>
+
+            <a href="~/ExcelTemplates/Cost Centers.xlsx" style="display:none;" id="aCostCentersDownload"></a>
+
+            <a onclick="fileImport.click();" class="d-none d-sm-inline-block btn btn-sm btn-success text-white shadow-sm">
+                <i class="fas fa-upload fa-sm text-white-50"></i> Import Report
+            </a>
+            <input type="file" id="fileImport" style="display: none" onchange="importFile();" />
+            <a style="margin-right:10px" asp-action="Create" asp-controller="CostCenter" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create Cost Center</a>
+
+        </div>
     </div>
 
     <div class="card shadow mb-4" style="margin:0px 15px">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">
                 Cost Centers
+
+                <a class="collapse-item active float-right" style="cursor: pointer" href="/CostCenter?CurrentPageIndex=1">
+                    <i class="fa fa-refresh text-primary fa-2x" title="Refresh"></i>
+                </a>
             </h6>
         </div>
         <div class="card-body">
@@ -98,22 +115,34 @@
                                     @foreach (var item in Model.items)
                                     {
                                         counter++;
-                                    <tr>
-                                        <td>
-                                            @counter
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Name)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Value)
-                                        </td>
-                                        <td>
-                                            <a asp-action="Delete" asp-controller="CostCenter" asp-route-id="@item.CostCenterId" class="btn btn-danger">Delete</a>
-                                            <a asp-action="Edit" asp-controller="CostCenter" asp-route-id="@item.CostCenterId" class="btn btn-warning">Edit</a>
-                                            <a asp-action="View" asp-controller="CostCenter" asp-route-id="@item.CostCenterId" class="btn btn-primary">View</a>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>
+                                                @counter
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Value)
+                                            </td>
+                                            <td>
+                                                @*<a asp-action="Delete" asp-controller="CostCenter" asp-route-id="@item.CostCenterId" class="btn btn-danger">Delete</a>
+                                                    <a asp-action="Edit" asp-controller="CostCenter" asp-route-id="@item.CostCenterId" class="btn btn-warning">Edit</a>
+                                                    <a asp-action="View" asp-controller="CostCenter" asp-route-id="@item.CostCenterId" class="btn btn-primary">View</a>*@
+                                                <a style="cursor:pointer" class="p-1" asp-action="Delete" asp-controller="CostCenter" asp-route-id="@item.CostCenterId">
+                                                    <i class="fa fa-trash-o text-danger fa-lg" aria-hidden="true" title="Delete"></i>
+                                                </a>
+
+                                                <a style="cursor:pointer" class="p-1" asp-action="Edit" asp-controller="CostCenter" asp-route-id="@item.CostCenterId">
+                                                    <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                                                </a>
+
+                                                <a style="cursor:pointer" class="p-1" asp-action="View" asp-controller="CostCenter" asp-route-id="@item.CostCenterId">
+                                                    <i class="fa fa-eye text-primary fa-lg" aria-hidden="true" title="View"></i>
+                                                </a>
+
+                                            </td>
+                                        </tr>
                                     }
                                     @{counter = 0;}
                                 </tbody>
@@ -173,6 +202,7 @@
 </div>
 
 @section Scripts{
+    <script src="~/js/CostCenterImportFile.js"></script>
     <script>
         document.getElementById("btncontainerShared").click();
         ToggleColorInDashboard("linkAllCostCenters");

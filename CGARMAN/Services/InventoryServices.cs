@@ -224,6 +224,8 @@ namespace CGARMAN.Services
             model.LaneId = item.InventoryLocation.ParentInventoryLocationId;
             model.SubWarehouseId = item.InventoryLocation.ParentInventoryLocation.ParentInventoryLocationId;
             model.PartNumber = unitOfWork.ParameterValue.GetOne(c => c.ObjectId == item.InventoryItemId && c.ParameterId == 300).Value;
+            model.CreateDT = item.CreateDts;
+            model.Code = item.Code;
             return model;
         }
         internal InventoryItemWarehouseTires PrepareEditPageInventoryItemTires(long itemId)
@@ -238,6 +240,7 @@ namespace CGARMAN.Services
             model.TirePattern = int.Parse(unitOfWork.ParameterValue.GetOne(c => c.ObjectId == item.InventoryItemId && c.ParameterId == 201).Value);
             model.TireSize = int.Parse(unitOfWork.ParameterValue.GetOne(c => c.ObjectId == item.InventoryItemId && c.ParameterId == 202).Value);
             model.StandardTreadDepth = int.Parse(unitOfWork.ParameterValue.GetOne(c => c.ObjectId == item.InventoryItemId && c.ParameterId == 200).Value);
+            model.CreateDT = item.CreateDts;
 
             return model;
         }
@@ -249,7 +252,7 @@ namespace CGARMAN.Services
             model.InventoryItemTypeId = item.InventoryItemTypeId;
             model.SerialNumbers = item.SerialNumber;
             model.Viscosity = int.Parse(unitOfWork.ParameterValue.GetOne(c => c.ObjectId == item.InventoryItemId && c.ParameterId == 100).Value);
-
+            model.CreateDT = item.CreateDts;
             return model;
         }
         internal InventoryItemWarehouseSpareparts PrepareDisplayPageInventoryItem(long itemId)
@@ -332,6 +335,7 @@ namespace CGARMAN.Services
             item.VendorId = model.VendorId;            
             item.SerialNumber = model.SerialNumbers;
             item.Notes = model.Notes;
+            item.CreateDts = model.CreateDT;
 
             partNumber.Value = model.PartNumber;
             unitOfWork.Complete();           
@@ -380,6 +384,7 @@ namespace CGARMAN.Services
             item.VendorId = model.VendorId;
             item.SerialNumber = model.SerialNumbers;
             item.Notes = model.Notes;
+            item.CreateDts = model.CreateDT;
 
             viscosity.Value = model.Viscosity.ToString().Trim();
             unitOfWork.Complete();
@@ -509,6 +514,7 @@ namespace CGARMAN.Services
             item.VendorId = model.VendorId;
             item.SerialNumber = model.SerialNumbers;
             item.Notes = model.Notes;
+            item.CreateDts = model.CreateDT;
 
             if (model.Threshold.HasValue && Threshold != null && model.Threshold.Value.ToString().ToLower().Trim() != Threshold.Value.ToLower().Trim())
             {
@@ -1538,7 +1544,7 @@ namespace CGARMAN.Services
 
             InventoryItem inventoryItem = new InventoryItem()
             {
-                CreateDts = DateTime.Now,
+                CreateDts = model.CreateDT,
                 CurrentQuantity = Quantity,
                 Quantity = Quantity,
                 InventoryItemStatusId = model.InventoryItemStatusId ,
@@ -1553,12 +1559,14 @@ namespace CGARMAN.Services
                 CodeTypeId = model.CodeTypeId.HasValue && model.CodeTypeId.Value > 0 && !string.IsNullOrEmpty(model.Code) ? model.CodeTypeId.Value : null,
                 Code = model.CodeTypeId.HasValue && model.CodeTypeId.Value > 0 && !string.IsNullOrEmpty(model.Code) ? model.Code : null ,
                 LocationId = GetLocationIDByWarehouseID(model.WarehouseId).Value,
+
             };
             unitOfWork.InventoryItems.Add(inventoryItem);
             unitOfWork.Complete();
+            DateTime now = DateTime.Now;
             InventoryLog inventoryLog = new InventoryLog()
             {
-                CreateDT = DateTime.Now,
+                CreateDT = now,
                 InventoryLogOperationID = 1,
                 InventoryLogTableID = 12,
                 SystemUserID = "1",
@@ -1579,7 +1587,7 @@ namespace CGARMAN.Services
                 unitOfWork.Complete();
                 InventoryLog inventoryLogPartNumber = new InventoryLog()
                 {
-                    CreateDT = DateTime.Now,
+                    CreateDT = now,
                     InventoryLogOperationID = 1,
                     InventoryLogTableID = 16,
                     SystemUserID = "1",
@@ -1635,7 +1643,7 @@ namespace CGARMAN.Services
                 {
                     InventoryLog inventoryLogThreshold = new InventoryLog()
                     {
-                        CreateDT = DateTime.Now,
+                        CreateDT = now,
                         InventoryLogOperationID = 1,
                         InventoryLogTableID = 16,
                         SystemUserID = "1",
@@ -1648,7 +1656,7 @@ namespace CGARMAN.Services
                
                 InventoryLog inventoryLogTireSize = new InventoryLog()
                 {
-                    CreateDT = DateTime.Now,
+                    CreateDT = now,
                     InventoryLogOperationID = 1,
                     InventoryLogTableID = 16,
                     SystemUserID = "1",
@@ -1659,7 +1667,7 @@ namespace CGARMAN.Services
                 unitOfWork.InventoryLog.Add(inventoryLogTireSize);
                 InventoryLog inventoryLogTirePattern = new InventoryLog()
                 {
-                    CreateDT = DateTime.Now,
+                    CreateDT = now,
                     InventoryLogOperationID = 1,
                     InventoryLogTableID = 16,
                     SystemUserID = "1",
@@ -1670,7 +1678,7 @@ namespace CGARMAN.Services
                 unitOfWork.InventoryLog.Add(inventoryLogTirePattern);
                 InventoryLog inventoryLogStandardTreadDepth = new InventoryLog()
                 {
-                    CreateDT = DateTime.Now,
+                    CreateDT = now,
                     InventoryLogOperationID = 1,
                     InventoryLogTableID = 16,
                     SystemUserID = "1",
@@ -1693,7 +1701,7 @@ namespace CGARMAN.Services
                 unitOfWork.Complete();
                 InventoryLog inventoryLogViscosityid = new InventoryLog()
                 {
-                    CreateDT = DateTime.Now,
+                    CreateDT = now,
                     InventoryLogOperationID = 1,
                     InventoryLogTableID = 16,
                     SystemUserID = "1",
@@ -2122,7 +2130,7 @@ namespace CGARMAN.Services
             try
             {
                
-                var check = unitOfWork.Models.GetOne(c => c.Name.Trim().ToLower() == modelName.Trim().ToLower() && c.BrandId == brandId);
+                var check = unitOfWork.Models.GetOne(c =>  c.Name.Trim().ToLower() == modelName.Trim().ToLower() && c.BrandId == brandId);
                 if (check == null)
                 {
                     Model model = new Model() { Name = modelName.Trim() ,BrandId= brandId };
@@ -2232,10 +2240,10 @@ namespace CGARMAN.Services
         {
             try
             {
-                var check = unitOfWork.CostCenters.GetOne(c => c.Name.Trim().ToLower() == costCenterName.Trim().ToLower() || c.Value.Trim().ToLower() == CostCenterValue.Trim().ToLower());
+                var check = unitOfWork.CostCenters.GetOne(c => c.Enable && c.Name.Trim().ToLower() == costCenterName.Trim().ToLower() );
                 if (check == null)
                 {
-                    CostCenter costCenter = new CostCenter() { Name = costCenterName.Trim(), Value = CostCenterValue.Trim() };
+                    CostCenter costCenter = new CostCenter() { Name = costCenterName.Trim(), Value = CostCenterValue.Trim() ,Enable=true,CreateDts=DateTime.Now,Systemusercrate="1" };
                     unitOfWork.CostCenters.Add(costCenter);
                     unitOfWork.Complete();
                     InventoryLog inventoryLog = new InventoryLog()
@@ -2341,8 +2349,8 @@ namespace CGARMAN.Services
 
             if (costCenters.Count() > 0)
             {
-                var costCenters2 = costCenters.OrderBy(c => c.Value);
-                return new SelectList(costCenters2, "CostCenterId", "Value");
+                var costCenters2 = costCenters.OrderBy(c => c.Name);
+                return new SelectList(costCenters2, "CostCenterId", "Name");
             }
             return null;
         }

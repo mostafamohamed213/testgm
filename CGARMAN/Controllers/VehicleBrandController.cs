@@ -1,8 +1,12 @@
 ﻿using CGARMAN.Services;
+using CGARMAN.ViewModel.Shared;
 using CGARMAN.ViewModel.Vehicle;
+using ClosedXML.Excel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -233,6 +237,31 @@ namespace CGARMAN.Controllers
             {
                 return View("Error", ex);
             }
+        }
+        [HttpPost]
+        public ActionResult ImportFile(IFormFile file)
+        {
+            if (file == null) return Json(new ImportFileStatus { status = 0, message = "No File Selected" });
+            string ext = Path.GetExtension(file.FileName).Substring(1).ToUpper();
+            if (ext == "XLSX" || ext == "XLTX" || ext == "XLTM" || ext == "XLSM" || ext == "XLS")
+            {
+                return Json(services.GetDataFromCSVFile(file));
+            }
+            return Json(new ImportFileStatus { status = 0, message = "Invalid File. Please upload a File withextension: XLSX or XLTX or XLTM or XLSM or XLS" });
+        }
+        public ActionResult ExportFamilies()
+        {
+            var Families = services.GetVehicleFamiliesForExportToExcel();
+            XLWorkbook excel = new XLWorkbook();
+            excel.Worksheets.Add("Families").Cell(1, 1).SetValue(Families.Select(c => new { c.Name }));
+            var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+            MemoryStream memoryStream = new MemoryStream();
+            excel.SaveAs((Stream)memoryStream);
+            memoryStream.Seek(0L, SeekOrigin.Begin);
+            var content = memoryStream.ToArray();
+            return File(content, contentType, "Families.xlsx");
+
         }
     }
 }

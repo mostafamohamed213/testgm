@@ -20,6 +20,9 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">
                 Attendances
+                <a class="collapse-item active float-right" style="cursor: pointer" href="/TechnicianAttendances/Days">
+                    <i class="fa fa-refresh text-primary fa-2x" title="Refresh"></i>
+                </a>
             </h6>
         </div>
         <div class="card-body">
@@ -139,7 +142,7 @@
                                                 <select asp-items="@Model.Status" onchange="changeAllValues(this.value,'attendance-status-class')" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
                                             </th>
                                             <th>
-                                                <button onclick="saveAllAttendance(this, 'button-Attendance-save')" class="btn btn-success">Save</button>
+                                                <button onclick="saveAllAttendance(this, 'button-Attendance-save')" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
                                             </th>
                                         </tr>
                                     </thead>
@@ -171,9 +174,17 @@
                                                     <select asp-items="@Model.Status" id="status @item.TechnicianId" asp-for="@item.TechnicianAttendances.FirstOrDefault().AttendanceStatusId" style="display: inline;width:100%" class="form-control form-control-sm attendance-status-class"><option value="-1">Please select</option></select>
                                                 </td>
                                                 <td>
-                                                    <button onclick="saveAttendance('@item.TechnicianId')" id="btnSave @item.TechnicianId" class="btn btn-success button-Attendance-save">Save</button>
-                                                    <button onclick="deleteAttendance('@item.TechnicianId')" id="btnDelete @item.TechnicianId" class="btn btn-danger">Delete</button>
-                                                    <i id="fa-check-@item.TechnicianId" style="display:none" class="fas fa-check"></i>
+                                                    <div class="row">
+                                                        <div class="col-5">
+                                                            <button onclick="saveAttendance('@item.TechnicianId')" id="btnSave @item.TechnicianId" class="btn btn-success button-Attendance-save"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <button onclick="deleteAttendance('@item.TechnicianId')" id="btnDelete @item.TechnicianId" class="btn btn-danger"> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <i id="fa-check-@item.TechnicianId" style="display:none" class="fas fa-check"></i>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         }
@@ -232,6 +243,7 @@
         document.getElementById("btncontainerTechnicians").click();
         ToggleColorInDashboard("linkTechniciansDays");
         document.getElementById("btnGoToTopPage").click();
+        document.getElementById("aCollapseTechAttendance").click();
 
         function saveAttendance(technicianId) {
             document.getElementById("fa-check-" + technicianId).style.display = "none";

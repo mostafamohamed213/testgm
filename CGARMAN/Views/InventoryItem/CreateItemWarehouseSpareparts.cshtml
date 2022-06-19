@@ -46,7 +46,25 @@
         <div class="form-group row">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-1" style=" padding-top: 5px;">
+
+                    <div class="col-lg-4">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <label>Warehouse</label>
+                            </div>
+                            <div class="col-lg-7">
+                                <select asp-items="ViewBag.Warehouses" asp-for="WarehouseId" class="form-control form-control-user" disabled>
+                                </select>
+                                <span asp-validation-for="WarehouseId" class="text-danger"></span>
+
+                            </div>
+                            <div class="col-lg-1">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @*<div class="col-md-1" style=" padding-top: 5px;">
                         <label>Warehouse</label>
                     </div>
                     <div class="col-md-3">
@@ -56,14 +74,64 @@
                         <span asp-validation-for="WarehouseId" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>
 
         <div>
-            <div class="form-group row">
+
+            <div class="row" style=" padding: 5px 0px;">
                 <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label>Sub</label>
+                        </div>
+                        <div class="col-lg-7">
+                            <select class="form-control form-control-user" asp-for="SubWarehouseId" id="selSubWarehouseId" asp-items="ViewBag.SubWarehouseStructure" onchange="GetLaneWarehouse(this.value)">
+                                <option value="-1">Please select one</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-1">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label>Lane</label>
+                        </div>
+                        <div class="col-lg-7">
+                            <select class="form-control form-control-user" asp-for="LaneId" id="selLaneWarehouse" onchange="GetShelfWarehouse(this.value)">
+                                <option value="-1">Please select one</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-1">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label>Shelf</label>
+                        </div>
+                        <div class="col-lg-7">
+                            <select asp-for="InventoryLocationId" id="selInventoryShelfId" class="form-control form-control-user">
+                                <option>Please select one</option>
+                            </select>
+                            <span asp-validation-for="InventoryLocationId" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-1">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <div class="form-group row">
+                @*<div class="col-lg-4">
                     <div class="row">
                         <div class="col-lg-5" style=" padding-top: 5px;">
                             <label>Sub-Warehouse</label>
@@ -74,8 +142,8 @@
                             </select>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
+                </div>*@
+                @*<div class="col-lg-4">
                     <div class="row">
                         <div class="col-lg-3" style=" padding-top: 5px;">
                             <label>Lane</label>
@@ -87,8 +155,8 @@
 
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
+                </div>*@
+                @*<div class="col-lg-4">
                     <div class="row">
                         <div class="col-lg-3" style="padding-top: 5px;">
                             <label>Shelf</label>
@@ -100,7 +168,7 @@
                             <span asp-validation-for="InventoryLocationId" class="text-danger"></span>
                         </div>
                     </div>
-                </div>
+                </div>*@
 
             </div>
         </div>
@@ -249,7 +317,39 @@
             </div>
 
         </div>
-        <div class="row">
+        <div class="row" style=" padding: 5px 0px;">
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <label>Create DT</label>
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="datetime-local" asp-for="CreateDT" style="width:216px" class="form-control form-control-user dateFrom-class" />
+                        <span asp-validation-for="CreateDT" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-lg-2">
+                        <label>Notes</label>
+                    </div>
+                    <div class="col-lg-10">
+                        <textarea rows="3" asp-for="Notes" name="Notes" cols="40" class="form-control form-control-user">
+                                 </textarea>
+                        <span asp-validation-for="Notes" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+           
+            <div class="col-lg-4">
+
+                <div id="containerSerialNumber" style="max-height: 130px; overflow: hidden; overflow-y: scroll ">
+                </div>
+            </div>
+
+        </div>
+        @*<div class="row">
             <div class="col-lg-8">
                 <div class="row" style=" padding-top: 10px; ">
                     <div class="col-lg-2">
@@ -264,10 +364,9 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div id="containerSerialNumber" style="max-height: 130px; overflow: hidden; overflow-y: scroll ">
-                </div>
+              
             </div>
-        </div>
+        </div>*@
 
 
         <input type="hidden" id="inputSerialNumberValues" asp-for="SerialNumbers" />

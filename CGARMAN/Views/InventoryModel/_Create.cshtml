@@ -31,10 +31,10 @@
             <div class="form-group row">
                 <div class="col-lg-12">
                     <div class="row">
-                        <div class="col-md-2" style=" margin-bottom: 15px; ">
+                        <div class="col-md-1" style=" margin-bottom: 15px; ">
                             <label>Name</label>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <input type="text" asp-for="Name" class="form-control form-control-user" value="@Model.Name" required />
                             <span asp-validation-for="Name" class="text-danger"></span>
 
@@ -43,10 +43,10 @@
                 </div>
                 <div class="col-lg-12">
                     <div class="row">
-                        <div class="col-md-2" style=" padding-top: 5px;">
+                        <div class="col-md-1" style=" padding-top: 5px;">
                             <label>Brand</label>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             @if (ViewBag.fromEdit is true)
                             {
                                 <select @*asp-items="@ViewBag.Brands"*@ name="BrandId" id="BrandId" class="form-control form-control-user" required>

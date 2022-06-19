@@ -66,12 +66,12 @@ namespace CGARMAN.Services
 
         internal bool SearchIfNameExists(string name, int id = 0)
         {
-            return unitOfWork.VehicleDepartment.GetOne(c => c.Name.ToLower().Trim() == name.ToLower().Trim() && c.VehicleDepartmentId != id) == null ? true : false;
+            return unitOfWork.VehicleDepartment.GetOne(c => c.Enable && c.Name.ToLower().Trim() == name.ToLower().Trim() && c.VehicleDepartmentId != id) == null ? true : false;
         }
 
         internal VehicleDepartment getVehicleDepartmentById(int id)
         {
-            return unitOfWork.VehicleDepartment.GetOne(c => c.VehicleDepartmentId == id);
+            return unitOfWork.VehicleDepartment.GetOne(c => c.Enable && c.VehicleDepartmentId == id);
         }
 
         internal PagingViewModel<VehicleDepartment> Search(string Name, int currentPage)

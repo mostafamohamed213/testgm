@@ -6,7 +6,7 @@
 }
 <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
     <h1 class="h3 mb-0 text-gray-800">
-        Vehicle <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> Edit Tire Size <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> @Model.Name
+       Edit Tire Size <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> @Model.Name
     </h1>
     <a style="margin-right:10px" asp-action="Index" asp-controller="Home" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Back to Home</a>
 </div>
@@ -42,10 +42,9 @@
 </div>
 @section Scripts{
     <script>
-        document.getElementById("btncontainerVehicles").click();
+        document.getElementById("btncontainerShared").click();
         ToggleColorInDashboard("linkAllTireSizes");
         document.getElementById("btnGoToTopPage").click();
-
     </script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>

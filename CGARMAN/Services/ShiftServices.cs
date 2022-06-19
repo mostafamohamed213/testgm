@@ -65,12 +65,12 @@ namespace CGARMAN.Services
 
         internal bool SearchIfNameExists(string name, int id = 0)
         {
-            return unitOfWork.Shift.GetOne(c => c.Name.ToLower().Trim() == name.ToLower().Trim() && c.ShiftId != id) == null ? true : false;
+            return unitOfWork.Shift.GetOne(c => c.Enable && c.Name.ToLower().Trim() == name.ToLower().Trim() && c.ShiftId != id) == null ? true : false;
         }
 
         internal Shift getShiftById(int id)
         {
-            return unitOfWork.Shift.GetOne(c => c.ShiftId == id);
+            return unitOfWork.Shift.GetOne(c => c.Enable && c.ShiftId == id);
         }
 
         internal PagingViewModel<Shift> Search(string Name, int currentPage)

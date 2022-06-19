@@ -150,7 +150,13 @@
             <div class=" col-xl">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 ">
-                        <h4 class="font-weight-bold text-primary">Information</h4>
+                        <h4 class="font-weight-bold text-primary">
+                            Information
+                            <a style="cursor:pointer" class="p-2 float-right" asp-action="Edit" asp-controller="Technicians" asp-route-id="@Model.technician.TechnicianId">
+                                <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                            </a>
+                        </h4>                      
+                       
                     </div>
                     <div class="card-body">
 
@@ -319,7 +325,11 @@
                                     <label>
                                         <input type="text" style="display:none" class="form-control form-control-sm" id="id" value="@ViewBag.id">
                                         <input type="text" style="display:none" class="form-control form-control-sm" id="isattend" value="@ViewBag.isattend">
-                                        <input type="button" class="btn btn-primary" value="search" onclick="searchTechnicians()" aria-controls="dataTable">
+                                        @*<input type="button" class="btn btn-primary" value="search" onclick="searchTechnicians()" aria-controls="dataTable">*@
+                                        <a onclick="searchTechnicians()" style="cursor:pointer">
+                                            <i class="fa fa-search text-primary fa-lg" title="search" aria-hidden="true"></i>
+
+                                        </a>
 
                                     </label>
                                 </div>

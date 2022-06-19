@@ -10,13 +10,29 @@
         <h1 class="h3 mb-0 text-gray-800">
             Vehicle <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> Brand
         </h1>
-        <a style="margin-right:10px" asp-action="Create" asp-controller="VehicleBrand" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create Brand</a>
+        <div class="float-right">
+            <a id="aDownload" onclick="exportFiles()" class="d-none d-sm-inline-block btn btn-sm btn-secondary text-white shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Download Templates
+            </a>
+
+            <a href="~/ExcelTemplates/VehicleBrands.xlsx" style="display:none;" id="aVehicleBrandsDownload"></a>
+
+            <a onclick="fileImport.click();" class="d-none d-sm-inline-block btn btn-sm btn-success text-white shadow-sm">
+                <i class="fas fa-upload fa-sm text-white-50"></i> Import Report
+            </a>
+            <input type="file" id="fileImport" style="display: none" onchange="importFile();" />
+            <a style="margin-right:10px" asp-action="Create" asp-controller="VehicleBrand" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create Brand</a>
+
+        </div>
     </div>
 
     <div class="card shadow mb-4" style="margin:0px 15px">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">
                 Brands
+                <a class="collapse-item active float-right" style="cursor: pointer" href="/VehicleBrand?CurrentPageIndex=1">
+                    <i class="fa fa-refresh text-primary fa-2x" title="Refresh"></i>
+                </a>
             </h6>
         </div>
         <div class="card-body">
@@ -67,14 +83,14 @@
                                 </form>
                             </div>
                         </div>
-                        
-                     
+
+
                         <div class="col-sm-12 col-md-9">
                             <div id="dataTable_filter" class="dataTables_filter">
 
                                 <div class="row">
                                     <div class="col-lg-12 col-xl-6">
-                                      
+
                                     </div>
                                     <div class="col-lg-12 col-xl-3">
                                         <label>
@@ -124,9 +140,22 @@
                                                 @Html.DisplayFor(modelItem => item.VehicleFamily.Name)
                                             </td>
                                             <td>
-                                                <a asp-action="Delete" asp-controller="VehicleBrand" asp-route-id="@item.VehicleBrandId" class="btn btn-danger">Delete</a>
-                                                <a asp-action="Edit" asp-controller="VehicleBrand" asp-route-id="@item.VehicleBrandId" class="btn btn-warning">Edit</a>
-                                                <a asp-action="View" asp-controller="VehicleBrand" asp-route-id="@item.VehicleBrandId" class="btn btn-primary">View</a>
+                                                @*<a asp-action="Delete" asp-controller="VehicleBrand" asp-route-id="@item.VehicleBrandId" class="btn btn-danger">Delete</a>
+                                                    <a asp-action="Edit" asp-controller="VehicleBrand" asp-route-id="@item.VehicleBrandId" class="btn btn-warning">Edit</a>
+                                                    <a asp-action="View" asp-controller="VehicleBrand" asp-route-id="@item.VehicleBrandId" class="btn btn-primary">View</a>*@
+
+                                                <a style="cursor:pointer" class="p-1" asp-action="Delete" asp-controller="VehicleBrand" asp-route-id="@item.VehicleBrandId">
+                                                    <i class="fa fa-trash-o text-danger fa-lg" aria-hidden="true" title="Delete"></i>
+                                                </a>
+
+                                                <a style="cursor:pointer" class="p-1" asp-action="Edit" asp-controller="VehicleBrand" asp-route-id="@item.VehicleBrandId">
+                                                    <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                                                </a>
+
+                                                <a style="cursor:pointer" class="p-1" asp-action="View" asp-controller="VehicleBrand" asp-route-id="@item.VehicleBrandId">
+                                                    <i class="fa fa-eye text-primary fa-lg" aria-hidden="true" title="View"></i>
+                                                </a>
+
                                             </td>
                                         </tr>
                                     }
@@ -188,10 +217,12 @@
 </div>
 
 @section Scripts{
+    <script src="~/js/VehicleBrandImportFile.js"></script>
     <script>
         document.getElementById("btncontainerVehicles").click();
         ToggleColorInDashboard("linkAllVehicleBrands");
         document.getElementById("btnGoToTopPage").click();
+        document.getElementById("aCollapseVehicleManagement").click();
         $(function () {
             $("#txtNameVehicleBrand").autocomplete({
                 source: function (request, response) {

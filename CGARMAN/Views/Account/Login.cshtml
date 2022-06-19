@@ -2,8 +2,9 @@
 
 @{
     Layout = null;
+   
 }
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>WPM System Login</title>
@@ -127,36 +128,41 @@
                                     <input asp-for="UserName" class="form-control" placeholder="User Name">
 
 
-                                </div> <!-- input-group.// -->
-                                <span asp-validation-for="UserName" class="text-danger"></span>
-                            </div> <!-- form-group// -->
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                                    </div>
+                                </div>-->
+ <!-- input-group.// -->
+<!--<span asp-validation-for="UserName" class="text-danger"></span>
+</div>-->
+ <!-- form-group// -->
+<!--<div class="form-group">
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+        </div>
 
-                                    <input type="password" asp-for="Password" placeholder="******" class="form-control" id="txtPassword" />
-                                    <br />
+        <input type="password" asp-for="Password" placeholder="******" class="form-control" id="txtPassword" />
+        <br />
 
-                                </div> <!-- input-group.// -->
-                                <span asp-validation-for="Password" class="text-danger"></span>
-                            </div> <!-- form-group// -->
-                            <div class="">
-                                <input type="checkbox" onclick="myFunction()"> <span>Show Password</span>
-                            </div>
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <label asp-for="RememberMe">
-                                        <input asp-for="RememberMe" />
-                                        @Html.DisplayNameFor(m => m.RememberMe)
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn-grad btn-block"> Login  </button>
-                            </div> <!-- form-group// -->
-                        </form>
+    </div>-->
+ <!-- input-group.// -->
+<!--<span asp-validation-for="Password" class="text-danger"></span>
+</div>-->
+ <!-- form-group// -->
+<!--<div class="">
+    <input type="checkbox" onclick="myFunction()"> <span>Show Password</span>
+</div>
+<div class="form-group">
+    <div class="checkbox">
+        <label asp-for="RememberMe">
+            <input asp-for="RememberMe" />
+            @Html.DisplayNameFor(m => m.RememberMe)
+        </label>
+    </div>
+</div>
+<div class="form-group">
+    <button type="submit" class="btn-grad btn-block"> Login  </button>
+</div>-->
+ <!-- form-group// -->
+<!--</form>
                     </article>
                     <div style="text-align:center">
                         <div asp-validation-summary="ModelOnly" class="text-danger">
@@ -174,33 +180,147 @@
 
 
 </body>
-</html>
+</html>-->
 
 
 
-@*<div class="row">
-        <div class="col-md-12">
-            <form method="post">
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="UserName"></label>
-                    <input asp-for="UserName" class="form-control" />
-                    <span asp-validation-for="UserName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Password"></label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label asp-for="RememberMe">
-                            <input asp-for="RememberMe" />
-                            @Html.DisplayNameFor(m => m.RememberMe)
-                        </label>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon">
+
+    <title>Login - GMS</title>
+
+    <!-- Custom fonts for this template-->
+
+    <link href="~/Template/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="~/css/fontawesome.css"
+          rel="stylesheet" />
+
+    <!-- Custom styles for this template-->
+    <link href="~/Template/css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+        .bg123 {
+            /* The image used */
+          /*  background-image: url("/Images/image-container-2@2x.jpg");*/
+            background-image: url('/Images/cemex-logo.png');
+            /* Full height */
+            height: 100%;
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+    <script>
+        function myFunction() {
+            var x = document.getElementById("txtPassword");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                       
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block " style="background-image: url('/Images/managed-mobile-commercial-truck-repair.jpg'); background-position: center; background-repeat: no-repeat; background-size: 100% 100%; "></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Welcome to <span><img src="~/Images/cemex-font.png" class="img-fluid" style="width:35%; height:22px;" alt="logo" /><br></span> GMS System</h1>
+                                    </div>
+                                    <form class="user" method="post">
+                                        <div class="form-group">
+                                            <input asp-for="UserName" placeholder="User Name" class="form-control form-control-user">
+                                            <span asp-validation-for="UserName" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" asp-for="Password" placeholder="******" class="form-control form-control-user" id="txtPassword" />
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            @*<div class="custom-control custom-checkbox small">
+                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                <label class="custom-control-label" for="customCheck">
+                                    Remember
+                                    Me
+                                </label>
+                            </div>*@
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="ShowPassword" onclick="myFunction()"> <span></span>
+                                                <label class="custom-control-label" for="ShowPassword">
+                                                    Show Password
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <div class="custom-control custom-checkbox small">
+                                                <input asp-for="RememberMe" type="checkbox" class="custom-control-input" id="RememberMe">
+                                                <label class="custom-control-label" for="RememberMe">
+                                                    Remember Me
+                                                </label>
+                                            </div>
+                                        </div>
+                                        @*<a href="index.html" class="btn btn-primary btn-user btn-block">
+                            Login
+                        </a>*@
+                                        <button type="submit" class="btn btn-primary btn-user btn-block"> Login  </button>
+                                        <hr>
+
+                                    </form>
+                                    @*<hr>
+                    <div class="text-center">
+                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                    </div>
+                    <div class="text-center">
+                        <a class="small" href="register.html">Create an Account!</a>
+                    </div>*@
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Login</button>
-            </form>
+
+            </div>
+
         </div>
-    </div>*@
+
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="~/Template/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="~/Template/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="~/Template/js/sb-admin-2.min.js"></script>
+
+
+</body>
+
+</html>

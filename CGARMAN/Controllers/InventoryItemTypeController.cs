@@ -217,7 +217,7 @@ namespace CGARMAN.Controllers
             var brands =   inventoryServices.GetBrands();
             if (status == 1)
             {
-                return Json(new { status = WarehouseId , @object= brands });
+                return Json(new { status = 1 , @object= brands });
             }
             if (status == 2)
             {
@@ -255,7 +255,7 @@ namespace CGARMAN.Controllers
             var models = inventoryServices.getModelsByBrandID(brandId);
             if (status == 1)
             {
-                return Json(new { status = warehouseId, @object = models });
+                return Json(new { status = 1, @object = models });
             }
             if (status == 2)
             {
@@ -271,7 +271,7 @@ namespace CGARMAN.Controllers
             var models = inventoryServices.GetUnits();
             if (status == 1)
             {
-                return Json(new { status = warehouseId, @object = models });
+                return Json(new { status = 1, @object = models });
             }
             if (status == 2)
             {
@@ -303,7 +303,7 @@ namespace CGARMAN.Controllers
             var models = inventoryServices.CostCenters();
             if (status == 1)
             {
-                return Json(new { status = warehouseId, @object = models });
+                return Json(new { status = 1, @object = models });
             }
             if (status == 2)
             {

@@ -2216,9 +2216,12 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                         .HasColumnName("create_dts")
                         .HasDefaultValueSql("now()");
 
-                    b.Property<long>("CreateSystemUserId")
-                        .HasColumnType("bigint")
+                    b.Property<string>("CreateSystemUserId")
+                        .HasColumnType("text")
                         .HasColumnName("create_system_user_id");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("boolean");
 
                     b.Property<long>("VehicleId")
                         .HasColumnType("bigint")
@@ -3613,6 +3616,9 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                         .HasColumnName("create_dts")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<bool>("Enable")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("EndTime")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("end_time");
@@ -3642,8 +3648,9 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("start_time");
 
-                    b.Property<long>("SystemUserId")
-                        .HasColumnType("bigint")
+                    b.Property<string>("SystemUserId")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("system_user_id");
 
                     b.Property<long>("VehicleId")

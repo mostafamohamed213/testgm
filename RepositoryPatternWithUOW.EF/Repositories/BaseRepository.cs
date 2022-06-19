@@ -179,7 +179,10 @@ namespace RepositoryPatternWithUOW.EF.Repositories
             _context.Set<T>().Add(entity);
             return entity;
         }
-
+        public void AddRange(IEnumerable<T> entities)
+        {
+            _context.Set<T>().AddRange(entities);            
+        }
         public async Task<T> AddAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);

@@ -1,10 +1,16 @@
 ﻿using AutoMapper;
 using CGARMAN.Services;
+using CGARMAN.ViewModel.Shared;
 using CGARMAN.ViewModel.TechnicianViewModels;
+using ClosedXML.Excel;
+using ExcelDataReader;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 
@@ -29,7 +35,6 @@ namespace CGARMAN.Controllers
             }
             catch (Exception ex)
             {
-
                 return View("Error" ,ex);
             }
          
@@ -59,7 +64,6 @@ namespace CGARMAN.Controllers
             {
                 return PartialView("CustomError");
             }
-
         }
         [HttpGet]
         public IActionResult ViewTechnician(int id, DateTime? datefrom = null, DateTime? dateto = null,int? isattend=null)
@@ -93,7 +97,6 @@ namespace CGARMAN.Controllers
                 {
                     ViewBag.dateto = dateto;
                 }
-
 
                 if (datefrom != null || dateto != null)
                 {
@@ -238,7 +241,58 @@ namespace CGARMAN.Controllers
             {
                 return Json(0);
             }
-
         }
+        [HttpPost]
+        public ActionResult ImportFile(IFormFile file)
+        {
+            if (file == null) return Json(new ImportFileStatus { status = 0, message = "No File Selected" });
+            string ext = Path.GetExtension(file.FileName).Substring(1).ToUpper();
+            if (ext == "XLSX" || ext == "XLTX" || ext == "XLTM" || ext == "XLSM" || ext == "XLS")
+            {
+               return Json(TechniciansServices.GetDataFromCSVFile(file));
+            }
+            return Json(new ImportFileStatus { status = 0, message = "Invalid File. Please upload a File withextension: XLSX or XLTX or XLTM or XLSM or XLS" });
+        }
+
+        public ActionResult ExportCostCenters()
+        {
+            var costCenters = TechniciansServices.GetCostCentersForExportToExcel();           
+            XLWorkbook excel = new XLWorkbook();          
+            excel.Worksheets.Add("CostCenters").Cell(1, 1).SetValue(costCenters.Select(c=> new { c.Name ,c.Value}));
+            var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+            MemoryStream memoryStream = new MemoryStream();
+            excel.SaveAs((Stream)memoryStream);
+            memoryStream.Seek(0L, SeekOrigin.Begin);
+            var content = memoryStream.ToArray();
+            return File(content, contentType, "CostCenters.xlsx");   
+        }
+        public ActionResult ExportPositions()
+        {
+            var Positions = TechniciansServices.GetPositionsForExportToExcel();
+            XLWorkbook excel = new XLWorkbook();
+            excel.Worksheets.Add("Positions").Cell(1, 1).SetValue(Positions.Select(c => new { c.Name }));
+            var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+            MemoryStream memoryStream = new MemoryStream();
+            excel.SaveAs((Stream)memoryStream);
+            memoryStream.Seek(0L, SeekOrigin.Begin);
+            var content = memoryStream.ToArray();
+            return File(content, contentType, "Positions.xlsx");
+        }
+        public ActionResult ExportCompanies()
+        {
+            var Positions = TechniciansServices.GetCompaniesForExportToExcel();
+            XLWorkbook excel = new XLWorkbook();
+            excel.Worksheets.Add("Companies").Cell(1, 1).SetValue(Positions.Select(c => new { c.Name }));
+            var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+            MemoryStream memoryStream = new MemoryStream();
+            excel.SaveAs((Stream)memoryStream);
+            memoryStream.Seek(0L, SeekOrigin.Begin);
+            var content = memoryStream.ToArray();
+            return File(content, contentType, "Companies.xlsx");
+        }
+
     }
 }

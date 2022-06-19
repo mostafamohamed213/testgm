@@ -105,6 +105,20 @@
                         </div>
                     </div>
 
+                    <div class="row" style=" margin: 1%;">
+                        <div class="col-xl-2">  <label>Description</label></div>
+                        <div class="col-xl-10 row">
+                            <div class="col-xl-12 col-sm-12 col-md-12 col-lg-12">
+                                <textarea rows="3" cols="40" asp-for="Description" name="Description" class="form-control form-control-user">
+                                 </textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="button" onclick="submitEditInvItemType()" value="Save" style=" width: 150px; margin: 30px 40px;" class="btn btn-success" />
+                    </div>
                 </div>
 
                 <div class="col-lg-6 mb-4">
@@ -114,7 +128,8 @@
                             <div class="col-xl-11 col-sm-11 col-md-11 col-lg-11">
                                 @if (ViewBag.hasItems)
                                 {
-                                    <input type="checkbox" asp-for="AutoGenerateSerial" name="AutoGenerateSerial" disabled />
+                                    <input type="checkbox" asp-for="AutoGenerateSerial" name="" disabled />
+                                    <input type="hidden" asp-for="AutoGenerateSerial" name="AutoGenerateSerial"  />
                                 }
                                 else
                                 {
@@ -196,7 +211,7 @@
 
                 </div>
             </div>
-            <div class="col-xl-7 row" @*style=" margin: 1%;"*@>
+            @*<div class="col-xl-7 row">
 
                 <div class="col-xl-2">
                     <label>Description</label>
@@ -208,12 +223,12 @@
                 </div>
 
 
-            </div>
+            </div>*@
 
 
-            <div class="form-group">
+            @*<div class="form-group">
                 <input type="button" onclick="submitEditInvItemType()" value="Save" style=" width: 150px; margin: 30px 40px;" class="btn btn-success" />
-            </div>
+            </div>*@
         </form>
     </div>
 </div>

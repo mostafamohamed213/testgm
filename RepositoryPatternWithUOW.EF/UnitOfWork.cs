@@ -64,6 +64,8 @@ namespace RepositoryPatternWithUOW.EF
         
         public IBaseRepository<Maintenance> Maintenance { get; }
         public IBaseRepository<WorkOrder> WorkOrder { get; }
+
+        public IBaseRepository<Schedule> Schedule { get; }
         public UnitOfWork(WMSContext context)
         {
             _context = context;
@@ -118,6 +120,8 @@ namespace RepositoryPatternWithUOW.EF
 
             Maintenance = new BaseRepository<Maintenance>(_context);
             WorkOrder = new BaseRepository<WorkOrder>(_context);
+            Schedule = new BaseRepository<Schedule>(_context);
+
         }
 
         public int Complete()

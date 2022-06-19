@@ -148,8 +148,6 @@ namespace RepositoryPatternWithUOW.Core.Models
             modelBuilder.HasPostgresExtension("pgcrypto")
                 .HasAnnotation("Relational:Collation", "Arabic_Saudi Arabia.1256");
 
-      
-
             modelBuilder.Entity<AttendanceStatus>(entity =>
             {
                 entity.ToTable("attendance_status", "core");

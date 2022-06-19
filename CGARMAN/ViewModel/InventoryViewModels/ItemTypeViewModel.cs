@@ -52,6 +52,7 @@ namespace CGARMAN.ViewModel.InventoryViewModels
         public int? TirePattern { get; set; }
         public int?Threshold { get; set; }
         public String SerialNumbers { get; set; }
+        public DateTime CreateDT { get; set; }
         //public int? LaneId { get; set; }
         //public int? SubWarehouseId { get; set; }
     }

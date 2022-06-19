@@ -13,7 +13,12 @@
 
     <div class="card shadow mb-4" style="margin:0px 15px">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Classifications</h6>
+            <h6 class="m-0 font-weight-bold text-primary">
+                Classifications
+                <a class="collapse-item active float-right" style="cursor: pointer" onclick="getClassificationsManagementPage()">
+                    <i class="fa fa-refresh text-primary fa-2x" title="Refresh"></i>
+                </a>
+            </h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -67,22 +72,11 @@
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <div id="dataTable_filter" class="dataTables_filter">
-                                <div class="row">
-                                    <div class="col-md-12 col-lg-4">
-                                    </div>
-                                    <div class="col-md-12 col-lg-4">
-                                        <label>
-                                            Name <input type="text" class="form-control form-control-sm" id="txtNameInvClassifications" aria-controls="dataTable">
+                                <label>
+                                    Name <input type="text" class="form-control form-control-sm" id="txtNameInvClassifications" aria-controls="dataTable">
 
-                                            <input type="hidden" id="hfClassifications" @*name="hfVendor"*@ />
-                                        </label>
-                                    </div>
-                                    <div class="col-md-12 col-lg-3">
-                                        <label>
-                                            <input type="button" value="Refresh" onclick="getClassificationsManagementPage()" class="btn btn-primary btn-sm">
-                                        </label>
-                                    </div>
-                                </div>
+                                    <input type="hidden" id="hfClassifications" @*name="hfVendor"*@ />
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -123,9 +117,15 @@
                                                     </td>
 
                                                     <td>
-                                                        <input type="button" class="btn btn-primary" value="Edit" onclick="getspinner(); getEditClassification(@item.InventoryItemTypeClassificationId)" />
-                                                        <input type="button" class="btn btn-danger" value="Delete" onclick="deleteinvClassification(@item.InventoryItemTypeClassificationId)" />
+                                                        @*<input type="button" class="btn btn-primary" value="Edit"  />
+                                                        <input type="button" class="btn btn-danger" value="Delete"  />*@
+                                                        <a style="cursor:pointer" class="p-1" onclick="getspinner(); getEditClassification(@item.InventoryItemTypeClassificationId)">
+                                                            <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                                                        </a>
 
+                                                        <a style="cursor:pointer" class="p-1" onclick="deleteinvClassification(@item.InventoryItemTypeClassificationId)">
+                                                            <i class="fa fa-trash-o text-danger fa-lg" aria-hidden="true" title="Delete"></i>
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -21,10 +22,11 @@ namespace RepositoryPatternWithUOW.Core.Models
         public DateTime? EndTime { get; set; }
         public decimal Mileage { get; set; }
         public int MaintenanceFleetId { get; set; }
-        public long SystemUserId { get; set; }
+        [Required]
+        public string SystemUserId { get; set; }
         public DateTime CreateDts { get; set; }
         public bool IsFinished { get; set; }
-
+        public bool Enable { get; set; }
         public virtual MaintenanceFleet MaintenanceFleet { get; set; }
         public virtual Schedule Schedule { get; set; }
         public virtual Vehicle Vehicle { get; set; }

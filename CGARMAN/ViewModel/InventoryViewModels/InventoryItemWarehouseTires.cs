@@ -32,6 +32,7 @@ namespace CGARMAN.ViewModel.InventoryViewModels
         public string Code { get; set; }
         [Display(Name = "Issue Number")]
         public string IssueNumber { get; set; }
+        public DateTime CreateDT { get; set; }
         public string Notes { get; set; }      
         public string SerialNumbers { get; set; }
         [Display(Name = "Standard Tread Depth")]

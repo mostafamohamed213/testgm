@@ -14,7 +14,12 @@
 
     <div class="card shadow mb-4" style="margin:0px 15px">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Suppliers</h6>
+            <h6 class="m-0 font-weight-bold text-primary">
+                Suppliers
+                <a class="collapse-item active float-right" style="cursor: pointer" onclick="getVendorManagementPage()">
+                    <i class="fa fa-refresh text-primary fa-2x" title="Refresh"></i>
+                </a>
+            </h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -64,22 +69,12 @@
                         </div>
                     <div class="col-sm-12 col-md-6">
                         <div id="dataTable_filter" class="dataTables_filter">
-                            <div class="row">
-                                <div class="col-md-12 col-lg-4">
-                                </div>
-                                <div class="col-md-12 col-lg-4">
-                                    <label>
-                                        Name <input type="text" class="form-control form-control-sm" id="txtNameInvVendor" aria-controls="dataTable">
+                            <label class="float-right">
+                                Name <input type="text" class="form-control form-control-sm" id="txtNameInvVendor" aria-controls="dataTable">
 
-                                        <input type="hidden" id="hfVendor" @*name="hfVendor"*@ />
-                                    </label>
-                                </div>
-                                <div class="col-md-12 col-lg-3">
-                                    <label>
-                                        <input type="button" value="Refresh" onclick="getVendorManagementPage()" class="btn btn-primary btn-sm">
-                                    </label>
-                                </div>
-                            </div>
+                                <input type="hidden" id="hfVendor" @*name="hfVendor"*@ />
+                            </label>
+
                         </div>
                     </div>
                     </div>
@@ -121,9 +116,15 @@
                                                     </td>
 
                                                     <td>
-                                                        <input type="button" class="btn btn-primary" value="Edit" onclick="getspinner(); getEditVendor(@item.VendorId)" />
-                                                        <input type="button" class="btn btn-danger" value="Delete" onclick="deleteVendor(@item.VendorId)" />
+                                                        @*<input type="button" class="btn btn-primary" value="Edit" onclick="getspinner(); getEditVendor(@item.VendorId)" />
+                                                        <input type="button" class="btn btn-danger" value="Delete" onclick="deleteVendor(@item.VendorId)" />*@
+                                                        <a style="cursor:pointer" class="p-1" onclick="getspinner(); getEditVendor(@item.VendorId)">
+                                                            <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                                                        </a>
 
+                                                        <a style="cursor:pointer" class="p-1" onclick="deleteVendor(@item.VendorId)">
+                                                            <i class="fa fa-trash-o text-danger fa-lg" aria-hidden="true" title="Delete"></i>
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             }

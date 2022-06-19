@@ -12,14 +12,32 @@
         <h1 class="h3 mb-0 text-gray-800">
             Technicians <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> All Technicians
         </h1>
-        <a style="margin-right:10px"  class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" asp-controller="Technicians" asp-action="Create" >Create New Technician</a>
-    </div>
+        <div class="float-right">
+            <a id="aDownload" onclick="exportFiles()" class="d-none d-sm-inline-block btn btn-sm btn-secondary text-white shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Download Templates
+            </a>
 
+            <a href="~/ExcelTemplates/Technicians.xlsx" style="display:none;" id="aTechniciansDownload"></a>
+
+            <a onclick="fileImport.click();" class="d-none d-sm-inline-block btn btn-sm btn-success text-white shadow-sm">
+                <i class="fas fa-upload fa-sm text-white-50"></i> Import Report
+            </a>
+            <input type="file" id="fileImport" style="display: none" onchange="importFile();" />
+            <a style="margin-right:10px" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" asp-controller="Technicians" asp-action="Create">Create New Technician</a>
+
+        </div>
+    </div>
+  
     <div class="card shadow mb-4" style="margin:0px 15px">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">
                 Technicians
                 @*<a style="margin-right:10px;float:right" href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="createInvUnit()">Create Technician</a>*@
+
+
+                <a class="collapse-item active float-right" id="aRefreshTech" style="cursor: pointer" href="/Technicians?CurrentPageIndex=1">
+                    <i class="fa fa-refresh text-primary fa-2x" title="Refresh"></i>
+                </a>
             </h6>
 
         </div>
@@ -77,10 +95,10 @@
                             </div>
                         </div>
                         @*<div class="col-sm-12 col-md-6">
-                            <div id="dataTable_filter" class="dataTables_filter">
-                                <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label>
-                            </div>
-                        </div>*@
+                                <div id="dataTable_filter" class="dataTables_filter">
+                                    <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label>
+                                </div>
+                            </div>*@
                         <div class="col-sm-12 col-md-9">
                             <div id="dataTable_filter" class="dataTables_filter">
 
@@ -103,9 +121,7 @@
                                             <select asp-items="ViewBag.Companies" id="selSearchCompanyId" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
                                         </label>
                                     </div>
-
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -124,16 +140,16 @@
                                         </tr>
                                     </thead>
                                     @*<tfoot>
-                        <tr>
-                            <th>Name</th>
-                            <th>Quantity</th>
-                            <th>Supplier</th>
-                            <th>Status</th>
-                            <th>Start date</th>
-                            <th>Brand</th>
-                            <th></th>
-                        </tr>
-                    </tfoot>*@
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Quantity</th>
+                                                <th>Supplier</th>
+                                                <th>Status</th>
+                                                <th>Start date</th>
+                                                <th>Brand</th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>*@
                                     <tbody>
                                         @foreach (var item in Model.technicians)
                                         {
@@ -152,16 +168,22 @@
                                                     @Html.DisplayFor(modelItem => item.TechnicianCompany.Name)
                                                 </td>
                                                 <td>
-                                                    <a asp-action="Delete" asp-controller="Technicians" asp-route-id="@item.TechnicianId" class="btn btn-danger">Delete</a>
+                                                    @*<a asp-action="Delete" asp-controller="Technicians" asp-route-id="@item.TechnicianId" class="btn btn-danger">Delete</a>
 
-                                                    <a asp-action="Edit" asp-controller="Technicians" asp-route-id="@item.TechnicianId" class="btn btn-warning">Edit</a>
-                                                    <a asp-action="ViewTechnician" asp-controller="Technicians" asp-route-id="@item.TechnicianId" class="btn btn-primary">View</a>
+                                                        <a asp-action="Edit" asp-controller="Technicians" asp-route-id="@item.TechnicianId" class="btn btn-warning">Edit</a>
+                                                        <a asp-action="ViewTechnician" asp-controller="Technicians" asp-route-id="@item.TechnicianId" class="btn btn-primary">View</a>*@
 
+                                                    <a style="cursor:pointer" class="p-1" asp-action="Delete" asp-controller="Technicians" asp-route-id="@item.TechnicianId">
+                                                        <i class="fa fa-trash-o text-danger fa-lg" aria-hidden="true" title="Delete"></i>
+                                                    </a>
 
-                                                    @**@
-                                                    @*<input type="button" class="btn btn-warning" value="Edit" onclick="getspinner(); getEditItemType(@item.InventoryItemTypeId)" />
-                                    <input type="button" class="btn btn-warning" value="Edit" onclick="getspinner(); getEditItemType(@item.InventoryItemTypeId)" />*@
+                                                    <a style="cursor:pointer" class="p-1" asp-action="Edit" asp-controller="Technicians" asp-route-id="@item.TechnicianId">
+                                                        <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                                                    </a>
 
+                                                    <a style="cursor:pointer" class="p-1" asp-action="ViewTechnician" asp-controller="Technicians" asp-route-id="@item.TechnicianId">
+                                                        <i class="fa fa-eye text-primary fa-lg" aria-hidden="true" title="View"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         }
@@ -175,13 +197,13 @@
                             <div class="col-sm-12 col-md-5">
 
                                 @*@if (Model.CurrentPageIndex == 1)
-                {
-                    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to @(Model.itemsCount >= Model.Tablelength ? Model.Tablelength.ToString():Model.itemsCount) of @Model.itemsCount items</div>
-                }
-                else
-                {
-                    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing @(((Model.PageCount-1)*Model.CurrentPageIndex)+1)  to @(@Model.itemsCount >= (((Model.PageCount - 1) * Model.CurrentPageIndex) + Model.Tablelength) ? (((Model.PageCount - 1) * Model.CurrentPageIndex) + Model.Tablelength) : @Model.itemsCount ) of @Model.itemsCount items</div>
-                }*@
+                                    {
+                                        <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to @(Model.itemsCount >= Model.Tablelength ? Model.Tablelength.ToString():Model.itemsCount) of @Model.itemsCount items</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing @(((Model.PageCount-1)*Model.CurrentPageIndex)+1)  to @(@Model.itemsCount >= (((Model.PageCount - 1) * Model.CurrentPageIndex) + Model.Tablelength) ? (((Model.PageCount - 1) * Model.CurrentPageIndex) + Model.Tablelength) : @Model.itemsCount ) of @Model.itemsCount items</div>
+                                    }*@
                                 <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite"> Total @Model.itemsCount items</div>
 
                             </div>
@@ -216,21 +238,26 @@
                             </div>
                         </div>
                     </div>
-                
+
                 </div>
             </div>
         </div>
     </div>
-
+  
 </div>
 @section Scripts{
+    <script src="~/js/TechniciansImportFile.js"></script>
     <script>
+
+       
+      
         window.onload = (event) => {
             //document.getElementById("btncontainerTechnicians").click();
             //ToggleColorInDashboard('linkAllTechnicians');
 
 
         };
+        
         document.getElementById("btncontainerTechnicians").click();
         ToggleColorInDashboard("linkAllTechnicians");
         document.getElementById("btnGoToTopPage").click();

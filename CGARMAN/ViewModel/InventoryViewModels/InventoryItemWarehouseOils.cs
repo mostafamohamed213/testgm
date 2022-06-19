@@ -35,7 +35,7 @@ namespace CGARMAN.ViewModel.InventoryViewModels
         public string Notes { get; set; }      
         public string SerialNumbers { get; set; }
         public int Viscosity { get; set; }
-       
+        public DateTime CreateDT { get; set; }
         public InventoryItem display { get; set; }
         public string ViscosityStr { get; internal set; }
     }

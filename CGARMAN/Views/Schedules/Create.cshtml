@@ -1,0 +1,84 @@
+﻿@model CGARMAN.ViewModel.ScheduleViewModels.CreateScheduleViewModel
+@{
+    ViewData["Title"] = "Create Schedule";
+    Layout = "_Authenticated";
+}
+<script src="~/make-dropdown-with-search-box/jquery-3.2.1.min.js"></script>
+<script src='~/make-dropdown-with-search-box/select2/dist/js/select2.min.js' type='text/javascript'></script>
+
+<link href='~/make-dropdown-with-search-box/select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'>
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
+    <h1 class="h3 mb-0 text-gray-800">
+        Create Schedule
+    </h1>
+    <div class="float-right">
+        @*<a id="aDownload" onclick="exportFiles()" class="d-none d-sm-inline-block btn btn-sm btn-secondary text-white shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Download Template
+            </a>
+
+            <a href="~/ExcelTemplates/Cost Centers.xlsx" style="display:none;" id="aCostCentersDownload"></a>
+
+            <a onclick="fileImport.click();" class="d-none d-sm-inline-block btn btn-sm btn-success text-white shadow-sm">
+                <i class="fas fa-upload fa-sm text-white-50"></i> Import Report
+            </a>
+            <input type="file" id="fileImport" style="display: none" onchange="importFile();" />*@
+        <a style="margin-right:10px" asp-action="Index" asp-controller="Schedules" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Back</a>
+
+    </div>
+</div>
+<hr />
+@if (ViewBag.ErrorMesssage != null)
+{
+    <span  style="margin-left:20px;" class="text-danger">@ViewBag.ErrorMesssage</span>
+}
+<div class="row" style="margin:1%">
+    <div class="col-lg-12">
+        <form asp-action="Create" asp-controller="Schedules" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group row">
+                <div class="col-xl-12">
+                    <div class="row">
+                        <div class="col-xl-2" style=" padding-top: 5px;">
+                            <label>Plat Number</label>
+                        </div>
+                        <div class="col-xl-3">
+                            <select asp-items="@Model.PlatNumbers" name="PlatNumberId" id="PlatNumberId" class="form-control form-control-user" required>
+                                <option value="-1">--Select--</option>
+                            </select>
+                            <span asp-validation-for="PlatNumberId" style="margin:auto" class="text-danger"></span>
+
+                        </div>
+                        <div class="col-xl-2 border-left-primary" style="padding-top: 5px;">
+                            <label>First Visit Date</label>
+                        </div>
+                        <div class="col-xl-3">
+                            <input type="date" name="FirstVisitDate" class="form-control form-control-user" />
+                            <span asp-validation-for="FirstVisitDate" style="margin:auto" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" style=" width: 150px; margin: 30px 40px;" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $("#PlatNumberId").select2();
+</script>
+@section Scripts{
+
+    <script>
+
+        document.getElementById("btncontainerMaintenance").click();
+        ToggleColorInDashboard("linkIndexSchedules");
+        document.getElementById("btnGoToTopPage").click();
+    </script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

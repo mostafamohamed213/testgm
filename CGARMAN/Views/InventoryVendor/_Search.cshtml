@@ -41,8 +41,15 @@
                                 </td>
 
                                 <td>
-                                    <input type="button" class="btn btn-primary" value="Edit" onclick="getspinner(); getEditVendor(@item.VendorId)" />
-                                    <input type="button" class="btn btn-danger" value="Delete" onclick="deleteVendor(@item.VendorId)" />
+                                    @*<input type="button" class="btn btn-primary" value="Edit" onclick="getspinner(); getEditVendor(@item.VendorId)" />
+                                    <input type="button" class="btn btn-danger" value="Delete" onclick="deleteVendor(@item.VendorId)" />*@
+                                    <a style="cursor:pointer" class="p-1" onclick="getspinner(); getEditVendor(@item.VendorId)">
+                                        <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                                    </a>
+
+                                    <a style="cursor:pointer" class="p-1" onclick="deleteVendor(@item.VendorId)">
+                                        <i class="fa fa-trash-o text-danger fa-lg" aria-hidden="true" title="Delete"></i>
+                                    </a>
 
                                 </td>
                             </tr>

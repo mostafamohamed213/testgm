@@ -40,9 +40,15 @@
                                 </td>
 
                                 <td>
-                                    <input type="button" class="btn btn-primary" value="Edit" onclick="getspinner(); getEditClassification(@item.InventoryItemTypeClassificationId)" />
-                                    <input type="button" class="btn btn-danger" value="Delete" onclick="deleteinvClassification(@item.InventoryItemTypeClassificationId)" />
+                                    @*<input type="button" class="btn btn-primary" value="Edit" onclick="getspinner(); getEditClassification(@item.InventoryItemTypeClassificationId)" />
+                                    <input type="button" class="btn btn-danger" value="Delete" onclick="deleteinvClassification(@item.InventoryItemTypeClassificationId)" />*@
+                                    <a style="cursor:pointer" class="p-1" onclick="getspinner(); getEditClassification(@item.InventoryItemTypeClassificationId)">
+                                        <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                                    </a>
 
+                                    <a style="cursor:pointer" class="p-1" onclick="deleteinvClassification(@item.InventoryItemTypeClassificationId)">
+                                        <i class="fa fa-trash-o text-danger fa-lg" aria-hidden="true" title="Delete"></i>
+                                    </a>
                                 </td>
                             </tr>
                         }

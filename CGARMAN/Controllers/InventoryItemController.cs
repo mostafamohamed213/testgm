@@ -128,6 +128,7 @@ namespace CGARMAN.Controllers
                     UnitCost = model.UnitCost,
                     unitId = itemType.InventoryItemTypeUnitId.HasValue ? itemType.InventoryItemTypeUnitId.Value : -1,
                     VendorId = model.VendorId,
+                    CreateDT=model.CreateDT
                 };
                 int status = inventoryServices.AddInventoryItem(model1);
                 if (status == 1)
@@ -185,7 +186,8 @@ namespace CGARMAN.Controllers
                     StandardTreadDepth = model.StandardTreadDepth,
                     Threshold = model.Threshold,
                     TirePattern=model.TirePattern,
-                    TireSize = model.TireSize,                    
+                    TireSize = model.TireSize, 
+                    CreateDT=model.CreateDT
                 };
                 int status = inventoryServices.AddInventoryItem(model1);
                 if (status == 1)
@@ -240,7 +242,9 @@ namespace CGARMAN.Controllers
                     UnitCost = model.UnitCost,
                     unitId = itemType.InventoryItemTypeUnitId.HasValue ? itemType.InventoryItemTypeUnitId.Value : -1,
                     VendorId = model.VendorId,
-                    Viscosityid=model.Viscosity
+                    Viscosityid=model.Viscosity,
+                    CreateDT = model.CreateDT
+                    
                 };
                 int status = inventoryServices.AddInventoryItem(model1);
                 if (status == 1)

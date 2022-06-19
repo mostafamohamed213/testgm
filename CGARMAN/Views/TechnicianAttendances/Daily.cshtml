@@ -12,13 +12,16 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
         <h1 class="h3 mb-0 text-gray-800">
             Technicians <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> Attendance <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> Daily
-        </h1>
+          </h1>
     </div>
 
     <div class="card shadow mb-4" style="margin:0px 15px">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">
                 Attendances
+                <a class="collapse-item active float-right" style="cursor: pointer" href="/TechnicianAttendances/Daily">
+                    <i class="fa fa-refresh text-primary fa-2x" title="Refresh"></i>
+                </a>
             </h6>
         </div>
         <div class="card-body">
@@ -129,7 +132,7 @@
                                                 <select asp-items="ViewBag.Status" onchange="changeAllValues(this.value,'attendance-status-class')" style="display: inline;width:100%" class="form-control form-control-sm"><option value="-1">Please select</option></select>
                                             </th>
                                             <th>
-                                                <button onclick="saveAllAttendance(this, 'button-Attendance-save')" class="btn btn-success">Save</button>
+                                                <button onclick="saveAllAttendance(this, 'button-Attendance-save')" class="btn btn-success"> <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
                                             </th>
                                         </tr>
                                     </thead>
@@ -157,8 +160,16 @@
                                                     <select asp-items="ViewBag.Status" id="status @item.TechnicianId" asp-for="@item.TechnicianAttendances.FirstOrDefault().AttendanceStatusId" style="display: inline;width:100%" class="form-control form-control-sm attendance-status-class"><option value="-1">Please select</option></select>
                                                 </td>
                                                 <td>
-                                                    <button onclick="saveAttendance('@item.TechnicianId')" id="btnSave @item.TechnicianId" class="btn btn-success button-Attendance-save">Save</button>
-                                                    <button onclick="deleteAttendance('@item.TechnicianId')" class="btn btn-danger">Delete</button>
+                                                    @*<button onclick="saveAttendance('@item.TechnicianId')" id="btnSave @item.TechnicianId" class="btn btn-success button-Attendance-save">Save</button>
+        <button onclick="deleteAttendance('@item.TechnicianId')" class="btn btn-danger">Delete</button>*@
+                                                    <button onclick="saveAttendance('@item.TechnicianId')" id="btnSave @item.TechnicianId" class="btn btn-success button-Attendance-save">
+                                                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                                    </button>
+                                                    <button onclick="deleteAttendance('@item.TechnicianId')" class="btn btn-danger">
+                                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                    </button>
+
+
                                                     <i id="fa-check-@item.TechnicianId" style="display:none" class="fas fa-check"></i>
                                                 </td>
                                             </tr>
@@ -295,6 +306,7 @@
 
         }
         document.getElementById("btncontainerTechnicians").click();
+        document.getElementById("aCollapseTechAttendance").click();
         ToggleColorInDashboard("linkIndexTechniciansDailyAttendance");
         document.getElementById("btnGoToTopPage").click();
 

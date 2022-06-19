@@ -348,10 +348,14 @@
                 if (response > 0) {
                     document.getElementById("divbgchangeClassifications").style.backgroundColor = "#fff";
                     document.getElementById("alertErrorClassifications").style.display = "none";
-                    document.getElementById("btnCteInventoryClassifications").disabled = true;
-                    $("#btnCloseformCteInventoryClassifications").click();
+                    document.getElementById("btnCteInventoryClassifications").disabled = false;
                     $("#successModal").click();
-                    GetClassificationsCostCenterAndUnitsss(response);
+                    $("#btnCloseformCteInventoryClassifications").click();
+                    GetClassificationsCostCenterAndUnitss(response);
+                    setTimeout(function () {
+                        $('.modal-backdrop').remove();
+                    }, 2000);
+                   
                 } else {
 
 
@@ -375,52 +379,62 @@
         document.getElementById("btnCteInventoryClassifications2").disabled = true;
         document.getElementById("alertErrorClassifications2").style.display = "none";
 
-        
-        $.ajax({
-            type: "Post",
-            url: "/InventoryItemType/AddClassification",
-            data: { "classificationName": $("#ClassificationName123").val(), "warehouseId": $("#WarehouseId76").val() },
-            
-            success: function (response) {
+        var textVal = document.getElementById("ClassificationName123").value;
 
-                if (response.status > 0) {
-                    document.getElementById("divbgchangeClassifications2").style.backgroundColor = "#fff";
-                    document.getElementById("alertErrorClassifications2").style.display = "none";
-                    document.getElementById("btnCteInventoryClassifications2").disabled = true;
-                    $("#btnCloseformCteInventoryClassifications2").click();
-                    $("#successModal").click();
-                    $("#classificationId876").empty();
-                    var option = document.createElement("option");
-                    option.text = "Please select one";
-                    $('#classificationId876').append(option);
-                    response.object.forEach(function (i) {
+        if (textVal == "" || textVal == null) {
+            document.getElementById("alertErrorClassifications2").style.display = "block";
+            document.getElementById("divbgchangeClassifications2").style.backgroundColor = "#fff";
+            document.getElementById("btnCteInventoryClassifications2").disabled = false;
+            $("#spnErrorClassifications2").empty();
+            $("#spnErrorClassifications2").append("Model Name is Empty");
+        } else {
+            $.ajax({
+                type: "Post",
+                url: "/InventoryItemType/AddClassification",
+                data: { "classificationName": $("#ClassificationName123").val(), "warehouseId": $("#WarehouseId76").val() },
+
+                success: function (response) {
+
+                    if (response.status > 0) {
+                        document.getElementById("divbgchangeClassifications2").style.backgroundColor = "#fff";
+                        document.getElementById("alertErrorClassifications2").style.display = "none";
+                        document.getElementById("btnCteInventoryClassifications2").disabled = true;
+                        $("#btnCloseformCteInventoryClassifications2").click();
+                        $("#successModal").click();
+                        $("#classificationId876").empty();
                         var option = document.createElement("option");
-                        option.text = i.text;
-                        option.value = i.value;
+                        option.text = "Please select one";
                         $('#classificationId876').append(option);
-                    });
-                    document.getElementById("btnCteInventoryClassifications2").disabled = false;
-                } else if(response.status == 0) {
-                    document.getElementById("alertErrorClassifications2").style.display = "block";
-                    document.getElementById("divbgchangeClassifications2").style.backgroundColor = "#fff";
-                    document.getElementById("btnCteInventoryClassifications2").disabled = false;
-                } else if (response.status < 0) {
-                    document.getElementById("alertErrorClassifications2").style.display = "block";
-                    document.getElementById("divbgchangeClassifications2").style.backgroundColor = "#fff";
-                    document.getElementById("btnCteInventoryClassifications2").disabled = false;
-                    $("#spnErrorClassifications2").empty();
-                    $("#spnErrorClassifications2").append("Model Name is already exists");
-                }
-               
+                        response.object.forEach(function (i) {
+                            var option = document.createElement("option");
+                            option.text = i.text;
+                            option.value = i.value;
+                            $('#classificationId876').append(option);
+                        });
+                        document.getElementById("btnCteInventoryClassifications2").disabled = false;
+                    } else if (response.status == 0) {
+                        document.getElementById("alertErrorClassifications2").style.display = "block";
+                        document.getElementById("divbgchangeClassifications2").style.backgroundColor = "#fff";
+                        document.getElementById("btnCteInventoryClassifications2").disabled = false;
+                    } else if (response.status < 0) {
+                        document.getElementById("alertErrorClassifications2").style.display = "block";
+                        document.getElementById("divbgchangeClassifications2").style.backgroundColor = "#fff";
+                        document.getElementById("btnCteInventoryClassifications2").disabled = false;
+                        $("#spnErrorClassifications2").empty();
+                        $("#spnErrorClassifications2").append("Name is already exists");
+                    }
 
-            },
-            failure: function (response) {
-                throwException(response)
-            },
-            error: function (response) {
-                throwException(response)
-            }
-        });
+
+                },
+                failure: function (response) {
+                    throwException(response)
+                },
+                error: function (response) {
+                    throwException(response)
+                }
+            });
+        }
+       
         $("#ClassificationName123").val("");
     }
 </script>

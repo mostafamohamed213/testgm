@@ -43,16 +43,23 @@
                                 @Html.DisplayFor(modelItem => item.TechnicianCompany.Name)
                             </td>
                             <td>
-                                <a asp-action="Delete" asp-controller="Technicians" asp-route-id="@item.TechnicianId" class="btn btn-danger">Delete</a>
+                                @*<a asp-action="Delete" asp-controller="Technicians" asp-route-id="@item.TechnicianId" class="btn btn-danger">Delete</a>
 
                                 <a asp-action="Edit" asp-controller="Technicians" asp-route-id="@item.TechnicianId" class="btn btn-warning">Edit</a>
-                                <a asp-action="ViewTechnician" asp-controller="Technicians" asp-route-id="@item.TechnicianId" class="btn btn-primary">View</a>
+                                <a asp-action="ViewTechnician" asp-controller="Technicians" asp-route-id="@item.TechnicianId" class="btn btn-primary">View</a>*@
 
 
-                                @**@
-                                @*<input type="button" class="btn btn-warning" value="Edit" onclick="getspinner(); getEditItemType(@item.InventoryItemTypeId)" />
-                                    <input type="button" class="btn btn-warning" value="Edit" onclick="getspinner(); getEditItemType(@item.InventoryItemTypeId)" />*@
+                                <a style="cursor:pointer" class="p-1" asp-action="Delete" asp-controller="Technicians" asp-route-id="@item.TechnicianId">
+                                    <i class="fa fa-trash-o text-danger fa-lg" aria-hidden="true" title="Delete"></i>
+                                </a>
 
+                                <a style="cursor:pointer" class="p-1" asp-action="Edit" asp-controller="Technicians" asp-route-id="@item.TechnicianId">
+                                    <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                                </a>
+
+                                <a style="cursor:pointer" class="p-1" asp-action="ViewTechnician" asp-controller="Technicians" asp-route-id="@item.TechnicianId">
+                                    <i class="fa fa-eye text-primary fa-lg" aria-hidden="true" title="View"></i>
+                                </a>
                             </td>
                         </tr>
                     }

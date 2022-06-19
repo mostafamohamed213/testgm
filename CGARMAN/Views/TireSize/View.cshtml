@@ -16,7 +16,7 @@
 }
 <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-left:10px">
     <h1 class="h3 mb-0 text-gray-800">
-        Vehicle <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> @if (ViewBag.fromDeleteAction != null && ViewBag.fromDeleteAction == true)
+        @if (ViewBag.fromDeleteAction != null && ViewBag.fromDeleteAction == true)
         {
             <span>Delete</span>
         }
@@ -89,9 +89,9 @@
 </div>
 @section Scripts{
     <script>
-        document.getElementById("btncontainerVehicles").click();
+        document.getElementById("btncontainerShared").click();
         document.getElementById("btnGoToTopPage").click();
-
+        ToggleColorInDashboard("linkAllTireSizes");
     </script>
 
 }

@@ -240,7 +240,7 @@
                                                                         <label style="font-weight: 400; width: max-content;">Status Name</label>
                                                                     </div>
                                                                     <div class="col-lg-6">
-                                                                        <input type="text" name="StatusName" style="direction:ltr" class="form-control form-control-user" />
+                                                                        <input type="text" id="inputStatusName" name="StatusName" style="direction:ltr" class="form-control form-control-user" />
                                                                     </div>
 
                                                                 </div>
@@ -370,102 +370,112 @@
 
         });
         $("#statusValues").val(STRMS);
-        var formData = new FormData(form);
-        $.ajax({
-            type: "Post",
-            url: "/InventoryItemType/AssignStatus",
-            data: formData,
-            processData: false,
-            ///* processData: false,*/
-            contentType: false,
-            success: function (response) {
-               
-                if (response.status > 0) {
-                    document.getElementById("divbgchangeModalAddStausToItemType").style.backgroundColor = "#fff";
-                    document.getElementById("alertErrorModalAddStausToItemType").style.display = "none";
-                    document.getElementById("btnCteInventoryModalAddStausToItemType").disabled = true;
-                    $("#btnCloseformCteInventoryModalAddStausToItemType").click();
-                    $("#successModalAddStausToItemType").click();
+        var textVal = document.getElementById("statusValues").value;
 
-                    $("#tbodyItemTypeStatus").empty();
+        if (textVal == "" || textVal == null) {
+            document.getElementById("alertErrorModalAddStausToItemType").style.display = "block";
+            document.getElementById("divbgchangeModalAddStausToItemType").style.backgroundColor = "#fff";
+            document.getElementById("btnCteInventoryModalAddStausToItemType").disabled = false;
 
-                    var counter = 1;
-                    response.currentStatus.forEach(function (i) {
-                        var tr = document.createElement('tr');
-                        var td = document.createElement('td');
-                        td.appendChild(document.createTextNode(i.text));
-                        var td2 = document.createElement('td');
-                        td2.appendChild(document.createTextNode(counter));
-                        var td3 = document.createElement('td');
-                        var input = document.createElement("input");
-                        input.type = "button";
-                        input.className = "btn btn-danger";
-                        input.value = 'Delete';                  
-                        input.addEventListener('click', (e) => {                       
-                            deleteRelationInventoryItemTypeAndStatus(i.value, response.status);
+        } else {
+            var formData = new FormData(form);
+            $.ajax({
+                type: "Post",
+                url: "/InventoryItemType/AssignStatus",
+                data: formData,
+                processData: false,
+                ///* processData: false,*/
+                contentType: false,
+                success: function (response) {
+
+                    if (response.status > 0) {
+                        document.getElementById("divbgchangeModalAddStausToItemType").style.backgroundColor = "#fff";
+                        document.getElementById("alertErrorModalAddStausToItemType").style.display = "none";
+                        document.getElementById("btnCteInventoryModalAddStausToItemType").disabled = true;
+                        $("#btnCloseformCteInventoryModalAddStausToItemType").click();
+                        $("#successModalAddStausToItemType").click();
+
+                        $("#tbodyItemTypeStatus").empty();
+
+                        var counter = 1;
+                        response.currentStatus.forEach(function (i) {
+                            var tr = document.createElement('tr');
+                            var td = document.createElement('td');
+                            td.appendChild(document.createTextNode(i.text));
+                            var td2 = document.createElement('td');
+                            td2.appendChild(document.createTextNode(counter));
+                            var td3 = document.createElement('td');
+                            var input = document.createElement("input");
+                            input.type = "button";
+                            input.className = "btn btn-danger";
+                            input.value = 'Delete';
+                            input.addEventListener('click', (e) => {
+                                deleteRelationInventoryItemTypeAndStatus(i.value, response.status);
+                            });
+                            td3.appendChild(input);
+                            tr.appendChild(td2);
+                            tr.appendChild(td);
+                            tr.appendChild(td3);
+                            $('#tbodyItemTypeStatus').append(tr);
+                            counter++;
                         });
-                        td3.appendChild(input);
-                        tr.appendChild(td2);
-                        tr.appendChild(td);
-                        tr.appendChild(td3);
-                        $('#tbodyItemTypeStatus').append(tr);
-                        counter++;
-                    });
-                    $("#divSetValue").empty();
-              
-                    response.statusNotContain.forEach(function (ss) {
+                        $("#divSetValue").empty();
 
-                        var div = document.createElement('div');
-                        div.setAttribute('class', 'row');
+                        response.statusNotContain.forEach(function (ss) {
+
+                            var div = document.createElement('div');
+                            div.setAttribute('class', 'row');
 
 
-                        var div1 = document.createElement('div');
-                        div1.setAttribute('class', 'col-lg-4');
-                        var label = document.createElement('label');
-                        label.append(document.createTextNode(ss.text));
-                        div1.append(label);
-                        div.append(div1);
+                            var div1 = document.createElement('div');
+                            div1.setAttribute('class', 'col-lg-4');
+                            var label = document.createElement('label');
+                            label.append(document.createTextNode(ss.text));
+                            div1.append(label);
+                            div.append(div1);
 
-                        var div2 = document.createElement('div');
-                        div2.setAttribute('class', 'col-lg-2');
-                        var input = document.createElement('input');
-                        input.setAttribute('type', 'checkbox');
-                        input.setAttribute('style', 'direction:ltr');
-                        input.setAttribute('class', 'form-control form-control-user');
-                        input.setAttribute('id', ss.value);
-                        div2.append(input);
-                        div.append(div2);
+                            var div2 = document.createElement('div');
+                            div2.setAttribute('class', 'col-lg-2');
+                            var input = document.createElement('input');
+                            input.setAttribute('type', 'checkbox');
+                            input.setAttribute('style', 'direction:ltr');
+                            input.setAttribute('class', 'form-control form-control-user');
+                            input.setAttribute('id', ss.value);
+                            div2.append(input);
+                            div.append(div2);
 
-                        var div3 = document.createElement('div');
-                        div3.setAttribute('class', 'col-lg-6');
-                        div.append(div3);
+                            var div3 = document.createElement('div');
+                            div3.setAttribute('class', 'col-lg-6');
+                            div.append(div3);
 
-                        var br = document.createElement('br');
-                      
-                        $("#divSetValue").append(div);
-                        $("#divSetValue").append(br);
-                    });
-                  
-                   
+                            var br = document.createElement('br');
 
-                    document.getElementById("btnCteInventoryModalAddStausToItemType").disabled = false;
-
-                } else if (response.status == 0) {
+                            $("#divSetValue").append(div);
+                            $("#divSetValue").append(br);
+                        });
 
 
-                    document.getElementById("alertErrorModalAddStausToItemType").style.display = "block";
-                    document.getElementById("divbgchangeModalAddStausToItemType").style.backgroundColor = "#fff";
-                    document.getElementById("btnCteInventoryModalAddStausToItemType").disabled = false;
+
+                        document.getElementById("btnCteInventoryModalAddStausToItemType").disabled = false;
+
+                    } else if (response.status == 0) {
+
+
+                        document.getElementById("alertErrorModalAddStausToItemType").style.display = "block";
+                        document.getElementById("divbgchangeModalAddStausToItemType").style.backgroundColor = "#fff";
+                        document.getElementById("btnCteInventoryModalAddStausToItemType").disabled = false;
+                    }
+
+                },
+                failure: function (response) {
+                    throwException(response)
+                },
+                error: function (response) {
+                    throwException(response)
                 }
-
-            },
-            failure: function (response) {
-                throwException(response)
-            },
-            error: function (response) {
-                throwException(response)
-            }
-        });
+            });
+        }
+      
 
 
     }
@@ -474,79 +484,90 @@
         document.getElementById("divbgchangeAddStatus").style.backgroundColor = "#e6e6e6";
         document.getElementById("btnCteInventoryAddStatus").disabled = true;
         document.getElementById("alertErrorAddStatus").style.display = "none";
+        var textVal = document.getElementById("inputStatusName").value;
+        
+        if (textVal == "" || textVal == null) {
+            document.getElementById("alertErrorAddStatus").style.display = "block";
+            document.getElementById("divbgchangeAddStatus").style.backgroundColor = "#fff";
+            document.getElementById("btnCteInventoryAddStatus").disabled = false;
 
-        var form = document.getElementById('frmAddStatus');
-      
-        var formData = new FormData(form);
-        $.ajax({
-            type: "Post",
-            url: "/InventoryItemType/AddStatus",
-            data: formData,
-            processData: false,
-            ///* processData: false,*/
-            contentType: false,
-            success: function (response) {
-                if (response.status > 0) {
-                    document.getElementById("divbgchangeAddStatus").style.backgroundColor = "#fff";
-                    document.getElementById("alertErrorAddStatus").style.display = "none";
-                    document.getElementById("btnCteInventoryAddStatus").disabled = true;
-                    $("#btnCloseformAddStatus").click();
-                    $("#btnCloseformCteInventoryModalAddStausToItemType").click();
-                    
-                   
-                    $("#successModalAddStausToItemType").click();
+            $("#spnErrorAddStatus").empty();
+            $("#spnErrorAddStatus").append("Status Name is Empty");
+        } else {
+            var form = document.getElementById('frmAddStatus');
 
-                    $("#tbodyItemTypeStatus").empty();
+            var formData = new FormData(form);
+            $.ajax({
+                type: "Post",
+                url: "/InventoryItemType/AddStatus",
+                data: formData,
+                processData: false,
+                ///* processData: false,*/
+                contentType: false,
+                success: function (response) {
+                    if (response.status > 0) {
+                        document.getElementById("divbgchangeAddStatus").style.backgroundColor = "#fff";
+                        document.getElementById("alertErrorAddStatus").style.display = "none";
+                        document.getElementById("btnCteInventoryAddStatus").disabled = true;
+                        $("#btnCloseformAddStatus").click();
+                        $("#btnCloseformCteInventoryModalAddStausToItemType").click();
 
-                    var counter = 1;
-                    response.object.forEach(function (i) {
-                        var tr = document.createElement('tr');
-                        var td = document.createElement('td');
-                        td.appendChild(document.createTextNode(i.text));
-                        var td2 = document.createElement('td');
-                        td2.appendChild(document.createTextNode(counter));
-                        var td3 = document.createElement('td');
-                        var input = document.createElement("input");
-                        input.type = "button";
-                        input.className = "btn btn-danger";
-                        input.value = 'Delete';
-                        input.addEventListener('click', (e) => {
-                            deleteRelationInventoryItemTypeAndStatus(i.value, response.status);
+
+                        $("#successModalAddStausToItemType").click();
+
+                        $("#tbodyItemTypeStatus").empty();
+
+                        var counter = 1;
+                        response.object.forEach(function (i) {
+                            var tr = document.createElement('tr');
+                            var td = document.createElement('td');
+                            td.appendChild(document.createTextNode(i.text));
+                            var td2 = document.createElement('td');
+                            td2.appendChild(document.createTextNode(counter));
+                            var td3 = document.createElement('td');
+                            var input = document.createElement("input");
+                            input.type = "button";
+                            input.className = "btn btn-danger";
+                            input.value = 'Delete';
+                            input.addEventListener('click', (e) => {
+                                deleteRelationInventoryItemTypeAndStatus(i.value, response.status);
+                            });
+                            td3.appendChild(input);
+                            tr.appendChild(td2);
+                            tr.appendChild(td);
+                            tr.appendChild(td3);
+                            $('#tbodyItemTypeStatus').append(tr);
+                            counter++;
                         });
-                        td3.appendChild(input);
-                        tr.appendChild(td2);
-                        tr.appendChild(td);
-                        tr.appendChild(td3);
-                        $('#tbodyItemTypeStatus').append(tr);
-                        counter++;
-                    });
-                    document.getElementById("btnCteInventoryAddStatus").disabled = false;
+                        document.getElementById("btnCteInventoryAddStatus").disabled = false;
 
-                } else if (response.status == 0) {
+                    } else if (response.status == 0) {
 
 
-                    document.getElementById("alertErrorAddStatus").style.display = "block";
-                    document.getElementById("divbgchangeAddStatus").style.backgroundColor = "#fff";
-                    document.getElementById("btnCteInventoryAddStatus").disabled = false;
-                } else if (response.status < 0) {
+                        document.getElementById("alertErrorAddStatus").style.display = "block";
+                        document.getElementById("divbgchangeAddStatus").style.backgroundColor = "#fff";
+                        document.getElementById("btnCteInventoryAddStatus").disabled = false;
+                    } else if (response.status < 0) {
 
 
-                    document.getElementById("alertErrorAddStatus").style.display = "block";
-                    document.getElementById("divbgchangeAddStatus").style.backgroundColor = "#fff";
-                    document.getElementById("btnCteInventoryAddStatus").disabled = false;
+                        document.getElementById("alertErrorAddStatus").style.display = "block";
+                        document.getElementById("divbgchangeAddStatus").style.backgroundColor = "#fff";
+                        document.getElementById("btnCteInventoryAddStatus").disabled = false;
 
-                    $("#spnErrorAddStatus").empty();
-                    $("#spnErrorAddStatus").append("Brand Name is already exists");
+                        $("#spnErrorAddStatus").empty();
+                        $("#spnErrorAddStatus").append("Status Name is already exists");
+                    }
+
+                },
+                failure: function (response) {
+                    throwException(response)
+                },
+                error: function (response) {
+                    throwException(response)
                 }
-
-            },
-            failure: function (response) {
-                throwException(response)
-            },
-            error: function (response) {
-                throwException(response)
-            }
-        });
+            });
+        }
+      
 
 
     }

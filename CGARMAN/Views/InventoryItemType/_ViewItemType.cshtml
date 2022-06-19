@@ -45,7 +45,10 @@
         <h1 class="h3 mb-0 text-gray-800">
             Inventory <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> Item  <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> @Model.Name
         </h1>
-        <a style="margin-right:10px" href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="createInvItemName()">Create New</a>
+        <div class="float-right">
+
+            <a style="margin-right:10px" href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="createInvItemName()">Create New Item</a>
+        </div>
     </div>
 
 
@@ -189,7 +192,13 @@
             <div class=" col-xl">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 ">
-                        <h4 class="font-weight-bold text-primary">Information</h4>
+                        <h4 class="font-weight-bold text-primary">
+                            Information
+                            <a style="cursor:pointer" class="float-right" onclick="getspinner(); getEditItemType(@Model.InventoryItemTypeId)">
+                                <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                            </a>
+                        </h4>                     
+
                     </div>
                     <div class="card-body">
 
@@ -371,10 +380,14 @@
                                                     <td>@item.InventoryLocation</td>
                                                     <td>@item.Quantity</td>
                                                     <td>@item.CurrentQuantity</td>
-                                                    <td>
-                                                        <input type="button" class="btn btn-warning" value="Edit" onclick="getspinner(); editInvItem(@item.InventoryItemId)" />
-                                                        <input type="button" class="btn btn-primary" value="View" onclick="getspinner(); editDisplay(@item.InventoryItemId)" />
+                                                    <td> 
+                                                        <a style="cursor:pointer" class="p-1" onclick="getspinner(); editInvItem(@item.InventoryItemId)">
+                                                            <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                                                        </a>
 
+                                                        <a style="cursor:pointer" class="p-1" onclick="getspinner(); editDisplay(@item.InventoryItemId)">
+                                                            <i class="fa fa-eye text-primary fa-lg" aria-hidden="true" title="View"></i>
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             }
@@ -481,7 +494,10 @@
                                             <td>@(counter++)</td>
                                             <td>@item.Name</td>
                                             <td>
-                                                <input type="button" class="btn btn-danger" value="Delete" onclick="deleteRelationInventoryItemTypeAndStatus(@item.InventoryItemStatusId,@Model.InventoryItemTypeId)" />
+                                               
+                                                <button onclick="deleteRelationInventoryItemTypeAndStatus(@item.InventoryItemStatusId,@Model.InventoryItemTypeId)" class="btn  btn-sm">
+                                                    <i class="fa fa-trash-o text-danger fa-2x" title="Delete"></i>
+                                                </button>
                                             </td>
                                         </tr>
 

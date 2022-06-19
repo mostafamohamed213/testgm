@@ -67,12 +67,12 @@ namespace CGARMAN.Services
 
         internal bool SearchIfNameExists(string name, int id = 0)
         {
-            return unitOfWork.VehicleStatus.GetOne(c => c.Name.ToLower().Trim() == name.ToLower().Trim() && c.VehicleStatusId != id) == null ? true : false;
+            return unitOfWork.VehicleStatus.GetOne(c => c.Enable && c.Name.ToLower().Trim() == name.ToLower().Trim() && c.VehicleStatusId != id) == null ? true : false;
         }
 
         internal VehicleStatus getVehicleStatusById(int id)
         {
-            return unitOfWork.VehicleStatus.GetOne(c => c.VehicleStatusId == id);
+            return unitOfWork.VehicleStatus.GetOne(c => c.Enable && c.VehicleStatusId == id);
         }
 
         internal PagingViewModel<VehicleStatus> Search(string Name, int currentPage)

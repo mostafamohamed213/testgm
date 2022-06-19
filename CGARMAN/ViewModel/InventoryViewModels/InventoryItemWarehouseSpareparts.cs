@@ -38,11 +38,11 @@ namespace CGARMAN.ViewModel.InventoryViewModels
         [Display(Name = "Part Number")]
         [Required]
         public string PartNumber { get; set; }
-       
+        public DateTime CreateDT { get; set; }
         public string SerialNumbers { get; set; }
         public int? LaneId { get; set; }
         public int? SubWarehouseId { get; set; }
-
+       
         public InventoryItem display { get; set; }
     }
 }

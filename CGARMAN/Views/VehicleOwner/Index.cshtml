@@ -10,13 +10,29 @@
         <h1 class="h3 mb-0 text-gray-800">
             Vehicle <i style="font-size:large" class="fa fa-arrow-right" aria-hidden="true"></i> Owners
         </h1>
-        <a style="margin-right:10px" asp-action="Create" asp-controller="VehicleOwner" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create Owner</a>
+        <div class="float-right">
+            <a id="aDownload" onclick="exportFiles()" class="d-none d-sm-inline-block btn btn-sm btn-secondary text-white shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Download Template
+            </a>
+
+            <a href="~/ExcelTemplates/VehicleOwners.xlsx" style="display:none;" id="aVehicleOwnersDownload"></a>
+
+            <a onclick="fileImport.click();" class="d-none d-sm-inline-block btn btn-sm btn-success text-white shadow-sm">
+                <i class="fas fa-upload fa-sm text-white-50"></i> Import Report
+            </a>
+            <input type="file" id="fileImport" style="display: none" onchange="importFile();" />
+            <a style="margin-right:10px" asp-action="Create" asp-controller="VehicleOwner" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create Owner</a>
+
+        </div>
     </div>
 
     <div class="card shadow mb-4" style="margin:0px 15px">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">
                 Owners
+                <a class="collapse-item active float-right" style="cursor: pointer" href="/VehicleOwner?CurrentPageIndex=1">
+                    <i class="fa fa-refresh text-primary fa-2x" title="Refresh"></i>
+                </a>
             </h6>
         </div>
         <div class="card-body">
@@ -106,9 +122,21 @@
                                             </td>
 
                                             <td>
-                                                <a asp-action="Delete" asp-controller="VehicleOwner" asp-route-id="@item.VehicleOwnerId" class="btn btn-danger">Delete</a>
+                                                @*<a asp-action="Delete" asp-controller="VehicleOwner" asp-route-id="@item.VehicleOwnerId" class="btn btn-danger">Delete</a>
                                                 <a asp-action="Edit" asp-controller="VehicleOwner" asp-route-id="@item.VehicleOwnerId" class="btn btn-warning">Edit</a>
-                                                <a asp-action="View" asp-controller="VehicleOwner" asp-route-id="@item.VehicleOwnerId" class="btn btn-primary">View</a>
+                                                <a asp-action="View" asp-controller="VehicleOwner" asp-route-id="@item.VehicleOwnerId" class="btn btn-primary">View</a>*@
+
+                                                <a style="cursor:pointer" class="p-1" asp-action="Delete" asp-controller="VehicleOwner" asp-route-id="@item.VehicleOwnerId">
+                                                    <i class="fa fa-trash-o text-danger fa-lg" aria-hidden="true" title="Delete"></i>
+                                                </a>
+
+                                                <a style="cursor:pointer" class="p-1"  asp-action="Edit" asp-controller="VehicleOwner" asp-route-id="@item.VehicleOwnerId">
+                                                    <i class="fa fa-edit text-warning fa-lg" aria-hidden="true" title="Edit"></i>
+                                                </a>
+
+                                                <a style="cursor:pointer" class="p-1" asp-action="View" asp-controller="VehicleOwner" asp-route-id="@item.VehicleOwnerId">
+                                                    <i class="fa fa-eye text-primary fa-lg" aria-hidden="true" title="View"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     }
@@ -170,10 +198,12 @@
 </div>
 
 @section Scripts{
+    <script src="~/js/VehicleOwnerImoprtFile.js"></script>
     <script>
         document.getElementById("btncontainerVehicles").click();
         ToggleColorInDashboard("linkAllVehicleOwners");
         document.getElementById("btnGoToTopPage").click();
+        document.getElementById("aCollapseVehicleManagement").click();
         $(function () {
             $("#txtNameVehicleOwner").autocomplete({
                 source: function (request, response) {

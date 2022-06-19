@@ -8,7 +8,20 @@
     <h1 class="h3 mb-0 text-gray-800">
         Create Cost Center
     </h1>
-    <a style="margin-right:10px" asp-action="Index" asp-controller="Home" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Back to Home</a>
+    <div class="float-right">
+        <a id="aDownload" onclick="exportFiles()" class="d-none d-sm-inline-block btn btn-sm btn-secondary text-white shadow-sm">
+            <i class="fas fa-download fa-sm text-white-50"></i> Download Template
+        </a>
+
+        <a href="~/ExcelTemplates/Cost Centers.xlsx" style="display:none;" id="aCostCentersDownload"></a>
+
+        <a onclick="fileImport.click();" class="d-none d-sm-inline-block btn btn-sm btn-success text-white shadow-sm">
+            <i class="fas fa-upload fa-sm text-white-50"></i> Import Report
+        </a>
+        <input type="file" id="fileImport" style="display: none" onchange="importFile();" />
+        <a style="margin-right:10px" asp-action="Index" asp-controller="Home" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Back to Home</a>
+
+    </div>
 </div>
 <hr />
 <div class="row" style="margin:1%">
@@ -45,9 +58,10 @@
     </div>
 </div>
 @section Scripts{
+    <script src="~/js/CostCenterImportFile.js"></script>
     <script>
         document.getElementById("btncontainerShared").click();
-        ToggleColorInDashboard("linkCreateCostCenter");
+        ToggleColorInDashboard("linkAllCostCenters");
         document.getElementById("btnGoToTopPage").click();
 
     </script>
